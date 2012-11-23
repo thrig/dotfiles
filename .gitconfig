@@ -1,0 +1,3 @@
+[core]
+	excludesfile = @@HOME@@/.gitignore
+	pager        = cat
