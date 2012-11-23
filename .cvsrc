@@ -1,0 +1,11 @@
+# default to unified diff output, which may not be possible on ancient
+# flavors of Unix I haven't seen in years.
+diff -u
+
+# update to clear sticky tags, deal with dirs
+#up -Ad
+
+#commit -R
+
+# and make commands a little more quiet than usual
+cvs -q
