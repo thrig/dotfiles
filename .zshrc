@@ -19,7 +19,7 @@ export FTP_PASSIVE=1
 # Makefile, or moved to a script, or put on a wiki, or whatever. No
 # point in bogging each and every shell down with a massive history.
 HISTFILE=~/.zsh/history
-HISTSIZE=1000
+HISTSIZE=500
 SAVEHIST=4000
 
 export LANG=en_US.UTF-8
@@ -96,7 +96,7 @@ zstyle ':completion:*:*:lilypond:*' file-patterns '*.ly:lilypond\ files *(-/):di
 zstyle ':completion:*:*:(pianoteq|timidity|tlymidity):*' file-patterns '*.(mid|MID|midi):MIDI\ files *(-/):directories'
 
 # Texty things do not need to find binary things 99.x% of time
-zstyle ':completion:*:*:(bbedit|ed|ex|less|vi|view|vim):*:all-files' ignored-patterns '*.o' '*.ps' '*.pdf' '*.midi' '*.mp3' '*.wav'
+zstyle ':completion:*:*:(bbedit|di|diff|less|vi|vim):*:all-files' ignored-patterns '*.o' '*.ps' '*.pdf' '*.midi' '*.mp3' '*.wav'
 
 # Commands to ignore completion on as they 99.N% of the time just delay
 # me getting to what I want
