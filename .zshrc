@@ -153,6 +153,8 @@ function gdb {
 }
 
 # "go home" or "go work" being the two most common places I SSH to...
+# (there's a ~/.ssh/config entry that include 'gh' or 'gw' as a 'Host'
+# option, and then 'Hostname' of the IP address of the actual server)
 function gh {
   ssh gh "$@"
   if [ -t 1 ]; then
@@ -163,8 +165,26 @@ function gh {
   fi
 }
 
+function ghre {
+  ssh -t gh tmux attach
+  if [ -t 1 ]; then
+    echo -ne "\e]2;\a"
+    clear
+    stty sane
+  fi
+}
+
 function gw {
   ssh gw "$@"
+  if [ -t 1 ]; then
+    echo -ne "\e]2;\a"
+    clear
+    stty sane
+  fi
+}
+
+function gwre {
+  ssh -t gw tmux attach
   if [ -t 1 ]; then
     echo -ne "\e]2;\a"
     clear
