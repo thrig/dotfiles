@@ -1,0 +1,3 @@
+keycode 113 = Multi_key
+remove Lock = Caps_Lock
+keysym Caps_Lock = VoidSymbol
