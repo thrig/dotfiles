@@ -199,7 +199,7 @@ function lilypond {
   else
     # \include files trip this up, so name those with an extra .
     # somewhere in the filename, e.g. voice1.inc.ly
-    command lilypond $(glf --exclude='[.](?!ly$)' '\.ly' .)
+    command lilypond "$(glf --exclude='[.](?!ly$)' '\.ly' .)"
   fi
 }
 
@@ -210,7 +210,7 @@ function ndir {
 }
 
 function pmr {
-  pianoteq --preset D4\ Spacious --midi $(glf .midi)
+  pianoteq --preset D4\ Spacious --midi "$(glf .midi)"
 }
 
 function showscore {
@@ -220,7 +220,7 @@ function showscore {
     open --background -a Preview "$@"
 #   xpdf -remote music -exec "gotoLastPage" "$@"
   else
-    open --background -a Preview $(glf '\.pdf' .)
+    open --background -a Preview "$(glf '\.pdf' .)"
   fi
 }
 
@@ -237,7 +237,7 @@ function timidity {
   if [[ -n "$1" ]]; then
     command tlymidity "$@"
   else
-    command tlymidity $(glf '\.midi' .)
+    command tlymidity "$(glf '\.midi' .)"
   fi
 }
 
