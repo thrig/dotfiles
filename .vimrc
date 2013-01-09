@@ -44,6 +44,10 @@ set wrapscan
 set wrap
 set writeany
 
+" to disable the annoying term blanking from the "alternate screen" see 
+" http://hints.macworld.com/article.php?story=20110905185128781
+set t_ti= t_te=
+
 " To really learn the home row keys, perhaps play Dungeon Crawl Stone Soup
 " using just the keyboard (character died because you hit the wrong key?
 " that just means they aren't motor memory yet).

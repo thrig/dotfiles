@@ -25,7 +25,10 @@ SAVEHIST=4000
 
 export LANG=en_US.UTF-8
 
-export LESS="-ieg"
+# to disable the annoying term blanking from the "alternate screen" see
+# http://hints.macworld.com/article.php?story=20110905185128781
+export LESS="-iegX"
+export LESSHISTFILE=/dev/null
 export LESSSECURE=1
 
 # annoying distraction
