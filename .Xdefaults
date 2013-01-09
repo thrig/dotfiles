@@ -1,0 +1,20 @@
+*locale:                UTF-8
+
+xterm*scrollBar:        true
+xterm*foreground:       white
+xterm*background:       black
+xterm*saveLines:        4096
+xterm*loginShell:       true
+xterm*cursorBlink:      false
+xterm*cursorOffTime:    300
+xterm*cursorOnTime:     300
+xterm*alwaysHighlight:  true
+
+xterm*titeInhibit: true
+urxvt*secondaryScreen: false
+
+xload*foreground:       black
+xload*background:       white
+xload*showLabel:        false
+xload*highlight:        darkred
+xload*update:           10
