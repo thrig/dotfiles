@@ -274,6 +274,8 @@ alias mydate="TZ=US/Pacific mydate -dt"
 # GNU license spam :(
 alias octave='octave --silent'
 
+alias prove='prove --nocolor'
+
 alias psql='psql -A -q -S'
 
 # R license spam :(
