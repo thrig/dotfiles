@@ -99,6 +99,8 @@ zstyle ':completion:*' special-dirs ..
 zstyle ':completion:*:*:lilypond:*' file-patterns '*.ly:lilypond\ files *(-/):directories'
 zstyle ':completion:*:*:(pianoteq|timidity|tlymidity):*' file-patterns '*.(mid|MID|midi):MIDI\ files *(-/):directories'
 
+zstyle ':completion:*:*:prove:*' file-patterns '*.t:test\ files *(-/):directories'
+
 # Texty things do not need to find binary things 99.x% of time
 zstyle ':completion:*:*:(bbedit|di|diff|less|vi|vim):*:all-files' ignored-patterns '*.o' '*.ps' '*.pdf' '*.midi' '*.mp3' '*.wav'
 
