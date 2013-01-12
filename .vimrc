@@ -80,7 +80,6 @@ map g :w!
 
 " for ~/tmp test scripts, mostly
 ab hbp #!/usr/bin/env perluse strict;use warnings;
-" use the perl debugger? what ever for?
 ab PUDD use Data::Dumper; warn Dumper
 
 if !exists("autocommands_loaded")
@@ -103,7 +102,7 @@ if !exists("autocommands_loaded")
   endfunction
 
   function SetupForPerlTests()
-    ab PUDD use Data::Dumper; diag Dumper
+    ab DIAG use Data::Dumper; diag Dumper
   endfunction
 
   function VisitLastBuffer()

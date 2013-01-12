@@ -19,6 +19,7 @@ map V :w!:N
 
 ab hbp #!/usr/bin/env perluse strict;use warnings;
 ab PUDD use Data::Dumper; warn Dumper
+ab DIAG use Data::Dumper; diag Dumper
 map g :w!
 
 map <f1> <nop>
