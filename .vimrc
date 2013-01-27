@@ -66,8 +66,7 @@ nmap <F1> <Esc>
 imap <F1> <Esc>
 " more things I hit by mistake
 map <C-c> <nop>
-" hmm, except qi still pops up that damn 'recording' thing. sigh.
-map <q> <nop>
+map q <nop>
 " what the heck is this?
 map <S-K> <nop>
 
