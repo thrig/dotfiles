@@ -8,4 +8,4 @@ unset LS_COLORS
 # whatevs
 TERM=vt220
 
-alias firefox='firefox --no-remote'
+alias firefox='firefox -no-remote'
