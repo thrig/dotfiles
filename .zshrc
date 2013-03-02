@@ -254,6 +254,8 @@ alias ,,="clear; cd"
 
 alias ack='ack --nocolor'
 
+alias anykey="getraw -o '*:+'"
+
 alias atonal-util='atonal-util --ly --flats'
 
 # preserve permissions by default
