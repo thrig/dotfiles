@@ -200,11 +200,11 @@ function gwre {
 
 function lilypond {
   if [[ -n "$1" ]]; then
-    command lilypond -dno-point-and-click "$@"
+    command lilypond --silent -dno-point-and-click "$@"
   else
     # \include files trip this up, so name those with an extra .
     # somewhere in the filename, e.g. voice1.inc.ly
-    command lilypond -dno-point-and-click "$(glf --exclude='[.](?!ly$)' '\.ly' .)"
+    command lilypond --silent -dno-point-and-click "$(glf --exclude='[.](?!ly$)' '\.ly' .)"
   fi
 }
 
