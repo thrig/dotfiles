@@ -275,6 +275,8 @@ alias ipcalc='ipcalc -n'
 
 alias j='jobs -l'
 
+unalias ls 2>/dev/null		# in event vendor set color crap somehow
+
 # but in the event I want to see the local time... (another bad habit)
 alias mydate="TZ=US/Pacific mydate -dt"
 
