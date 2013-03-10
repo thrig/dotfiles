@@ -218,6 +218,10 @@ function pmr {
   pianoteq --preset D4\ Spacious --midi "$(glf .midi)"
 }
 
+function pmt {
+  make realclean; perl Makefile.PL && make && make test |& less
+}
+
 function showscore {
   if [[ -n "$1" ]]; then
     # Not really happy with any PDF viewer thus far, but Preview.app no
