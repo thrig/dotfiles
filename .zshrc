@@ -263,7 +263,7 @@ alias anykey="getraw -o '*:+'"
 alias atonal-util='atonal-util --ly --flats'
 
 # GNU license spam :(
-alias clisp='clisp --quiet'
+alias clisp='clisp --quiet -on-error abort -modern'
 
 # preserve permissions by default
 alias cp='cp -p'
