@@ -80,6 +80,8 @@ fpath=(~/.zsh/functions $fpath)
 
 if [[ $OSTYPE =~ "^darwin" ]]; then
   fpath=(~/.zsh/functions/darwin $fpath)
+elif [[ $OSTYPE =~ "openbsd" ]]; then
+  fpath=(~/.zsh/functions/openbsd $fpath)
 fi
 
 # for my _dig completion script
@@ -312,9 +314,24 @@ if [[ $OSTYPE =~ "^darwin" ]]; then
   alias bbedit="bbedit -b"
   alias ldd='otool -L'
   alias top='top -o CPU -F'
-  # rm means rm.
-  alias rm='srm -s -z'
+  # rm means rm. -- except gnawing away at laptop HD, le sigh
+  #alias rm='srm -s -z'
+
+  function tagit {
+    =tagit -ndi | pbcopy
+  }
 
   # clear titlebar spam, if any
   echo -ne "\e]2;\a"
+
+elif [[ $OSTYPE =~ "openbsd" ]]; then
+  alias pbcopy='xclip -in'
+  alias pbpaste='xclip -out'
+
+  function tagit {
+    =tagit -ndi | xclip -in
+  }
+
+  # for ly-fu
+  export SCORE_VIEWER=zathura
 fi
