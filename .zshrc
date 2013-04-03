@@ -303,6 +303,8 @@ alias scp='scp -p'
 
 alias sudo='sudo -H'
 
+alias tcpdump='tcpdump -n'
+
 # as typing CamelCase sucks
 alias vbm='VBoxManage -q'
 
