@@ -74,7 +74,7 @@
 ### passed to the tunnel agent as <user>@<hostname>.)  If the
 ### built-in ssh scheme were not predefined, it could be defined
 ### as:
-ssh = $SVN_SSH ssh -q -x
+ssh = $SVN_SSH ssh -q -a -x -o ClearAllForwardings=yes
 ### If you wanted to define a new 'rsh' scheme, to be used with
 ### 'svn+rsh:' URLs, you could do so as follows:
 # rsh = rsh
