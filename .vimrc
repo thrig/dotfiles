@@ -11,7 +11,6 @@ set noedcompatible
 set syntax=no
 if version >= 600
   syntax off
-  "highlight MatchParen NONE
 endif
 
 set noautoindent
