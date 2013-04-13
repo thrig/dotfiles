@@ -1,8 +1,9 @@
 " Cursed vendor defaults require many of these, or otherwise turning off
-" all the bling vim is infested with, such as search and brace
-" highlighting. I'd be happy with vi, except for the lack of multiple
-" undos, and maintaining marks through filters.
+" all the bling vim is infested with. I'd be happy with vi, except for the
+" lack of multiple undos, and maintaining marks through filters.
 
+" If I wanted to play Pachinko, I would move to Japan. Instead, kill the
+" horrible brace highliting "feature"
 let loaded_matchparen = 1
 
 set noedcompatible
