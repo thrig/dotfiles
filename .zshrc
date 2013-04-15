@@ -262,6 +262,8 @@ alias ack='ack --nocolor'
 
 alias anykey="getraw -o '*:+'"
 
+alias arp='arp -n'
+
 alias atonal-util='atonal-util --ly --flats'
 
 # GNU license spam :(
@@ -288,6 +290,8 @@ unalias ls 2>/dev/null		# in event vendor set color crap somehow
 
 # but in the event I want to see the local time... (another bad habit)
 alias mydate="TZ=US/Pacific mydate -dt"
+
+alias netstat='netstat -n'
 
 # GNU license spam :(
 alias octave='octave --silent'
