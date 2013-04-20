@@ -16,6 +16,8 @@ export VISUAL=vi
 # hopefully FTP dies one of these years...
 export FTP_PASSIVE=1
 
+export GIT_SSH=$HOME/libexec/git_ssh
+
 # Smallish history - if it was important, it should have been in a
 # Makefile, or moved to a script, or put on a wiki, or whatever. No
 # point in bogging each and every shell down with a massive history.
