@@ -1,7 +1,8 @@
 [core]
 	excludesfile = ~/.gitignore
-	pager = cat
-	editor = vim
+	pager = 
+	editor = vi
+	autocrlf = false
 [user]
         name = Jeremy Mates
         email = jmates@example.org
@@ -15,3 +16,5 @@
 	visual = !gitk
 [push]
 	default = simple
+[color]
+	ui = false
