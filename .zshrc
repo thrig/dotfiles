@@ -276,6 +276,8 @@ alias cp='cp -p'
 
 alias diff='diff -u'
 
+alias dig='dig +nocmd +nostats'
+
 alias findin='findin -q'
 
 # "history share"
