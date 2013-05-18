@@ -46,7 +46,13 @@ export PAGER=less
 
 export PERLDOC_PAGER='less -R' 
 
-export PERL_UNICODE=ALS
+# disabling as probably should fix encoding in various scripts, not force
+# it to UTF-8 here (which in turn can cause DBI to fail to build)
+#export PERL_UNICODE=ALS
+
+# helps automate builds, also set
+# 'prerequisites_policy' => q[follow], in your .cpan/CPAN/MyConfig.pm
+# or use cpanm
 export PERL_MM_USE_DEFAULT=1
 
 # prompt - not having the machine name on remote logins is a bit too
