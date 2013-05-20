@@ -9,6 +9,8 @@ xterm*cursorBlink:      false
 xterm*cursorOffTime:    300
 xterm*cursorOnTime:     300
 xterm*alwaysHighlight:  true
+xterm*colorMode:        false
+xterm*dynamicColors:    false
 
 xterm*titeInhibit: true
 urxvt*secondaryScreen: false
