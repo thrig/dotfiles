@@ -10,6 +10,10 @@ unsetopt AUTO_NAME_DIRS AUTO_REMOVE_SLASH HIST_VERIFY MARK_DIRS promptcr
 # Environment (never export *HIST* nor prompt vars nor anything else
 # shell-internal-use-only)
 
+# NOTE these must be set *before* any bindkey calls, especially if the
+# editor differs from the line editing mode. Also, other applications
+# (e.g. Subversion, git) may have their own editor commands, check for
+# their environment variables or configuration for details.
 export EDITOR=vi
 export VISUAL=vi
 
@@ -127,8 +131,10 @@ fi
 #
 # Key Bindings
 
-# never did figure out how to get along with vi mode in shell, despite
-# only using vi to edit things. go figure.
+# Never did figure out how to get along with vi mode in shell, despite
+# only using vi to edit things. go figure. NOTE this must be set *after*
+# any EDITOR/VISUAL settings. (And then any customized bindkeys after
+# this mode setting.)
 bindkey -e
 
 zle -N edit-command-line
@@ -296,7 +302,7 @@ alias ipcalc='ipcalc -n'
 
 alias j='jobs -l'
 
-unalias ls 2>/dev/null		# in event vendor set color crap somehow
+unalias ls 2>/dev/null          # in event vendor set color crap somehow
 
 # but in the event I want to see the local time... (another bad habit)
 alias mydate="TZ=US/Pacific mydate -dt"
