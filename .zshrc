@@ -100,8 +100,15 @@ fi
 typeset -aU dns_servers
 dns_servers=(128.95.120.1 8.8.4.4)
 
-autoload -U compinit edit-command-line select-word-style
+# might be handy, but I use my rename script instead
+#autoload -U zmv
+
+autoload -U compinit edit-command-line select-word-style url-quote-magic
 compinit
+zle -N edit-command-line
+zle -N self-insert url-quote-magic
+# bad habits die hard
+select-word-style bash
 
 zstyle -e ':completion:*' hosts 'reply=($(< ~/.hosts))'
 
@@ -137,7 +144,6 @@ fi
 # this mode setting.)
 bindkey -e
 
-zle -N edit-command-line
 # no, I don't use "VISUAL" or whatever ^v does by default (if I needed
 # to I would `zsh -f` and then use it there)
 bindkey "^v" edit-command-line
@@ -145,9 +151,6 @@ bindkey "^t" push-line-or-edit
 
 # lets me know whether I'm in tmux (formerly screen) or not
 bindkey "^P" up-history
-
-# bad habits die hard
-select-word-style bash
 
 ########################################################################
 #
