@@ -22,17 +22,19 @@ export FTP_PASSIVE=1
 
 export GIT_SSH=$HOME/libexec/git_ssh
 
-# Smallish history - if it was important, it should have been in a
-# Makefile, or moved to a script, or put on a wiki, or whatever. No
-# point in bogging each and every shell down with a massive history.
+# Write a function, Makefile, or script to capture anything crazy you're
+# doing on the CLI. Otherwise, toss history to avoid accumulating a
+# midden of shell commands.
 HISTFILE=~/.zsh/history
 HISTSIZE=500
-SAVEHIST=4000
+SAVEHIST=1000
 
 export LANG=en_US.UTF-8
 
 # to disable the annoying term blanking from the "alternate screen" see
 # http://hints.macworld.com/article.php?story=20110905185128781
+# (see also .vimrc, .tmux.conf, .terminfo directories for more ways to
+# kill off this "feature")
 export LESS="-iegX"
 export LESSHISTFILE=/dev/null
 export LESSSECURE=1
