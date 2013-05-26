@@ -7,13 +7,13 @@
         name = Jeremy Mates
         email = jmates@example.org
 [alias]
-	co = checkout
 	br = branch
-	ci = commit -q
+	ci = commit --quiet
+	co = checkout
+	last = log --patch -1 HEAD
+	rbi = rebase --interactive
 	st = status
 	unstage = reset HEAD --
-	last = log -1 HEAD
-	visual = !gitk
 [push]
 	default = simple
 [color]
