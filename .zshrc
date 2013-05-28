@@ -100,7 +100,7 @@ fi
 
 # for my _dig completion script
 typeset -aU dns_servers
-dns_servers=(128.95.120.1 8.8.4.4)
+dns_servers=('\:\:1' 8.8.4.4)
 
 # might be handy, but I use my rename script instead
 #autoload -U zmv
