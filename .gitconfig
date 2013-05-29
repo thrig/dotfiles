@@ -10,6 +10,7 @@
 	br = branch
 	ci = commit --quiet
 	co = checkout
+	di = diff
 	last = log --patch -1 HEAD
 	rbi = rebase --interactive
 	st = status
