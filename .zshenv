@@ -33,13 +33,16 @@ typeset -U PATH
 # example, a laptop you never SSH to might set PATH elsewhere, while a
 # system you SSH to run commands on may need the directories those
 # commands reside in added to PATH via .zshenv or other means.
-PATH=
+#
+# Need to set something here, as otherwise get a ":..." prefix which
+# acts the same as "." in the PATH, which I in no way ever want in
+# the PATH.
+PATH=$HOME/bin
 
 while read dirspec; do
   dirspec=$dirspec'(N/)'   # NOMATCH and only directories
   path+=( ${~dirspec} )
 done << EOPATH
-~/bin
 ~/usr/$OSTYPE-$MACHTYPE/bin
 ~/*/bin
 /usr/local/(s|)bin
