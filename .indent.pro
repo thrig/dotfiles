@@ -2,3 +2,4 @@
 --no-tabs
 -cdb -sc
 -l78
+-cd60
