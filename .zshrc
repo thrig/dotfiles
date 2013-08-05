@@ -125,7 +125,7 @@ zstyle ':completion:*:*:(pianoteq|timidity|tlymidity):*' file-patterns '*.(mid|M
 zstyle ':completion:*:*:prove:*' file-patterns '*.t:test\ files *(-/):directories'
 
 # Texty things do not need to find binary things 99.x% of time
-zstyle ':completion:*:*:(bbedit|di|diff|less|vi|vim):*:all-files' ignored-patterns '*.o' '*.ps' '*.pdf' '*.midi' '*.mp3' '*.wav'
+zstyle ':completion:*:*:(bbedit|di|diff|less|vi|vim):*:all-files' ignored-patterns '*.o' '*.ps' '*.pdf' '*.midi' '*.mp3' '*.wav' '*.t2d'
 
 # Commands to ignore completion on as they 99.N% of the time just delay
 # me getting to what I want
