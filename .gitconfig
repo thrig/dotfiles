@@ -11,7 +11,7 @@
 	ci = commit --quiet
 	co = checkout
 	di = diff
-	last = log --patch -1 HEAD
+	last = log --stat -1 HEAD
 	rbi = rebase --interactive
 	st = status
 	unstage = reset HEAD --
