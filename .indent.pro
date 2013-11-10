@@ -1,4 +1,7 @@
---k-and-r-style
---no-tabs
--sc
--l78
+-ncdb
+-d0
+-nfc1
+-nfcb
+-i4
+-lp
+-ps1
