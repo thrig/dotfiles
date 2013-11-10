@@ -94,10 +94,11 @@ if !exists("autocommands_loaded")
   au BufNewFile,BufRead *.t call SetupForPerlTests()
 
   function SetupForC()
-    map t :keepmark %!gnuindent -st
+    map t :keepmark %!indent -st
     set autoindent
     set smartindent
     set cindent
+    ab PUDD fprintf(stderr, "dbg
   endfunction
 
   function SetupForPerlTests()
