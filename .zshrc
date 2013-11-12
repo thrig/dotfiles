@@ -300,9 +300,6 @@ alias findin='findin -q'
 # "history share"
 alias hs='fc -RI'
 
-# NOTE this will fail on Linux, which places GNU indent as indent
-alias indent='gnuindent'
-
 alias ipcalc='ipcalc -n'
 
 alias j='jobs -l'
