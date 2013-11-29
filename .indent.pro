@@ -1,5 +1,5 @@
 -ncdb
--d0
+-di0
 -nfc1
 -nfcb
 -i4
