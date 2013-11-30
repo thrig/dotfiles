@@ -210,15 +210,6 @@ function gw {
   fi
 }
 
-function gwre {
-  ssh -t gw tmux attach
-  if [ -t 1 ]; then
-    echo -ne "\e]2;\a"
-    clear
-    stty sane
-  fi
-}
-
 function lilypond {
   if [[ -n "$1" ]]; then
     command lilypond --silent -dno-point-and-click "$@"
@@ -269,6 +260,11 @@ function timidity {
   else
     command tlymidity "$(glf '\.midi' .)"
   fi
+}
+
+function vagrant {
+  # KLUGE no option to de-colorize the output, so hide terminal :(
+  command vagrant "$@" | cat
 }
 
 ########################################################################
