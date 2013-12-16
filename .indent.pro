@@ -1,7 +1,6 @@
 -ncdb
 -di0
 -nfc1
--nfcb
 -i4
 -lp
 -ps1
