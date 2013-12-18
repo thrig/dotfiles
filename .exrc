@@ -22,8 +22,9 @@ ab DIAC use Data::Dumper::Concise::Aligned; diag DumperA
 " easy saves, habit from growing up with load shedding
 map g :w!
 
-map v :w!:next
-map V :w!:prev
+" need to double up on returns to clear message spam
+map v :w!:next
+map V :w!:prev
 
 map T !Gautoformat 
 map t :%!perltidy
