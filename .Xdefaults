@@ -1,17 +1,16 @@
 *locale:                UTF-8
 
-xterm*alwaysHighlight:  false
+xterm*alwaysHighlight:  true
 xterm*background:       black
 xterm*colorMode:        false
 xterm*cursorBlink:      false
-xterm*cursorColor:      green
+xterm*cursorColor:      white
 xterm*dynamicColors:    false
-xterm*foreground:       white
+xterm*foreground:       green
 xterm*loginShell:       true
 xterm*pointerMode:      1
 xterm*saveLines:        4096
 xterm*scrollBar:        false
-xterm*titeInhibit: true
 
 urxvt*secondaryScreen: false
 
