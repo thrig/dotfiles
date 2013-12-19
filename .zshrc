@@ -88,15 +88,31 @@ ZLE_SPACE_SUFFIX_CHARS='&|'
 
 ########################################################################
 #
-# Completion Foo
+# Completion Foo (and some compile flags)
 
 fpath=(~/.zsh/functions $fpath)
 
 if [[ $OSTYPE =~ "^darwin" ]]; then
   fpath=(~/.zsh/functions/darwin $fpath)
+
+  CC=clang
+  # These either cargo-culted from elsewhere or copied in from a review
+  # of the gcc/clang man pages, with an eye towards as many warnings as
+  # possible. Some compiles can therefore be very warning infested,
+  # which hopefully folks will clean up one day.
+  CFLAGS='O2 -std=c11 -Wall -Wglobal-constructors -Winit-self -Wmissing-include-dirs -Wextra -Wdeclaration-after-statement -Wundef -Wshadow -Wpointer-arith -Wbad-function-cast -Wcast-qual -Wcast-align -Wwrite-strings -Wconversion -Wshorten-64-to-32 -Waggregate-return -Wold-style-definition -Wmissing-prototypes -Wmissing-declarations -Wmissing-field-initializers -Wredundant-decls -Wnested-externs -Winvalid-pch -pedantic -pipe'
+
 elif [[ $OSTYPE =~ "openbsd" ]]; then
   fpath=(~/.zsh/functions/openbsd $fpath)
+
+  CC=gcc
+  # NOTE with -fstack-protector-all things like 'return 0;' to exit from a
+  # C program will cause aborts; use 'exit(0);' instead from <stdlib.h>.
+  CFLAGS='-O2 -std=c99 -Wall -Winit-self -Wmissing-include-dirs -Wextra -Wdeclaration-after-statement -Wundef -Wshadow -Wpointer-arith -Wbad-function-cast -Wcast-qual -Wcast-align -Wwrite-strings -Wconversion -Waggregate-return -Wold-style-definition -Wmissing-prototypes -Wmissing-declarations -Wmissing-field-initializers -Wnested-externs -Winvalid-pch -pedantic -pipe -fstack-protector-all'
+
 fi
+
+export CC CFLAGS
 
 # for my _dig completion script
 typeset -aU dns_servers
