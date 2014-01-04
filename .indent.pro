@@ -1,7 +1,1 @@
--bbb
--ncdb
--di0
--nfc1
--i4
--lp
--ps1
+--k-and-r-style
