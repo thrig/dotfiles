@@ -70,16 +70,27 @@ map q <nop>
 " what the heck is this?
 map <S-K> <nop>
 
-" custom key definitions
-map T :keepmark .,$!autoformat
-map t :keepmark %!perltidy
-map v :w!:n
-map V :w!:N
+" easy saves, habit from growing up with load shedding
 map g :w!
 
-" for ~/tmp test scripts, mostly
+" easy file flipping
+map v :w!:n
+map V :w!:N
+
+" code auto-formatting
+" GNU indent (see .indent.pro)
+map R :keepmark %!gindent -st
+" Text::Autoformat
+map T :keepmark .,$!autoformat
+" Perl::Tidy
+map t :keepmark %!perltidy
+
 ab hbp #!/usr/bin/env perluse strict;use warnings;
+ab DIAG use Data::Dumper; diag Dumper
+ab DIAC use Data::Dumper::Concise::Aligned; diag DumperA
+ab PFF fprintf(stderr, "dbg
 ab PUDD use Data::Dumper; warn Dumper
+ab PUCC use Data::Dumper::Concise::Aligned; warn DumperA
 
 if !exists("autocommands_loaded")
   let autocommands_loaded = 1
@@ -91,18 +102,11 @@ if !exists("autocommands_loaded")
   " often a problem.
   au BufNewFile,BufRead *.c call SetupForC()
   au BufNewFile,BufRead *.h call SetupForC()
-  au BufNewFile,BufRead *.t call SetupForPerlTests()
 
   function SetupForC()
-    map t :keepmark %!indent -st
     set autoindent
     set smartindent
     set cindent
-    ab PUDD fprintf(stderr, "dbg
-  endfunction
-
-  function SetupForPerlTests()
-    ab DIAG use Data::Dumper; diag Dumper
   endfunction
 
   function VisitLastBuffer()

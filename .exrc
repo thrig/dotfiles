@@ -14,19 +14,26 @@ set wrapscan
 set writeany
 
 ab hbp #!/usr/bin/env perluse strict;use warnings;
-ab PUDD use Data::Dumper; warn Dumper
-ab PUCC use Data::Dumper::Concise::Aligned; warn DumperA
 ab DIAG use Data::Dumper; diag Dumper
 ab DIAC use Data::Dumper::Concise::Aligned; diag DumperA
+ab PFF fprintf(stderr, "dbg
+ab PUDD use Data::Dumper; warn Dumper
+ab PUCC use Data::Dumper::Concise::Aligned; warn DumperA
 
 " easy saves, habit from growing up with load shedding
 map g :w!
 
+" easy file flipping
 " need to double up on returns to clear message spam
 map v :w!:next
 map V :w!:prev
 
+" code auto-formatting
+" GNU indent (see .indent.pro)
+map R :keepmark %!gindent -st
+" Text::Autoformat
 map T !Gautoformat 
+" Perl::Tidy
 map t :%!perltidy
 
 " too close to esc, I'll find the help when I need it
