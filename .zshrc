@@ -226,6 +226,15 @@ function gw {
   fi
 }
 
+function h {
+  history -$(($LINES-3))
+}
+
+function j {
+  pgrep -u $USER -lf '(^|/)'vi '(^|/)'$EDITOR
+  jobs -l
+}
+
 function lilypond {
   if [[ -n "$1" ]]; then
     command lilypond --silent -dno-point-and-click "$@"
@@ -314,8 +323,6 @@ alias hs='fc -RI'
 
 alias ipcalc='ipcalc -n'
 
-alias j='jobs -l'
-
 unalias ls 2>/dev/null          # in event vendor set color crap somehow
 
 # but in the event I want to see the local time... (another bad habit)
@@ -334,6 +341,10 @@ alias psql='psql -A -q -S'
 alias R='R --silent'
 
 alias scp='scp -p'
+
+# from 'Bash to Z Shell' book (`stty tostop` might also be handy to halt
+# anything backgrounded if it tries to spam the console)
+alias stop='kill -TSTP'
 
 alias sudo='sudo -H'
 
