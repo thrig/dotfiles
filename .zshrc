@@ -2,7 +2,7 @@
 # what I currently have.
 
 # as for NOMATCH, bash can be fixed via the 'failglob' option
-setopt BSD_ECHO EXTENDED_HISTORY HASH_CMDS HIST_FIND_NO_DUPS HIST_IGNORE_DUPS HIST_IGNORE_ALL_DUPS HIST_REDUCE_BLANKS HIST_SAVE_NO_DUPS INC_APPEND_HISTORY INTERACTIVE_COMMENTS LIST_PACKED LIST_ROWS_FIRST MAGIC_EQUAL_SUBST NOFLOW_CONTROL RM_STAR_SILENT NOMATCH EXTENDED_GLOB
+setopt BSD_ECHO EXTENDED_HISTORY HASH_CMDS HIST_FIND_NO_DUPS HIST_IGNORE_DUPS HIST_IGNORE_ALL_DUPS HIST_REDUCE_BLANKS HIST_SAVE_NO_DUPS INC_APPEND_HISTORY INTERACTIVE_COMMENTS LIST_PACKED LIST_ROWS_FIRST MAGIC_EQUAL_SUBST NOFLOW_CONTROL RM_STAR_SILENT NOMATCH EXTENDED_GLOB BRACE_CCL RC_EXPAND_PARAM
 unsetopt AUTO_NAME_DIRS AUTO_REMOVE_SLASH HIST_VERIFY MARK_DIRS promptcr
 
 ########################################################################
@@ -128,6 +128,26 @@ zle -N self-insert url-quote-magic
 # bad habits die hard
 select-word-style bash
 
+# Some tests from the "Bash to Z Shell" book
+zstyle ':completion:*' format %d
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*:-command-:*:(commands|builtins|reserved-words|aliases)' group-name commands
+zstyle ':completion:*:manuals' separate-sections true
+zstyle ':completion:*:warnings' format 'No matches: %d'
+# test no dups to these
+zstyle ':completion::*:(cvs-add|less|rm|vi*):*' ignore-line true
+# meh?
+#zstyle ':completion:*:*:cd:*' ignored-patterns '(*/|)(CVS|SCCS)'
+zstyle ':completion:*' ignore-parents parent pwd
+
+# Make this exist for completion even if unset
+zstyle ':completion::*:(-command-|export):*' fake-parameters LD_LIBRARY_PATH:scalar
+
+# perhaps good for /:cygdrive or for automount, if you have those
+#zstyle ':completion:*' fake-files '/somedir'
+
+# custom list, not from whatever inappropriate randomness is in the system
+# hosts file or whatever SSH dragged home
 zstyle -e ':completion:*' hosts 'reply=($(< ~/.hosts))'
 
 # might set this for all commands if have a large userbase
