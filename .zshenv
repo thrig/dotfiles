@@ -24,7 +24,7 @@ umask 002
 # which would doubtless be as reliable and speedy as network file shares
 # are wont to be.)
 
-typeset -U PATH
+typeset -U path
 
 # Wipe out everything and start from scratch. Opinions vary on whether
 # or not this is a good idea, especially in .zshenv, which in most cases
