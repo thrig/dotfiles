@@ -102,6 +102,12 @@ if [[ $OSTYPE =~ "^darwin" ]]; then
   # of the gcc/clang man pages, with an eye towards as many warnings as
   # possible. Some compiles can therefore be very warning infested,
   # which hopefully folks will clean up one day.
+  # Add:
+  #   -L/opt/local/lib -I/opt/local/include
+  # to search the MacPorts space, and then to pull in extra libraries do
+  # something like:
+  #   CFLAGS="-lzmq $CFLAGS" make hwserver
+  # which will suffice for sloppy software builds.
   CFLAGS='O2 -std=c11 -Wall -Wglobal-constructors -Winit-self -Wmissing-include-dirs -Wextra -Wdeclaration-after-statement -Wundef -Wshadow -Wpointer-arith -Wbad-function-cast -Wcast-qual -Wcast-align -Wwrite-strings -Wconversion -Wshorten-64-to-32 -Waggregate-return -Wold-style-definition -Wmissing-prototypes -Wmissing-declarations -Wmissing-field-initializers -Wredundant-decls -Wnested-externs -Winvalid-pch -pedantic -pipe'
 
 elif [[ $OSTYPE =~ "openbsd" ]]; then
