@@ -231,7 +231,11 @@ function gdb {
 # (there's a ~/.ssh/config entry that include 'gh' or 'gw' as a 'Host'
 # option, and then 'Hostname' of the IP address of the actual server)
 function gh {
-  ssh gh "$@"
+  command ssh gh "$@"
+  if [[ $? -ne 0 ]]; then
+    # help log timing info on any network burps
+    logger -- ssh non-zero exit $? for "$@"
+  fi
   if [ -t 1 ]; then
     # some vendors put crap in the title bar, clear it
     echo -ne "\e]2;\a"
@@ -241,7 +245,11 @@ function gh {
 }
 
 function ghre {
-  ssh -t gh tmux attach
+  command ssh -t gh tmux attach
+  if [[ $? -ne 0 ]]; then
+    # help log timing info on any network burps
+    logger -- ssh non-zero exit $? for "$@"
+  fi
   if [ -t 1 ]; then
     echo -ne "\e]2;\a"
     clear
@@ -250,11 +258,27 @@ function ghre {
 }
 
 function gw {
-  ssh gw "$@"
+  command ssh gw "$@"
+  if [[ $? -ne 0 ]]; then
+    # help log timing info on any network burps
+    logger -- ssh non-zero exit $? for "$@"
+  fi
   if [ -t 1 ]; then
     echo -ne "\e]2;\a"
     clear
     stty sane
+  fi
+}
+
+function ssh {
+  command ssh $@
+  if [[ $? -ne 0 ]]; then
+    # help log timing info on any network burps
+    logger -- ssh non-zero exit $? for "$@"
+  fi
+  if [[ -t 1 ]]; then
+    stty sane
+    echo -ne "\e]2;\a"
   fi
 }
 
