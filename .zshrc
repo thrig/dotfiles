@@ -409,7 +409,7 @@ alias tcpdump='tcpdump -n'
 # as typing CamelCase sucks
 alias vbm='VBoxManage -q'
 
-alias warlock='which'
+alias warlock='whence -a'
 
 alias xmllint="xmllint --encode utf8"
 
@@ -420,8 +420,11 @@ if [[ $OSTYPE =~ "^darwin" ]]; then
   # rm means rm. -- except gnawing away at laptop HD, le sigh
   #alias rm='srm -s -z'
 
+  # over in scripts repository -- jmates@ 2014-07-04
+  # handy means for marking config files/wiki so folks know the who/when
+  # directly and do not have to delve back through version control or whatnot
   function tagit {
-    =tagit -ndi | pbcopy
+    =tagit -id | pbcopy
   }
 
   # clear titlebar spam, if any
@@ -432,7 +435,7 @@ elif [[ $OSTYPE =~ "openbsd" ]]; then
   alias pbpaste='xclip -out'
 
   function tagit {
-    =tagit -ndi | xclip -in
+    =tagit -id | xclip -in
   }
 
   # for ly-fu
