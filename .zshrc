@@ -434,6 +434,9 @@ elif [[ $OSTYPE =~ "openbsd" ]]; then
   alias pbcopy='xclip -in'
   alias pbpaste='xclip -out'
 
+  # which is just a shell `exec xclip -in` wrapper (or fiddle with copycat.c)
+  export CLIPBOARD=~/libexec/pbcopy
+
   function tagit {
     =tagit -id | xclip -in
   }
