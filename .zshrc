@@ -177,7 +177,7 @@ zstyle ':completion:*:*:(bbedit|di|diff|less|vi|vim):*:all-files' ignored-patter
 
 # Commands to ignore completion on as they 99.N% of the time just delay
 # me getting to what I want
-zstyle ':completion:*:*:-command-:*' ignored-patterns '(libtool|limit|link|linkicc|lipo|lispmtopgm|listings-ext.sh|listres|lilymidi|lilypond-book|lilypond-invoke-editor|lilysong|perlivp*|perlthanks*|perlbug*|perlcc*|perltex*|cron|*-config|libnetcfg*)'
+zstyle ':completion:*:*:-command-:*' ignored-patterns '(libtool|limit|link|linkicc|lipo|lispmtopgm|listings-ext.sh|listres|lilymidi|lilypond-book|lilypond-invoke-editor|lilysong|perlivp*|perlthanks*|perlbug*|perlcc*|perltex*|cron|*-config|libnetcfg*|pbm*)'
 
 if [[ $OSTYPE =~ "^darwin" ]]; then
   zstyle ':completion:*:processes' command 'ps -A -o pid,user,command'
