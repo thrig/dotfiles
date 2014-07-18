@@ -221,9 +221,17 @@ function cd {
   fi
 }
 
-# ugh, both GNU license spam, and then lack of echo when ^D out. bleh.
-function gdb {
-  command gdb -q "$@"
+# Except no gdb on Mac OS X so...
+if [[ ! $OSTYPE =~ "^darwin" ]]; then
+  # ugh, both GNU license spam, and then lack of echo when ^D out. bleh.
+  function gdb {
+    command gdb -q "$@"
+    echo
+  }
+fi
+
+function lldb {
+  command lldb "$@"
   echo
 }
 
