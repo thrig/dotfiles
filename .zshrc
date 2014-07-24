@@ -417,6 +417,8 @@ alias tcpdump='tcpdump -n'
 # as typing CamelCase sucks
 alias vbm='VBoxManage -q'
 
+alias w3m='w3m -M'
+
 alias warlock='whence -a'
 
 alias xmllint="xmllint --encode utf8"
