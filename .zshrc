@@ -304,8 +304,30 @@ function lilypond {
     command lilypond --silent -dno-point-and-click "$@"
   else
     # \include files trip this up, so name those with an extra .
-    # somewhere in the filename, e.g. voice1.inc.ly
-    command lilypond --silent -dno-point-and-click "$(glf --exclude='[.](?!ly$)' '\.ly' .)"
+    # somewhere in the filename, e.g. voice1.inc.ly (or hide them in
+    # a subdir)
+    local MRF=$(glf --exclude='[.](?!ly$)' '\.ly' .)
+    [[ -z $MRF ]] && {
+      echo >&2 "no *.ly found (or glf problem)"
+      return 1
+    }
+    # So the mode foo is due to the most recent Preview.app being stupid about
+    # editing the document due to stray clicks, and then stalling and otherwise
+    # getting in the way after the document has been updated by lilypond,
+    # usually resulting in a Preview.app force quit because it really, really,
+    # really wants to save that stray click edit. Older versions of Preview.app
+    # I do not recall having this problem, and brief searches have neither
+    # found a less bad PDF viewer, nor a means in Preview.app to open things
+    # read-only. Sigh.
+    local MRP=${MRF:s/ly/pdf}
+    [[ -f $MRP ]] && chmod u+w $MRP
+    command lilypond --silent -dno-point-and-click $MRF
+    [[ -f $MRP ]] && chmod -w $MRP
+    #
+    #  defaults write -app 'preview' ApplePersistence -bool no
+    #
+    # via http://apple.stackexchange.com/questions/27544/how-to-completely-disable-auto-save-and-versions-in-mac-os-x-lion
+    # might also be productive?
   fi
 }
 
