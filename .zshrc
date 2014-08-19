@@ -338,7 +338,7 @@ function ndir {
 }
 
 function pmr {
-  pianoteq --preset D4\ Spacious --midi "$(glf .midi)"
+  pianoteq --preset D4\ Spacious --midi *.midi(om[1])
 }
 
 function pmt {
@@ -352,7 +352,7 @@ function showscore {
     open --background -a Preview "$@"
 #   xpdf -remote music -exec "gotoLastPage" "$@"
   else
-    open --background -a Preview "$(glf '\.pdf' .)"
+    open --background -a Preview *.pdf(om[1])
   fi
 }
 
@@ -369,7 +369,7 @@ function timidity {
   if [[ -n "$1" ]]; then
     command tlymidity "$@"
   else
-    command tlymidity "$(glf '\.midi' .)"
+    command tlymidity *.midi(om[1])
   fi
 }
 
