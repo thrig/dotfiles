@@ -319,11 +319,13 @@ function lilypond {
     # I do not recall having this problem, and brief searches have neither
     # found a less bad PDF viewer, nor a means in Preview.app to open things
     # read-only. Sigh.
-    local MRP=${MRF:s/ly/pdf}
-    [[ -f $MRP ]] && chmod u+w $MRP
-    command lilypond --silent -dno-point-and-click $MRF
-    [[ -f $MRP ]] && chmod -w $MRP
-    #
+    local MRP=${MRF:s/\.ly/.pdf}
+
+    [[ $MRF -nt $MRP ]] && {
+      [[ -f $MRP ]] && chmod u+w $MRP
+      command lilypond --silent -dno-point-and-click $MRF
+      [[ -f $MRP ]] && chmod -w $MRP
+    }
     #  defaults write -app 'preview' ApplePersistence -bool no
     #
     # via http://apple.stackexchange.com/questions/27544/how-to-completely-disable-auto-save-and-versions-in-mac-os-x-lion

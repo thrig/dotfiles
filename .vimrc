@@ -88,7 +88,7 @@ map t :keepmark %!perltidy
 ab hbp #!/usr/bin/env perluse strict;use warnings;
 ab DIAG use Data::Dumper; diag Dumper
 ab DIAC use Data::Dumper::Concise::Aligned; diag DumperA
-ab PFF fprintf(stderr, "dbg
+ab PUFF fprintf(stderr, "dbg
 ab PUDD use Data::Dumper; warn Dumper
 ab PUCC use Data::Dumper::Concise::Aligned; warn DumperA
 
@@ -100,13 +100,19 @@ if !exists("autocommands_loaded")
 
   " TODO mixing Perl, Perl tests, C then gets wacky, but whatevs, not
   " often a problem.
-  au BufNewFile,BufRead *.c call SetupForC()
-  au BufNewFile,BufRead *.h call SetupForC()
+  au BufNewFile,BufRead *.c  call SetupForC()
+  au BufNewFile,BufRead *.h  call SetupForC()
+
+  au BufNewFile,BufRead *.ly call SetupForLy()
 
   function SetupForC()
     set autoindent
     set smartindent
     set cindent
+  endfunction
+
+  function SetupForLy()
+    map t :!playit
   endfunction
 
   function VisitLastBuffer()
