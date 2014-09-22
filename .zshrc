@@ -404,6 +404,9 @@ alias diff='diff -u'
 
 alias dig='dig +nocmd +nostats'
 
+# part of the "tl;dr" toolkit.
+alias dr=:
+
 alias findin='findin -q'
 
 # "history share"
