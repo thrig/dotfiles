@@ -209,6 +209,9 @@ bindkey "^P" up-history
 function cd {
   if [[ -z "$1" ]]; then
     builtin cd
+  # steal from osse/dotfiles
+  elif [[ $1 = :/ ]]; then
+    builtin cd "$(git rev-parse --show-toplevel)"
   elif [[ -f "$1" ]]; then
     builtin cd "${1:h}"
   elif [[ "$1" = "-" ]]; then
