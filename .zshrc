@@ -324,7 +324,7 @@ function lilypond {
     # read-only. Sigh.
     local MRP=${MRF:s/\.ly/.pdf}
 
-    [[ $MRF -nt $MRP ]] && {
+    [[ ! -e $MRP || $MRF -nt $MRP ]] && {
       [[ -f $MRP ]] && chmod u+w $MRP
       command lilypond --silent -dno-point-and-click $MRF
       [[ -f $MRP ]] && chmod -w $MRP
@@ -343,6 +343,7 @@ function ndir {
 }
 
 function pmr {
+  lilypond
   pianoteq --preset D4\ Spacious --midi *.midi(om[1])
 }
 
