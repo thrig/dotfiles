@@ -39,6 +39,10 @@ export LESS="-iegX"
 export LESSHISTFILE=/dev/null
 export LESSSECURE=1
 
+# Paranoia, in event OS calls unaudited programs that can then be exploited.
+# http://seclists.org/fulldisclosure/2014/Nov/74
+unset LESSOPEN LESSCLOSE
+
 # annoying distraction
 MAILCHECK=0
 
@@ -111,7 +115,7 @@ if [[ $OSTYPE =~ "^darwin" ]]; then
   # to search the MacPorts space, though pkg-config might be handier:
   #   CFLAGS="$(pkg-config --cflags --libs libzmq) $CFLAGS" make ...
   # or similar in a Makefile:
-  #   	$(CC) $(CFLAGS) $$(pkg-config ...) ...
+  #     $(CC) $(CFLAGS) $$(pkg-config ...) ...
   CFLAGS='-O2 -std=c11 -Wall -Wglobal-constructors -Winit-self -Wmissing-include-dirs -Wextra -Wdeclaration-after-statement -Wundef -Wshadow -Wpointer-arith -Wbad-function-cast -Wcast-qual -Wcast-align -Wwrite-strings -Wconversion -Wshorten-64-to-32 -Waggregate-return -Wold-style-definition -Wmissing-prototypes -Wmissing-declarations -Wmissing-field-initializers -Wredundant-decls -Wnested-externs -Winvalid-pch -pedantic -pipe'
 
 elif [[ $OSTYPE =~ "openbsd" ]]; then
