@@ -6,7 +6,7 @@ xterm*colorMode:        false
 xterm*cursorBlink:      false
 xterm*cursorColor:      white
 xterm*dynamicColors:    false
-xterm*foreground:       green
+xterm*foreground:       gold
 xterm*loginShell:       true
 xterm*pointerMode:      1
 xterm*saveLines:        4096

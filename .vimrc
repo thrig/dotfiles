@@ -1,13 +1,12 @@
-" Cursed vendor defaults require many of these, or otherwise turning off
-" all the bling vim is infested with. I'd be happy with vi, except for the
-" lack of multiple undos, and maintaining marks through filters.
+" RHEL defaults (ugh) prompted many of these settings. I'd be happy with vi,
+" except for the lack of multiple undos, and maintaining marks through filters.
 
-" If I wanted to play Pachinko, I would move to Japan. Instead, kill the
-" horrible brace highliting "feature"
+" kill horrible brace highliting "feature"
 let loaded_matchparen = 1
 
 set noedcompatible
 
+" distracting, often wrong for Perl, and I never did like dark blue on black
 set syntax=no
 if version >= 600
   syntax off
@@ -44,13 +43,11 @@ set wrapscan
 set wrap
 set writeany
 
-" to disable the annoying term blanking from the "alternate screen" see 
+" to disable the annoying term blanking from the "alternate screen" see also
 " http://hints.macworld.com/article.php?story=20110905185128781
 set t_ti= t_te=
 
-" To really learn the home row keys, perhaps play Dungeon Crawl Stone Soup
-" using just the keyboard (character died because you hit the wrong key?
-" that just means they aren't motor memory yet).
+" Avoid bad habits, keep fingers on home row.
 inoremap <up> <nop>
 inoremap <down> <nop>
 inoremap <left> <nop>
@@ -64,9 +61,12 @@ map <right> <nop>
 map <F1> <Esc>
 nmap <F1> <Esc>
 imap <F1> <Esc>
-" more things I hit by mistake
-map <C-c> <nop>
-map q <nop>
+
+" more things I hit by mistake or do not use
+"map <C-c> <nop>
+"map <C-a> <nop>
+"map <C-x> <nop>
+
 " what the heck is this?
 map <S-K> <nop>
 
