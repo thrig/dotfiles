@@ -2,8 +2,12 @@
 #
 # for OpenBSD laptop
 
+/usr/bin/mixerctl outputs.master=160,160 outputs.hp_boost=on
+
 # DIE CAPS DIE
 /usr/X11R6/bin/setxkbmap -option ctrl:nocaps
+
+/usr/X11R6/bin/xmodmap $HOME/.xmodmap
 
 /usr/X11R6/bin/xterm -geometry 80x34+0+0 &
 /usr/X11R6/bin/xterm -geometry 80x24+0-0 &
