@@ -126,9 +126,11 @@ elif [[ $OSTYPE =~ "openbsd" ]]; then
   # C program will cause aborts; use 'exit(0);' instead from <stdlib.h>.
   CFLAGS='-O2 -std=c99 -Wall -Winit-self -Wmissing-include-dirs -Wextra -Wdeclaration-after-statement -Wundef -Wshadow -Wpointer-arith -Wbad-function-cast -Wcast-qual -Wcast-align -Wwrite-strings -Wconversion -Waggregate-return -Wold-style-definition -Wmissing-prototypes -Wmissing-declarations -Wmissing-field-initializers -Wnested-externs -Winvalid-pch -pedantic -pipe -fstack-protector-all'
 
+  PKG_CONFIG_PATH=~/usr/openbsd-current/lib/pkgconfig
+  LD_LIBRARY_PATH=~/usr/openbsd-current/lib
 fi
 
-export CC CFLAGS
+export CC CFLAGS PKG_CONFIG_PATH LD_LIBRARY_PATH
 
 # for my _dig completion script
 typeset -aU dns_servers
@@ -486,6 +488,8 @@ elif [[ $OSTYPE =~ "openbsd" ]]; then
     =tagit -id | xclip -in
   }
 
+  zstyle ':completion:*:*:open:*' file-patterns '*.pdf:PDF\ files *(-/):directories'
+
   # for ly-fu
-  export SCORE_VIEWER=zathura
+  export SCORE_VIEWER=mupdf
 fi
