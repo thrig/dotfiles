@@ -126,8 +126,8 @@ elif [[ $OSTYPE =~ "openbsd" ]]; then
   # C program will cause aborts; use 'exit(0);' instead from <stdlib.h>.
   CFLAGS='-O2 -std=c99 -Wall -Winit-self -Wmissing-include-dirs -Wextra -Wdeclaration-after-statement -Wundef -Wshadow -Wpointer-arith -Wbad-function-cast -Wcast-qual -Wcast-align -Wwrite-strings -Wconversion -Waggregate-return -Wold-style-definition -Wmissing-prototypes -Wmissing-declarations -Wmissing-field-initializers -Wnested-externs -Winvalid-pch -pedantic -pipe -fstack-protector-all'
 
-  PKG_CONFIG_PATH=~/usr/openbsd-current/lib/pkgconfig
-  LD_LIBRARY_PATH=~/usr/openbsd-current/lib
+  PKG_CONFIG_PATH=~/usr/$OSTYPE-$MACHTYPE/lib/pkgconfig
+  LD_LIBRARY_PATH=~/usr/$OSTYPE-$MACHTYPE/lib
 fi
 
 export CC CFLAGS PKG_CONFIG_PATH LD_LIBRARY_PATH
