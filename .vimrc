@@ -1,4 +1,4 @@
-" RHEL defaults (ugh) prompted many of these settings. I'd be happy with vi,
+" The RHEL defaults (ugh) prompted many of these settings. I'd be happy with vi,
 " except for the lack of multiple undos, and maintaining marks through filters.
 
 " kill horrible brace highliting "feature"
@@ -6,7 +6,7 @@ let loaded_matchparen = 1
 
 set noedcompatible
 
-" distracting, often wrong for Perl, and I never did like dark blue on black
+" never did like dark blue on black
 set syntax=no
 if version >= 600
   syntax off
@@ -43,6 +43,11 @@ set wrapscan
 set wrap
 set writeany
 
+set textwidth=0
+
+" treat all numerals (for c-a, c-x) as decimals
+"set nrformats=
+
 " to disable the annoying term blanking from the "alternate screen" see also
 " http://hints.macworld.com/article.php?story=20110905185128781
 set t_ti= t_te=
@@ -61,11 +66,6 @@ map <right> <nop>
 map <F1> <Esc>
 nmap <F1> <Esc>
 imap <F1> <Esc>
-
-" more things I hit by mistake or do not use
-"map <C-c> <nop>
-"map <C-a> <nop>
-"map <C-x> <nop>
 
 " what the heck is this?
 map <S-K> <nop>

@@ -1,21 +1,30 @@
 *locale:                UTF-8
 
-xterm*alwaysHighlight:  true
-xterm*background:       black
-xterm*colorMode:        false
-xterm*cursorBlink:      false
-xterm*cursorColor:      white
-xterm*dynamicColors:    false
-xterm*foreground:       gold
-xterm*loginShell:       true
-xterm*pointerMode:      1
-xterm*saveLines:        4096
-xterm*scrollBar:        false
+XTerm*alwaysHighlight:  false
+XTerm*background:black
+XTerm*colorMode:false
+XTerm*cursorBlink:      false
+XTerm*cursorColor:white
+XTerm*dynamicColors:false
+XTerm*foreground:gold
+XTerm*loginShell:       true
+XTerm*loginShell:true
+XTerm*pointerMode:      1
+XTerm*scrollBar:false
+XTerm*titleInhibit: true
+
+UXTerm*background:black
+UXTerm*faceName:Mono
+UXTerm*faceSize:18
+UXTerm*foreground:gold
+UXTerm*pointerMode:      1
+UXTerm*scrollBar:false
+UXTerm*titleInhibit: true
 
 urxvt*secondaryScreen: false
 
-xload*foreground:       black
 xload*background:       white
-xload*showLabel:        false
+xload*foreground:       black
 xload*highlight:        darkred
-xload*update:           10
+xload*showLabel:        false
+xload*update:           3
