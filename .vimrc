@@ -12,7 +12,6 @@ if version >= 600
   syntax off
 endif
 
-set noautoindent
 set autoread
 set autowrite
 set nobackup
@@ -35,7 +34,6 @@ set noshowcmd
 set showmatch
 set noshowmode
 set nosmartindent
-set tabstop=8
 set notitle
 set uc=0
 set viminfo='10,\"100,:25,/25,n~/.vim/viminfo
@@ -43,7 +41,21 @@ set wrapscan
 set wrap
 set writeany
 
+set autoindent
+set nosmartindent
+set nocindent
+
 set textwidth=0
+
+set tabstop=8
+
+let _curfile = expand("%:t")
+if _curfile =~ "Makefile" || _curfile =~ "makefile" || _curfile =~ ".*\.mk"
+  set noexpandtab
+else
+  set expandtab
+  set shiftwidth=2
+endif
 
 " treat all numerals (for c-a, c-x) as decimals
 "set nrformats=
@@ -106,9 +118,7 @@ if !exists("autocommands_loaded")
   au BufNewFile,BufRead *.ly call SetupForLy()
 
   function SetupForC()
-    set autoindent
-    set smartindent
-    set cindent
+    set shiftwidth=4
   endfunction
 
   function SetupForLy()
