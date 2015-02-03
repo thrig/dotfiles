@@ -25,6 +25,10 @@ export GIT_SSH=$HOME/libexec/git_ssh
 # Write a function, Makefile, or script to capture anything crazy you're
 # doing on the CLI. Otherwise, toss history to avoid accumulating a
 # midden of shell commands.
+#
+# Reviews of "what commands have typed" might be assisted with:
+#   print -l $commands:t ${(k)functions} ${(k)aliases} 
+# to collect the available commands, functions, and aliases.
 HISTFILE=~/.zsh/history
 HISTSIZE=500
 SAVEHIST=1000
