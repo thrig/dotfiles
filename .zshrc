@@ -73,8 +73,11 @@ export PERL_MM_USE_DEFAULT=1
 # minimal for my tastes.
 if [[ -n $SSH_CLIENT ]]; then
   PS1='%m%# '
+# these I use rarely, so a warning about the subshell is handy
 elif [[ -n $PERL5_CPAN_IS_RUNNING ]]; then
   PS1='(cpan)%# '
+elif [[ -n $VIM ]]; then
+  PS1='(vim)%# '
 else 
   PS1='%# '
 fi

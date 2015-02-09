@@ -57,6 +57,10 @@ else
   set shiftwidth=2
 endif
 
+" more "Practical Vim" stuff
+set wildmenu
+set wildmode=full
+
 " treat all numerals (for c-a, c-x) as decimals
 "set nrformats=
 
@@ -86,8 +90,13 @@ map <S-K> <nop>
 map g :w!
 
 " easy file flipping
-map v :w!:n
-map V :w!:N
+"map v :w!:n
+"map V :w!:N
+" try this for buffer flipping, see if can nix my vV use?
+nnoremap <silent> [b :bprevious<CR>
+nnoremap <silent> ]b :bnext<CR>
+nnoremap <silent> [B :bfirst<CR>
+nnoremap <silent> ]B :blast<CR>
 
 " code auto-formatting
 " GNU indent (see .indent.pro)
@@ -97,7 +106,7 @@ map T :keepmark .,$!autoformat
 " Perl::Tidy
 map t :keepmark %!perltidy
 
-ab hbp #!/usr/bin/env perluse strict;use warnings;
+ab hbp #!/usr/bin/env perl<CR>use strict;<CR>use warnings;<CR>
 ab DIAG use Data::Dumper; diag Dumper
 ab DIAC use Data::Dumper::Concise::Aligned; diag DumperA
 ab PUFF fprintf(stderr, "dbg
