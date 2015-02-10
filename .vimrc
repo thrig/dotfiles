@@ -13,11 +13,9 @@ if version >= 600
 endif
 
 set autoread
-set autowrite
 set nobackup
 set nocindent
 set cpoptions+=!$
-set noautowriteall
 set gdefault
 set ignorecase
 set nohlsearch
@@ -86,15 +84,21 @@ imap <F1> <Esc>
 " what the heck is this?
 map <S-K> <nop>
 
-" easy saves, habit from growing up with load shedding
-map g :w!
+" no splits.
+map <C-w> <nop>
 
-" easy file flipping
-"map v :w!:n
-"map V :w!:N
-" try this for buffer flipping, see if can nix my vV use?
-nnoremap <silent> [b :bprevious<CR>
-nnoremap <silent> ]b :bnext<CR>
+" Easy saves, habit from growing up with load shedding
+map g :w!<CR>
+
+" Easy file flipping (used to be v/V); do not like the wrap-around on
+" bnext/bprev, so use next and previous (I only "argadd" to tack files onto the
+" arg list, so can mostly ignore whatever superset the buffer list is of the
+" arg list), and save comes from autowrite so don't have to think about whether
+" or not some previous buffer is saved or not.
+set autowrite
+set noautowriteall
+nnoremap <silent> [b :N<CR>
+nnoremap <silent> ]b :n<CR>
 nnoremap <silent> [B :bfirst<CR>
 nnoremap <silent> ]B :blast<CR>
 
@@ -131,7 +135,12 @@ if !exists("autocommands_loaded")
   endfunction
 
   function SetupForLy()
-    map t :!playit
+    " Show music (if not already loaded) and play it (unless speaker muted).
+    " A major reason I switched to OpenBSD as primary instead of Mac OS X
+    " 10.10 is that Preview.app started scrolling automatically to the blank
+    " bottom of the document, forcing a scroll back up to see the notes.
+    " mupdf is delightfully free of such an annoyance.
+    map t :!playit<CR><CR>
   endfunction
 
   function VisitLastBuffer()
