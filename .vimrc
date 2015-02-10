@@ -99,8 +99,8 @@ set autowrite
 set noautowriteall
 nnoremap <silent> [b :N<CR>
 nnoremap <silent> ]b :n<CR>
-nnoremap <silent> [B :bfirst<CR>
-nnoremap <silent> ]B :blast<CR>
+nnoremap <silent> [B :first<CR>
+nnoremap <silent> ]B :last<CR>
 
 " code auto-formatting
 " GNU indent (see .indent.pro)
