@@ -6,7 +6,7 @@ let loaded_matchparen = 1
 
 set noedcompatible
 
-" never did like dark blue on black
+" http://trout.me.uk/synhi.jpg
 set syntax=no
 if version >= 600
   syntax off
