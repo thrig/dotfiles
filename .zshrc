@@ -34,6 +34,16 @@ HISTSIZE=500
 SAVEHIST=1000
 
 export LANG=en_US.UTF-8
+# but then need some or all of the following to avoid e.g. setlocale failures
+# when launching R, or such. This is worse under bash, as is typical:
+# http://utcc.utoronto.ca/~cks/space/blog/linux/BashLocaleScriptDestruction
+#   ... especially if /bin/sh is improperly bash.
+export LC_COLLATE=POSIX
+export LC_CTYPE=POSIX
+export LC_MESSAGES=POSIX
+export LC_MONETARY=POSIX
+export LC_NUMERIC=POSIX
+export LC_TIME=POSIX
 
 # to disable the annoying term blanking from the "alternate screen" see
 # http://hints.macworld.com/article.php?story=20110905185128781
