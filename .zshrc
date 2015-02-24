@@ -14,10 +14,10 @@ unsetopt AUTO_NAME_DIRS AUTO_REMOVE_SLASH HIST_VERIFY MARK_DIRS promptcr
 # editor differs from the line editing mode. Also, other applications
 # (e.g. Subversion, git) may have their own editor commands, check for
 # their environment variables or configuration for details.
-export EDITOR=vi
-export VISUAL=vi
+export EDITOR=vim
+export VISUAL=vim
 
-# hopefully FTP dies one of these years...
+# hopefully FTP dies one of these years: http://mywiki.wooledge.org/FtpMustDie
 export FTP_PASSIVE=1
 
 export GIT_SSH=$HOME/libexec/git_ssh
@@ -67,7 +67,6 @@ export MANSECT=1:1p:8:2:3:3p:4:5:6:7:9:0p:l:p:o
 export no_proxy="127.0.0.1"
 
 export PAGER=less
-
 export PERLDOC_PAGER='less -R' 
 
 # disabling as probably should fix encoding in various scripts, not force
@@ -113,6 +112,7 @@ ZLE_SPACE_SUFFIX_CHARS='&|'
 #
 # Completion Foo (and some compile flags)
 
+# NOTE this really should be done *before* that autoload foo
 fpath=(~/.zsh/functions $fpath)
 
 if [[ $OSTYPE =~ "^darwin" ]]; then
@@ -149,7 +149,7 @@ fi
 
 export CC CFLAGS PKG_CONFIG_PATH LD_LIBRARY_PATH
 
-# for my _dig completion script
+# for my _dig completion script over in zsh-compdef
 typeset -aU dns_servers
 dns_servers=('\:\:1' 8.8.4.4)
 
@@ -318,9 +318,10 @@ function ssh {
   fi
 }
 
-function h {
-  history -$(($LINES-3))
-}
+# ENOTUSED
+#function h {
+#  history -$(($LINES-3))
+#}
 
 function j {
   pgrep -u $USER -lf '(^|/)'vi '(^|/)'$EDITOR
@@ -334,30 +335,16 @@ function lilypond {
     # \include files trip this up, so name those with an extra .
     # somewhere in the filename, e.g. voice1.inc.ly (or hide them in
     # a subdir)
-    local MRF=$(glf --exclude='[.](?!ly$)' '\.ly' .)
+    local MRF="$(glf --exclude='[.](?!ly$)' '\.ly' .)"
     [[ -z $MRF ]] && {
       echo >&2 "no *.ly found (or glf problem)"
       return 1
     }
-    # So the mode foo is due to the most recent Preview.app being stupid about
-    # editing the document due to stray clicks, and then stalling and otherwise
-    # getting in the way after the document has been updated by lilypond,
-    # usually resulting in a Preview.app force quit because it really, really,
-    # really wants to save that stray click edit. Older versions of Preview.app
-    # I do not recall having this problem, and brief searches have neither
-    # found a less bad PDF viewer, nor a means in Preview.app to open things
-    # read-only. Sigh.
     local MRP=${MRF:s/\.ly/.pdf}
 
     [[ ! -e $MRP || $MRF -nt $MRP ]] && {
-      [[ -f $MRP ]] && chmod u+w $MRP
       command lilypond --silent -dno-point-and-click $MRF
-      [[ -f $MRP ]] && chmod -w $MRP
     }
-    #  defaults write -app 'preview' ApplePersistence -bool no
-    #
-    # via http://apple.stackexchange.com/questions/27544/how-to-completely-disable-auto-save-and-versions-in-mac-os-x-lion
-    # might also be productive?
   fi
 }
 
@@ -369,19 +356,25 @@ function ndir {
 
 function pmr {
   lilypond
-  pianoteq --preset D4\ Spacious --midi *.midi(om[1])
+  tlymidity *.midi(om[1])
 }
 
 function pmt {
+  # no, I don't use Module::Build nor dzil
   make realclean; perl Makefile.PL && make && make test |& less
 }
 
 function showscore {
   if [[ -n "$1" ]]; then
     # Not really happy with any PDF viewer thus far, but Preview.app no
-    # worse than the rest. sigh.
-    open --background -a Preview "$@"
-#   xpdf -remote music -exec "gotoLastPage" "$@"
+    # worse than the rest. sigh. Nope, scratch that, Preview.app on Mac
+    # OS X 10.10 is unusable, as it automatically scrolls down to the
+    # end of the thus blank page with the new music hidden above, sigh.
+    #open --background -a Preview "$@"
+    #xpdf -remote music -exec "gotoLastPage" "$@"
+    # This is my open(1) for OpenBSD, somewhere under scripts repo.
+    # It presently calls mupdf.
+    open *.pdf(om[1])
   else
     open --background -a Preview *.pdf(om[1])
   fi
@@ -413,7 +406,8 @@ function vagrant {
 #
 # Aliases
 
-alias ,,="clear; cd"
+# don't use this no more no more no more no more
+#alias ,,="clear; cd"
 
 alias ack='ack --nocolor'
 
@@ -426,7 +420,7 @@ alias atonal-util='atonal-util --ly --flats'
 # GNU license spam :(
 alias clisp='clisp --quiet -on-error abort -modern'
 
-# preserve permissions by default
+# preserve permissions by default (also for scp, below)
 alias cp='cp -p'
 
 alias diff='diff -u'
@@ -448,6 +442,9 @@ unalias ls 2>/dev/null          # in event vendor set color crap somehow
 # but in the event I want to see the local time... (another bad habit)
 alias mydate="TZ=US/Pacific mydate -dt"
 
+# As I'm usually running netstat when things are broken, and then it stalls
+# trying to lookup broken things, and then you're C-cing and swearing and
+# loosing time on troubleshooting...
 alias netstat='netstat -n'
 
 # GNU license spam :(
@@ -465,18 +462,17 @@ alias scp='scp -p'
 # from 'Bash to Z Shell' book (`stty tostop` might also be handy to halt
 # anything backgrounded if it tries to spam the console)
 alias stop='kill -TSTP'
+# TODO need hammertime
 
 alias sudo='sudo -H'
 
-alias tcpdump='tcpdump -n'
-
-# as typing CamelCase sucks
-alias vbm='VBoxManage -q'
+# but this gets sudo'd so probably not alias expanded. -ennl is my usual
+# default flag set
+#alias tcpdump='tcpdump -n'
 
 alias w3m='w3m -M'
-
+# opposite of which, really
 alias warlock='whence -a'
-
 alias xmllint="xmllint --encode utf8"
 
 if [[ $OSTYPE =~ "^darwin" ]]; then
@@ -485,6 +481,14 @@ if [[ $OSTYPE =~ "^darwin" ]]; then
   alias top='top -o CPU -F'
   # rm means rm. -- except gnawing away at laptop HD, le sigh
   #alias rm='srm -s -z'
+
+  # as typing CamelCase sucks
+  alias vbm='VBoxManage -q'
+
+  function pmr {
+    lilypond
+    pianoteq --preset D4\ Spacious --midi *.midi(om[1])
+  }
 
   # over in scripts repository -- jmates@ 2014-07-04
   # handy means for marking config files/wiki so folks know the who/when
