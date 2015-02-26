@@ -1,5 +1,14 @@
 " The RHEL defaults (ugh) prompted many of these settings. I'd be happy with vi,
 " except for the lack of multiple undos, and maintaining marks through filters.
+"
+" Though, "Practical Vim" has shown nifty things vim can do, so...
+
+ab hbp #!/usr/bin/env perl<CR>use strict;<CR>use warnings;<CR>
+ab DIAG use Data::Dumper; diag Dumper
+ab DIAC use Data::Dumper::Concise::Aligned; diag DumperA
+ab PUFF fprintf(stderr, "dbg
+ab PUDD use Data::Dumper; warn Dumper
+ab PUCC use Data::Dumper::Concise::Aligned; warn DumperA
 
 " kill horrible brace highliting "feature"
 let loaded_matchparen = 1
@@ -87,8 +96,15 @@ map <S-K> <nop>
 " no splits.
 map <C-w> <nop>
 
+" custom key definitions
+map <Leader>a :keepmark .,$!autoformat<CR> 
+map <Leader>A :keepmark .,$!autoformat 
+map <Leader>t :keepmark %!perltidy<CR>
+" see .indent.pro
+map <Leader>i :keepmark %!gindent -st<CR>
+
 " Easy saves, habit from growing up with load shedding
-map g :w!<CR>
+map <Leader>g :w!<CR>
 
 " Easy file flipping (used to be v/V); do not like the wrap-around on
 " bnext/bprev, so use next and previous (I only "argadd" to tack files onto the
@@ -101,21 +117,6 @@ nnoremap <silent> [b :N<CR>
 nnoremap <silent> ]b :n<CR>
 nnoremap <silent> [B :first<CR>
 nnoremap <silent> ]B :last<CR>
-
-" code auto-formatting
-" GNU indent (see .indent.pro)
-map R :keepmark %!gindent -st
-" Text::Autoformat
-map T :keepmark .,$!autoformat
-" Perl::Tidy
-map t :keepmark %!perltidy
-
-ab hbp #!/usr/bin/env perl<CR>use strict;<CR>use warnings;<CR>
-ab DIAG use Data::Dumper; diag Dumper
-ab DIAC use Data::Dumper::Concise::Aligned; diag DumperA
-ab PUFF fprintf(stderr, "dbg
-ab PUDD use Data::Dumper; warn Dumper
-ab PUCC use Data::Dumper::Concise::Aligned; warn DumperA
 
 if !exists("autocommands_loaded")
   let autocommands_loaded = 1
