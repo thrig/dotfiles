@@ -463,6 +463,9 @@ alias scp='scp -p'
 # anything backgrounded if it tries to spam the console)
 alias stop='kill -TSTP'
 # TODO need hammertime
+#
+# Another fun thing for terminal foo:
+#   printf '%q\n' "$(tput cup 3 10)"
 
 alias sudo='sudo -H'
 
