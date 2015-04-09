@@ -21,12 +21,19 @@ if version >= 600
   syntax off
 endif
 
+" experiment w/ timouts
+set timeoutlen=1000 ttimeoutlen=0
+
+" try instead smartcase
+"set noignorecase
+set smartcase
+
+set smartcase
 set autoread
 set nobackup
 set nocindent
 set cpoptions+=!$
 set gdefault
-set ignorecase
 set nohlsearch
 set noincsearch
 set nojoinspaces
@@ -43,7 +50,7 @@ set noshowmode
 set nosmartindent
 set notitle
 set uc=0
-set viminfo='10,\"100,:25,/25,n~/.vim/viminfo
+set viminfo='1000,f1,<500,\"1000,:25,/25,n~/.vim/viminfo
 set wrapscan
 set wrap
 set writeany
@@ -55,18 +62,22 @@ set nocindent
 set textwidth=0
 
 set tabstop=8
+set expandtab
+set shiftwidth=2
 
-let _curfile = expand("%:t")
-if _curfile =~ "Makefile" || _curfile =~ "makefile" || _curfile =~ ".*\.mk"
-  set noexpandtab
-else
-  set expandtab
-  set shiftwidth=2
+if has("autocmd")
+  filetype on
+  autocmd FileType make setlocal noexpandtab
 endif
 
 " more "Practical Vim" stuff
 set wildmenu
 set wildmode=full
+
+" preserve flags on repeated s///, "Practical Vim" tip (that I will doubtless
+" forget how to use)
+nnoremap & :&&<CR>
+xnoremap & :&&<CR>
 
 " treat all numerals (for c-a, c-x) as decimals
 "set nrformats=
