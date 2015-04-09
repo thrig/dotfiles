@@ -1,6 +1,8 @@
 # NOTE not yet my actual ~/.zshrc, mostly example configs selected from
 # what I currently have.
 
+KEYTIMEOUT=1
+
 # as for NOMATCH, bash can be fixed via the 'failglob' option
 setopt BSD_ECHO EXTENDED_HISTORY HASH_CMDS HIST_FIND_NO_DUPS HIST_IGNORE_DUPS HIST_IGNORE_ALL_DUPS HIST_REDUCE_BLANKS HIST_SAVE_NO_DUPS INC_APPEND_HISTORY INTERACTIVE_COMMENTS LIST_PACKED LIST_ROWS_FIRST MAGIC_EQUAL_SUBST NOFLOW_CONTROL RM_STAR_SILENT NOMATCH EXTENDED_GLOB BRACE_CCL RC_EXPAND_PARAM
 unsetopt AUTO_NAME_DIRS AUTO_REMOVE_SLASH HIST_VERIFY MARK_DIRS promptcr
@@ -213,16 +215,14 @@ fi
 #
 # Key Bindings
 
-# Never did figure out how to get along with vi mode in shell, despite
-# only using vi to edit things. go figure. NOTE this must be set *after*
-# any EDITOR/VISUAL settings. (And then any customized bindkeys after
-# this mode setting.)
-bindkey -e
-
-# no, I don't use "VISUAL" or whatever ^v does by default (if I needed
-# to I would `zsh -f` and then use it there)
-bindkey "^v" edit-command-line
-bindkey "^t" push-line-or-edit
+# Implicit vi mode due to EDITOR, though with following customizations.
+bindkey -M viins "^v" edit-command-line
+bindkey -M vicmd "^v" edit-command-line
+bindkey -M viins "^t" push-line-or-edit
+bindkey -M vicmd "^t" push-line-or-edit
+# bad habit from back when I used emacs
+bindkey -M viins "^R" history-incremental-search-backward
+bindkey -M vicmd "^R" history-incremental-search-backward
 
 # lets me know whether I'm in tmux (formerly screen) or not
 bindkey "^P" up-history
