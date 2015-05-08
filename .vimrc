@@ -24,11 +24,8 @@ endif
 " experiment w/ timouts
 set timeoutlen=1000 ttimeoutlen=0
 
-" try instead smartcase
-"set noignorecase
-set smartcase
+set ignorecase
 
-set smartcase
 set autoread
 set nobackup
 set nocindent
