@@ -39,7 +39,6 @@ set nomore
 set nopaste
 set noruler
 set scrolloff=5
-set shiftwidth=2
 set shortmess=aoOItTW
 set noshowcmd
 set showmatch
@@ -62,9 +61,12 @@ set tabstop=8
 set expandtab
 set shiftwidth=2
 
+au BufNewFile,BufRead *.ly set filetype=lilypond
+
 if has("autocmd")
   filetype on
   autocmd FileType make setlocal noexpandtab
+  autocmd FileType lilypond setlocal makeprg=playit\ %
 endif
 
 " more "Practical Vim" stuff
