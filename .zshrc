@@ -136,6 +136,9 @@ if [[ $OSTYPE =~ "^darwin" ]]; then
   # or similar in a Makefile:
   #     $(CC) $(CFLAGS) $$(pkg-config ...) ...
   CFLAGS='-O2 -std=c11 -Wall -Wglobal-constructors -Winit-self -Wmissing-include-dirs -Wextra -Wdeclaration-after-statement -Wundef -Wshadow -Wpointer-arith -Wbad-function-cast -Wcast-qual -Wcast-align -Wwrite-strings -Wconversion -Wshorten-64-to-32 -Waggregate-return -Wold-style-definition -Wmissing-prototypes -Wmissing-declarations -Wmissing-field-initializers -Wredundant-decls -Wnested-externs -Winvalid-pch -pedantic -pipe'
+ # These may need to be disabled when compiling certain things.
+ # Add -Werror to make warnings blow up so those can be looked at, e.g.
+ # with :cnext in vim.
 
 elif [[ $OSTYPE =~ "openbsd" ]]; then
   fpath=(~/.zsh/functions/openbsd $fpath)
