@@ -203,7 +203,7 @@ zstyle ':completion:*:*:prove:*' file-patterns '*.t:test\ files *(-/):directorie
 zstyle ':completion:*:*:showscore:*' file-patterns '*.pdf:PDF\ files *(-/):directories'
 
 # Texty things do not need to find binary things 99.x% of time
-zstyle ':completion:*:*:(bbedit|di|diff|less|vi|vim):*:all-files' ignored-patterns '*.o' '*.ps' '*.pdf' '*.midi' '*.mp3' '*.wav' '*.t2d'
+zstyle ':completion:*:*:(ack|bbedit|di|diff|*grep|less|vi|vim):*:all-files' ignored-patterns '*.o' '*.ps' '*.pdf' '*.midi' '*.mp3' '*.wav' '*.t2d' '*.eps' '*.aux' '*.bbl' '*.blg' '*.log' '*.toc'
 
 # Commands to ignore completion on as they 99.N% of the time just delay
 # me getting to what I want
