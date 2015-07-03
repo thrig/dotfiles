@@ -150,9 +150,17 @@ elif [[ $OSTYPE =~ "openbsd" ]]; then
 
   PKG_CONFIG_PATH=~/usr/$OSTYPE-$MACHTYPE/lib/pkgconfig
   LD_LIBRARY_PATH=~/usr/$OSTYPE-$MACHTYPE/lib
+
+  # TODO though this first required:
+  #  # export SCHEME_LIBRARY_PATH=/usr/local/share/slib/
+  #  # export GAMBIT_IMPLEMENTATION_PATH=/usr/local/lib/gambit-c
+  #  # gsi -:s /usr/local/share/slib/gambit.init -
+  #  > (require 'new-catalog)
+  export GAMBIT_IMPLEMENTATION_PATH=/usr/local/lib/gambit-c
+  SCHEME_LIBRARY_PATH=/usr/local/share/slib/
 fi
 
-export CC CFLAGS PKG_CONFIG_PATH LD_LIBRARY_PATH
+export CC CFLAGS PKG_CONFIG_PATH LD_LIBRARY_PATH SCHEME_LIBRARY_PATH
 
 # for my _dig completion script over in zsh-compdef
 typeset -aU dns_servers
@@ -449,6 +457,9 @@ alias mydate="TZ=US/Pacific mydate -dt"
 # trying to lookup broken things, and then you're C-cing and swearing and
 # loosing time on troubleshooting...
 alias netstat='netstat -n'
+
+# but do need local timezone when reading labels off of bottles
+alias now='TZ=US/Pacific now'
 
 # GNU license spam :(
 alias octave='octave --silent'
