@@ -106,7 +106,7 @@ map <S-K> <nop>
 " no splits.
 map <C-w> <nop>
 
-" custom key definitions
+" custom key definitions (prefix these with \ to obtain)
 map <Leader>a :keepmark .,$!autoformat<CR> 
 map <Leader>A :keepmark .,$!autoformat 
 map <Leader>t :keepmark %!perltidy<CR>
@@ -115,6 +115,10 @@ map <Leader>i :keepmark %!gindent -st<CR>
 
 " Easy saves, habit from growing up with load shedding
 map <Leader>g :w!<CR>
+
+" this opens a search on whatever is in the default register (mostly to avoid
+" needing to type in the <C-r>0 bit)
+map <Leader>/ /<C-r>0
 
 " Easy file flipping (used to be v/V); do not like the wrap-around on
 " bnext/bprev, so use next and previous (I only "argadd" to tack files onto the
