@@ -51,7 +51,7 @@ export LC_TIME=POSIX
 # http://hints.macworld.com/article.php?story=20110905185128781
 # (see also .vimrc, .tmux.conf, .terminfo directories for more ways to
 # kill off this "feature")
-export LESS="-iegX"
+export LESS="-iegX-j5"
 export LESSHISTFILE=/dev/null
 export LESSSECURE=1
 
