@@ -226,14 +226,22 @@ fi
 #
 # Key Bindings
 
-# Implicit vi mode due to EDITOR, though with following customizations.
-bindkey -M viins "^v" edit-command-line
-bindkey -M vicmd "^v" edit-command-line
-bindkey -M viins "^t" push-line-or-edit
-bindkey -M vicmd "^t" push-line-or-edit
-# bad habit from back when I used emacs
-bindkey -M viins "^R" history-incremental-search-backward
-bindkey -M vicmd "^R" history-incremental-search-backward
+# or you can be explicit instead of relying on EDITOR peeks
+bindkey -v
+
+local mode
+for mode in vicmd viins; do
+  bindkey -M $mode "^v" edit-command-line
+  bindkey -M $mode "^t" push-line-or-edit
+  # bad habit from back when I used emacs
+  bindkey -M $mode "^R" history-incremental-search-backward
+
+  # lets me know whether I'm in tmux or not
+  bindkey -M $mode "^P" up-history
+done
+
+bindkey -rpM viins '^['
+
 
 # lets me know whether I'm in tmux (formerly screen) or not
 bindkey "^P" up-history
