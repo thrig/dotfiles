@@ -1,10 +1,7 @@
 # NOTE not yet my actual ~/.zshrc, mostly example configs selected from
 # what I currently have.
 
-KEYTIMEOUT=1
-
-# as for NOMATCH, bash can be fixed via the 'failglob' option
-setopt BSD_ECHO EXTENDED_HISTORY HASH_CMDS HIST_FIND_NO_DUPS HIST_IGNORE_DUPS HIST_IGNORE_ALL_DUPS HIST_REDUCE_BLANKS HIST_SAVE_NO_DUPS INC_APPEND_HISTORY INTERACTIVE_COMMENTS LIST_PACKED LIST_ROWS_FIRST MAGIC_EQUAL_SUBST NOFLOW_CONTROL RM_STAR_SILENT NOMATCH EXTENDED_GLOB BRACE_CCL RC_EXPAND_PARAM
+setopt BSD_ECHO COMPLETE_IN_WORD EXTENDED_HISTORY HASH_CMDS HIST_FIND_NO_DUPS HIST_IGNORE_DUPS HIST_IGNORE_ALL_DUPS HIST_REDUCE_BLANKS HIST_SAVE_NO_DUPS INC_APPEND_HISTORY INTERACTIVE_COMMENTS LIST_PACKED LIST_ROWS_FIRST MAGIC_EQUAL_SUBST NOFLOW_CONTROL RM_STAR_SILENT EXTENDED_GLOB BRACE_CCL RC_EXPAND_PARAM
 unsetopt AUTO_NAME_DIRS AUTO_REMOVE_SLASH HIST_VERIFY MARK_DIRS promptcr
 
 ########################################################################
@@ -47,10 +44,14 @@ export LC_MONETARY=POSIX
 export LC_NUMERIC=POSIX
 export LC_TIME=POSIX
 
-# to disable the annoying term blanking from the "alternate screen" see
-# http://hints.macworld.com/article.php?story=20110905185128781
-# (see also .vimrc, .tmux.conf, .terminfo directories for more ways to
-# kill off this "feature")
+# Nuke the annoying alternate screen banking (on a per TERM basis) via:
+#
+#   infocmp | sed -e 's/[sr]mcup=[^,]*,//' > blah
+#   tic -o ~/.terminfo/ blah
+#   rm blah
+#
+# See also .vimrc and .tmux.conf for more ways to ensure the alternate
+# screen is never used.
 export LESS="-iegX-j5"
 export LESSHISTFILE=/dev/null
 export LESSSECURE=1
@@ -61,9 +62,6 @@ unset LESSOPEN LESSCLOSE
 
 # annoying distraction
 MAILCHECK=0
-
-# Default OS X list, minus tcl, which I do not use
-export MANSECT=1:1p:8:2:3:3p:4:5:6:7:9:0p:l:p:o
 
 # http_proxy set elsewhere
 export no_proxy="127.0.0.1"
@@ -76,8 +74,8 @@ export PERLDOC_PAGER='less -R'
 #export PERL_UNICODE=ALS
 
 # helps automate builds, also set
-# 'prerequisites_policy' => q[follow], in your .cpan/CPAN/MyConfig.pm
-# or use cpanm
+# 'prerequisites_policy' => q[follow], in ~/.cpan/CPAN/MyConfig.pm
+# (or install App::cpanminus and use cpanm)
 export PERL_MM_USE_DEFAULT=1
 
 # prompt - not having the machine name on remote logins is a bit too
@@ -114,14 +112,21 @@ ZLE_SPACE_SUFFIX_CHARS='&|'
 #
 # Completion Foo (and some compile flags)
 
-# NOTE this really should be done *before* that autoload foo
+# NOTE this must be done before autoload
 fpath=(~/.zsh/functions $fpath)
+
+typeset -TU PKG_CONFIG_PATH pkg_config_path
+typeset -TU LD_LIBRARY_PATH ld_library_path
+
+MYSYSID=
 
 if [[ $OSTYPE =~ "^darwin" ]]; then
   fpath=(~/.zsh/functions/darwin $fpath)
 
+  MYSYSID=$OSTYPE-$MACHTYPE
+
   # for MacPorts
-  export PKG_CONFIG_PATH=/opt/local/lib/pkgconfig
+  pkg_config_path=(/opt/local/lib/pkgconfig $pkg_config_path)
 
   CC=clang
 
@@ -129,27 +134,49 @@ if [[ $OSTYPE =~ "^darwin" ]]; then
   # of the gcc/clang man pages, with an eye towards as many warnings as
   # possible. Some compiles can therefore be very warning infested,
   # which hopefully folks will clean up one day.
-  # Add:
-  #   -L/opt/local/lib -I/opt/local/include
-  # to search the MacPorts space, though pkg-config might be handier:
-  #   CFLAGS="$(pkg-config --cflags --libs libzmq) $CFLAGS" make ...
-  # or similar in a Makefile:
-  #     $(CC) $(CFLAGS) $$(pkg-config ...) ...
   CFLAGS='-O2 -std=c11 -Wall -Wglobal-constructors -Winit-self -Wmissing-include-dirs -Wextra -Wdeclaration-after-statement -Wundef -Wshadow -Wpointer-arith -Wbad-function-cast -Wcast-qual -Wcast-align -Wwrite-strings -Wconversion -Wshorten-64-to-32 -Waggregate-return -Wold-style-definition -Wmissing-prototypes -Wmissing-declarations -Wmissing-field-initializers -Wredundant-decls -Wnested-externs -Winvalid-pch -pedantic -pipe'
- # These may need to be disabled when compiling certain things.
+ # This may need to be unset when compiling certain things.
+ #
  # Add -Werror to make warnings blow up so those can be looked at, e.g.
  # with :cnext in vim.
 
+  function showscore {
+    if [[ -n "$1" ]]; then
+      # Not really happy with any PDF viewer thus far, but Preview.app no
+      # worse than the rest. sigh. Nope, scratch that, Preview.app on Mac
+      # OS X 10.10 is unusable, as it automatically scrolls down to the
+      # end of the thus blank page with the new music hidden above, sigh.
+      #open --background -a Preview "$@"
+      #xpdf -remote music -exec "gotoLastPage" "$@"
+      open "$@"
+    else
+      open --background -a Preview *.pdf(om[1])
+    fi
+  }
+
+  zstyle ':completion:*:processes' command 'ps -A -o pid,user,command'
+
+  # help open find just the "*.pdf" when completing on a lilypond-built file
+  zstyle ':completion:*:*:open:*:all-files' ignored-patterns '*.ps' '*.ly'
+
 elif [[ $OSTYPE =~ "openbsd" ]]; then
   fpath=(~/.zsh/functions/openbsd $fpath)
+
+  MYSYSID=$OSTYPE-$MACHTYPE
 
   CC=gcc
   # NOTE with -fstack-protector-all things like 'return 0;' to exit from a
   # C program will cause aborts; use 'exit(0);' instead from <stdlib.h>.
   CFLAGS='-O2 -std=c99 -Wall -Winit-self -Wmissing-include-dirs -Wextra -Wdeclaration-after-statement -Wundef -Wshadow -Wpointer-arith -Wbad-function-cast -Wcast-qual -Wcast-align -Wwrite-strings -Wconversion -Waggregate-return -Wold-style-definition -Wmissing-prototypes -Wmissing-declarations -Wmissing-field-initializers -Wnested-externs -Winvalid-pch -pedantic -pipe -fstack-protector-all'
 
-  PKG_CONFIG_PATH=~/usr/$OSTYPE-$MACHTYPE/lib/pkgconfig
-  LD_LIBRARY_PATH=~/usr/$OSTYPE-$MACHTYPE/lib
+  function showscore {
+    if [[ -n "$1" ]]; then
+      open "$@"
+    else
+      # custom open implementation for OpenBSD, see scripts repo
+      open *.pdf(om[1])
+    fi
+  }
 
   # TODO though this first required:
   #  # export SCHEME_LIBRARY_PATH=/usr/local/share/slib/
@@ -160,15 +187,29 @@ elif [[ $OSTYPE =~ "openbsd" ]]; then
   SCHEME_LIBRARY_PATH=/usr/local/share/slib/
 fi
 
+if [[ -z $MYSYSID ]]; then
+  echo >&2 warning MYSISID not set on this platform
+else
+  # for a local software depot of sorts under my home dir (where the C
+  # stuff goes that is not in OS or ports/packages space)
+  pkg_config_path+=( ~/usr/$MYSYSID/lib/pkgconfig )
+  ld_library_path+=( ~/usr/$MYSYSID/lib )
+fi
+
 export CC CFLAGS PKG_CONFIG_PATH LD_LIBRARY_PATH SCHEME_LIBRARY_PATH
 
 # for my _dig completion script over in zsh-compdef
 typeset -aU dns_servers
 dns_servers=('\:\:1' 8.8.4.4)
 
-# might be handy, but I use my rename script instead
-#autoload -U zmv
+# always switch to command mode on ^R search
+function myvi-inc-search {
+  zle -K vicmd;
+  zle history-incremental-search-backward
+}
 
+zle -N myvi-inc-search
+# TODO url-quote-magic going away in recent zsh?
 autoload -U compinit edit-command-line select-word-style url-quote-magic
 compinit
 zle -N edit-command-line
@@ -184,7 +225,7 @@ zstyle ':completion:*:manuals' separate-sections true
 zstyle ':completion:*:warnings' format 'No matches: %d'
 # test no dups to these
 zstyle ':completion::*:(cvs-add|less|rm|vi*):*' ignore-line true
-# meh?
+# meh? (though good to document the fashions of the time of the book)
 #zstyle ':completion:*:*:cd:*' ignored-patterns '(*/|)(CVS|SCCS)'
 zstyle ':completion:*' ignore-parents parent pwd
 
@@ -217,14 +258,11 @@ zstyle ':completion:*:*:(ack|bbedit|di|diff|*grep|less|vi|vim):*:all-files' igno
 # me getting to what I want
 zstyle ':completion:*:*:-command-:*' ignored-patterns '(libtool|limit|link|linkicc|lipo|lispmtopgm|listings-ext.sh|listres|lilymidi|lilypond-book|lilypond-invoke-editor|lilysong|perlivp*|perlthanks*|perlbug*|perlcc*|perltex*|cron|*-config|libnetcfg*|pbm*)'
 
-if [[ $OSTYPE =~ "^darwin" ]]; then
-  zstyle ':completion:*:processes' command 'ps -A -o pid,user,command'
-  zstyle ':completion:*:*:open:*:all-files' ignored-patterns '*.ps' '*.ly'
-fi
-
 ########################################################################
 #
 # Key Bindings
+
+KEYTIMEOUT=1
 
 # or you can be explicit instead of relying on EDITOR peeks
 bindkey -v
@@ -234,14 +272,15 @@ for mode in vicmd viins; do
   bindkey -M $mode "^v" edit-command-line
   bindkey -M $mode "^t" push-line-or-edit
   # bad habit from back when I used emacs
-  bindkey -M $mode "^R" history-incremental-search-backward
+  bindkey -M $mode "^R" myvi-inc-search
 
   # lets me know whether I'm in tmux or not
   bindkey -M $mode "^P" up-history
 done
 
+# probably a bit extreme, as it nixes the arrow keys and such, but even
+# with KEYTIMEOUT at min value, that delay is still annoying.
 bindkey -rpM viins '^['
-
 
 # lets me know whether I'm in tmux (formerly screen) or not
 bindkey "^P" up-history
@@ -325,6 +364,15 @@ function gw {
   fi
 }
 
+# because I pretty much always forget to supply the device
+function midiplay {
+  if [[ $# -eq 1 ]]; then
+    =midiplay -f rmidi/0 $1
+  else
+    =midiplay "$@"
+  fi
+}
+
 function ssh {
   command ssh $@
   if [[ $? -ne 0 ]]; then
@@ -333,7 +381,9 @@ function ssh {
   fi
   if [[ -t 1 ]]; then
     stty sane
-    echo -ne "\e]2;\a"
+    # clear any title bar spam and ensure cursor is visible subsequent
+    # (civis hides the cursor)
+    echo -ne "\e]2;\a$terminfo[cvvis]"
   fi
 }
 
@@ -348,18 +398,22 @@ function j {
 }
 
 function lilypond {
+  local MRF MRP
+
   if [[ -n "$1" ]]; then
     command lilypond --silent -dno-point-and-click "$@"
   else
     # \include files trip this up, so name those with an extra .
     # somewhere in the filename, e.g. voice1.inc.ly (or hide them in
     # a subdir)
-    local MRF="$(glf --exclude='[.](?!ly$)' '\.ly' .)"
-    [[ -z $MRF ]] && {
+    MRF="$(glf --exclude='[.](?!ly$)' '\.ly' .)"
+
+    if [[ -z $MRF ]]; then
       echo >&2 "no *.ly found (or glf problem)"
       return 1
-    }
-    local MRP=${MRF:s/\.ly/.pdf}
+    fi
+
+    MRP=${MRF%%ly}pdf
 
     [[ ! -e $MRP || $MRF -nt $MRP ]] && {
       command lilypond --silent -dno-point-and-click $MRF
@@ -367,36 +421,27 @@ function lilypond {
   fi
 }
 
-function ndir {
-  NDIR=`buildir -p "$@" | tail -1`
-  [[ $? -ne 0 ]] && exit $?
-  builtin cd "$NDIR"
-}
-
 function pmr {
-  lilypond
-  tlymidity *.midi(om[1])
+  local -a midi_file
+
+  if [[ -n "$1" ]]; then
+    if [[ $1 == *.ly || -e $1.ly ]]; then
+      lilypond $1
+    elif [[ -f ${1:r}.ly ]]; then
+      lilypond ${1:r}.ly
+    else
+      midi_file=($1)
+    fi
+  fi
+
+  (( $#midi_file )) || midi_file=(*.midi(om[1]))
+
+  ~/libexec/player $midi_file
 }
 
 function pmt {
   # no, I don't use Module::Build nor dzil
   make realclean; perl Makefile.PL && make && make test |& less
-}
-
-function showscore {
-  if [[ -n "$1" ]]; then
-    # Not really happy with any PDF viewer thus far, but Preview.app no
-    # worse than the rest. sigh. Nope, scratch that, Preview.app on Mac
-    # OS X 10.10 is unusable, as it automatically scrolls down to the
-    # end of the thus blank page with the new music hidden above, sigh.
-    #open --background -a Preview "$@"
-    #xpdf -remote music -exec "gotoLastPage" "$@"
-    # This is my open(1) for OpenBSD, somewhere under scripts repo.
-    # It presently calls mupdf.
-    open *.pdf(om[1])
-  else
-    open --background -a Preview *.pdf(om[1])
-  fi
 }
 
 # ^D out of sqlite3 not clean (don't want to waste brain space on .q)
@@ -424,9 +469,6 @@ function vagrant {
 ########################################################################
 #
 # Aliases
-
-# don't use this no more no more no more no more
-#alias ,,="clear; cd"
 
 alias ack='ack --nocolor'
 
@@ -456,7 +498,8 @@ alias hs='fc -RI'
 
 alias ipcalc='ipcalc -n'
 
-unalias ls 2>/dev/null          # in event vendor set color crap somehow
+#unalias grep 2>/dev/null        # in event vendor set color crap somehow
+#unalias ls 2>/dev/null          # "
 
 # but in the event I want to see the local time... (another bad habit)
 alias mydate="TZ=US/Pacific mydate -dt"
@@ -491,29 +534,15 @@ alias stop='kill -TSTP'
 
 alias sudo='sudo -H'
 
-# but this gets sudo'd so probably not alias expanded. -ennl is my usual
-# default flag set
-#alias tcpdump='tcpdump -n'
-
-alias w3m='w3m -M'
-# opposite of which, really
-alias warlock='whence -a'
 alias xmllint="xmllint --encode utf8"
 
-if [[ $OSTYPE =~ "^darwin" ]]; then
+if [[ $OSTYPE == darwin* ]]; then
   alias bbedit="bbedit -b"
   alias ldd='otool -L'
   alias top='top -o CPU -F'
-  # rm means rm. -- except gnawing away at laptop HD, le sigh
-  #alias rm='srm -s -z'
 
   # as typing CamelCase sucks
   alias vbm='VBoxManage -q'
-
-  function pmr {
-    lilypond
-    pianoteq --preset D4\ Spacious --midi *.midi(om[1])
-  }
 
   # over in scripts repository -- jmates@ 2014-07-04
   # handy means for marking config files/wiki so folks know the who/when
@@ -521,6 +550,9 @@ if [[ $OSTYPE =~ "^darwin" ]]; then
   function tagit {
     =tagit -id | pbcopy
   }
+
+  # for ly-fu (install from MacPorts)
+  export SCORE_VIEWER=mupdf-x11
 
   # clear titlebar spam, if any
   echo -ne "\e]2;\a"

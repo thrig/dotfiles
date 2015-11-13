@@ -25,6 +25,8 @@ umask 002
 # are wont to be.)
 
 typeset -U path
+# (use `print -l ${(t)path} ${(t)PATH}` to inspect the types of these
+# associated variables)
 
 # Wipe out everything and start from scratch. Opinions vary on whether
 # or not this is a good idea, especially in .zshenv, which in most cases
@@ -33,6 +35,9 @@ typeset -U path
 # example, a laptop you never SSH to might set PATH elsewhere, while a
 # system you SSH to run commands on may need the directories those
 # commands reside in added to PATH via .zshenv or other means.
+#
+# Mac OS X users should beware the `path_helper` Apple runs in the
+# global shell rc files, or at least use it as a starting point.
 #
 # Need to set something here, as otherwise get a ":..." prefix which
 # acts the same as "." in the PATH, which I in no way ever want in
@@ -54,5 +59,4 @@ EOPATH
 
 # MANPATH and suchlike can also be setup in this fashion, but should not
 # be done here, but instead only in .zshrc (unless you have a command
-# run via SSH that needs MANPATH setup that early...)
-export PATH
+# run via say SSH that needs MANPATH setup for some reason...)
