@@ -245,7 +245,7 @@ zstyle ':completion:*:(rsync|scp|ssh|telnet):*' users root $USER
 zstyle ':completion:*' special-dirs ..
 
 zstyle ':completion:*:*:lilypond:*' file-patterns '*.ly:lilypond\ files *(-/):directories'
-zstyle ':completion:*:*:(pianoteq|timidity|tlymidity):*' file-patterns '*.(mid|MID|midi):MIDI\ files *(-/):directories'
+zstyle ':completion:*:*:(midiutil*:pianoteq|timidity|tlymidity):*' file-patterns '*.(mid|MID|midi):MIDI\ files *(-/):directories'
 
 zstyle ':completion:*:*:prove:*' file-patterns '*.t:test\ files *(-/):directories'
 
