@@ -479,7 +479,7 @@ alias arp='arp -n'
 alias atonal-util='atonal-util --ly --flats'
 
 # GNU license spam :(
-alias clisp='clisp --quiet -on-error abort -modern'
+alias clisp='clisp -q -q -on-error abort -modern'
 
 # preserve permissions by default (also for scp, below)
 alias cp='cp -p'
