@@ -522,6 +522,8 @@ alias psql='psql -A -q -S'
 # R license spam :(
 alias R='R --silent'
 
+alias sbcl='sbcl --noinform'
+
 alias scp='scp -p'
 
 # from 'Bash to Z Shell' book (`stty tostop` might also be handy to halt
