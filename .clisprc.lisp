@@ -48,17 +48,6 @@
 (defmacro clobber-file (file)
   `(open ,file :direction :output :if-exists :supersede))
 
-;;; totally not imitating the Perl function of a similar name
-;;; TODO probably horrible and inefficient and so forth
-;;; (the format version supplied a user-supplied format string
-;;; to the format expression but that didn't seem a keen idea...)
-(defmacro join (expr &rest list)
-  `(do ((i 1 (1+ i))
-        (llen (list-length (list ,@list)))
-        (str (first (list ,@list))))
-       ((>= i llen) str)
-       (setf str (concatenate 'string str ,expr (nth i (list ,@list))))))
-
 ;;; nixes return value (though there's still a trailing blank line in
 ;;; `clisp -q -q -x ...` output).
 (defmacro no-return (&body body)
@@ -69,6 +58,12 @@
 (defmacro pcl-with-gensyms ((&rest names) &body body)
   `(let ,(loop for n in names collect `(,n (gensym)))
      ,@body))
+
+;;; Like warnx, below, only for stdout
+(defmacro putf (format &rest args)
+  `(progn
+     (format *standard-output* ,format ,@args)
+     (fresh-line *standard-output*)))
 
 (defmacro random-list-item (alist)
   `(progn
@@ -87,6 +82,19 @@
        (do ((,repnum ,count (1- ,repnum)))
          ((< ,repnum 1) (return))
          (progn ,@body)))))
+
+;;; for music related needs. also note the (/= a b) function to check
+;;; whether the given values differ or not
+(defmacro sign-of (number)
+  `(if (minusp ,number) -1 1))
+
+;;; Lisp already has (warn) but I want something similar that emits to
+;;; stderr but without the WARNING prefix of (warn). So, copy a C
+;;; system call.
+(defmacro warnx (format &rest args)
+  `(progn
+     (format *error-output* ,format ,@args)
+     (fresh-line *error-output*)))
 
 ;;; copying Perl 'while' loop, roughly
 (defmacro while (expr &body body)
