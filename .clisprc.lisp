@@ -6,19 +6,31 @@
 (defmacro % (a b)
   `(mod (truncate ,a) (truncate ,b)))
 
-;;; temporarily capture a stream (likely stdout, hence following macro)
-;;; to a file and run whatever within that capture, e.g.
+(defmacro append-file (file)
+  `(open ,file
+         :direction :output
+         :if-exists :append
+         :if-does-not-exist :create))
+
+;;; Captures output to the given stream, sending it instead to the given
+;;; destination (a stream, otherwise assumed a filename that will be
+;;; opened and appended to) and runs the remainder of the arguments
+;;; within that capture. For example, to send the output of a (format)
+;;; call to "somefile", via the (capture-stdout) wrapper macro:
 ;;;   (capture-stdout "somefile" (format t ...))
-(defmacro capture (stream file &body body)
+(defmacro capture (stream where &body body)
   (let ((out (gensym)))
     `(progn
-       (setf ,out (clobber-file ,file))
+       (if (streamp ,where)
+         (setf ,out ,where)
+         (setf ,out (append-file ,where)))
        (when ,out
          (let ((,stream ,out)) ,@body)
-         (close ,out)))))
+         (if (not (streamp ,where))
+           (close ,out))))))
 
-(defmacro capture-stdout (file &body body)
-  `(capture *standard-output* ,file ,@body))
+(defmacro capture-stdout (where &body body)
+  `(capture *standard-output* ,where ,@body))
 
 ;;; lazy(?) way to peek at contents of a given file
 (defmacro cat (file)
@@ -64,6 +76,9 @@
   `(progn
      (format *standard-output* ,format ,@args)
      (fresh-line *standard-output*)))
+
+;;; Unix shell habit
+(defmacro pwd () `(cd))
 
 (defmacro random-list-item (alist)
   `(progn
