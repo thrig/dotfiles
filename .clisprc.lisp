@@ -98,6 +98,12 @@
          ((< ,repnum 1) (return))
          (progn ,@body)))))
 
+;;; this is backwards as an extension of (gethash) or (push) putting the
+;;; thing being pushed to or gotten from after the value (Perl is hash
+;;; key value form)
+(defmacro set-hash-value (value key hash)
+  `(setf (gethash ,key ,hash) ,value))
+
 ;;; for music related needs. also note the (/= a b) function to check
 ;;; whether the given values differ or not
 (defmacro sign-of (number)

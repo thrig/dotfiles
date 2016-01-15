@@ -113,6 +113,8 @@ map <Leader>t :keepmark %!perltidy<CR>
 " see .indent.pro
 map <Leader>i :keepmark %!gindent -st<CR>
 
+map <Leader>D :argdelete %<CR>:N<CR>
+
 " Easy saves, habit from growing up with load shedding
 map <Leader>g :w!<CR>
 
