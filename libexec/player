@@ -1,3 +1,0 @@
-#!/bin/sh
-# or might be pianoteq or something on Mac OS X
-exec timidity $1

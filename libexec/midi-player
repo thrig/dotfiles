@@ -1,0 +1,3 @@
+#!/bin/sh
+is-mute && exit 1
+exec tlymidity $1
