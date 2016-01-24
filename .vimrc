@@ -1,9 +1,10 @@
-" The RHEL defaults (ugh) prompted many of these settings. I'd be happy with vi,
-" except for the lack of multiple undos, and maintaining marks through filters.
+" The RHEL defaults (ugh) prompted many of these settings. I'd be happy
+" with vi, except for the lack of multiple undos, and maintaining marks
+" through filters.
 "
-" Though, "Practical Vim" has shown nifty things vim can do, so...
+" Though, "Practical Vim" has shown some nifty things vim can do...
 
-ab hbp #!/usr/bin/env perl<CR>use strict;<CR>use warnings;<CR>
+ab hbp #!/usr/bin/env perl<CR>use 5.14.0;<CR>
 ab DIAG use Data::Dumper; diag Dumper
 ab DIAC use Data::Dumper::Concise::Aligned; diag DumperA
 ab PUFF fprintf(stderr, "dbg
@@ -20,6 +21,9 @@ set syntax=no
 if version >= 600
   syntax off
 endif
+
+" nope.
+set mouse=
 
 " experiment w/ timouts
 set timeoutlen=1000 ttimeoutlen=0
@@ -46,6 +50,7 @@ set noshowmode
 set nosmartindent
 set notitle
 set uc=0
+" may need mkdir ~/.vim at some point on new systems
 set viminfo='1000,f1,<500,\"1000,:25,/25,n~/.vim/viminfo
 set wrapscan
 set wrap
@@ -60,14 +65,6 @@ set textwidth=0
 set tabstop=8
 set expandtab
 set shiftwidth=2
-
-au BufNewFile,BufRead *.ly set filetype=lilypond
-
-if has("autocmd")
-  filetype on
-  autocmd FileType make setlocal noexpandtab
-  autocmd FileType lilypond setlocal makeprg=playit\ %
-endif
 
 " more "Practical Vim" stuff
 set wildmenu
@@ -134,21 +131,47 @@ nnoremap <silent> ]b :n<CR>
 nnoremap <silent> [B :first<CR>
 nnoremap <silent> ]B :last<CR>
 
+" KLUGE assume UTF-8 by default
+if has("multi_byte")
+  "if &termencoding == ""
+  "  let &termencoding = &encoding
+  "endif
+  set encoding=utf-8
+  setglobal fileencoding=utf-8
+endif
+
+" Use the current filename as I more often have one-off scripts that
+" share the same directory rather than some huge project, or a specific
+" TeX file target. (lilypond gets a build-and-play-it script, below)
+" TODO warning messages getting picked up by :cnext ??
+set makeprg=make\ %:r
+
+if has("autocmd")
+  filetype on
+  autocmd FileType make setlocal noexpandtab
+endif
+
 if !exists("autocommands_loaded")
   let autocommands_loaded = 1
 
   " Workaround highly annoying 'more files to edit' (E173) bug
   au VimEnter * call VisitLastBuffer()
 
-  " TODO mixing Perl, Perl tests, C then gets wacky, but whatevs, not
-  " often a problem.
-  au BufNewFile,BufRead *.c  call SetupForC()
-  au BufNewFile,BufRead *.h  call SetupForC()
-
-  au BufNewFile,BufRead *.ly call SetupForLy()
+  au BufNewFile,BufRead,BufEnter *.c call SetupForC()
+  au BufNewFile,BufRead,BufEnter *.ino call SetupForC()
+  au BufNewFile,BufRead,BufEnter *.h call SetupForC()
+  au BufNewFile,BufRead,BufEnter *.lisp call SetupForLISP()
+  au BufNewFile,BufRead,BufEnter *.ly call SetupForLy()
+  au BufNewFile,BufRead,BufEnter *.t call SetupForPerlTests()
+  au BufNewFile,BufRead,BufEnter *.tex call SetupForTex()
 
   function SetupForC()
     set shiftwidth=4
+  endfunction
+
+  function SetupForLISP()
+    set lisp
+    map <Leader>t :w!<CR>:!clisp -on-error abort -modern -q -q -repl %<CR><CR>
   endfunction
 
   function SetupForLy()
@@ -157,7 +180,16 @@ if !exists("autocommands_loaded")
     " 10.10 is that Preview.app started scrolling automatically to the blank
     " bottom of the document, forcing a scroll back up to see the notes.
     " mupdf is delightfully free of such an annoyance.
-    map t :!playit<CR><CR>
+    map t :w!<CR>:!playit %<CR><CR>
+    set makeprg=playit\ %
+  endfunction
+
+  function SetupForPerlTests()
+    set makeprg=prove\ --blib\ --nocolor\ %:r
+  endfunction
+
+  function SetupForTex()
+    map <Leader>t :w!<CR>:!dotex %<CR><CR>
   endfunction
 
   function VisitLastBuffer()
