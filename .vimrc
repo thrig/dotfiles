@@ -7,7 +7,6 @@
 ab hbp #!/usr/bin/env perl<CR>use 5.14.0;<CR>
 ab DIAG use Data::Dumper; diag Dumper
 ab DIAC use Data::Dumper::Concise::Aligned; diag DumperA
-ab PUFF fprintf(stderr, "dbg
 ab PUDD use Data::Dumper; warn Dumper
 ab PUCC use Data::Dumper::Concise::Aligned; warn DumperA
 
@@ -72,8 +71,9 @@ set wildmode=full
 
 " preserve flags on repeated s///, "Practical Vim" tip (that I will doubtless
 " forget how to use)
-nnoremap & :&&<CR>
-xnoremap & :&&<CR>
+" yep, no idea what these do, haven't used them.
+"nnoremap & :&&<CR>
+"xnoremap & :&&<CR>
 
 " treat all numerals (for c-a, c-x) as decimals
 "set nrformats=
@@ -107,8 +107,6 @@ map <C-w> <nop>
 map <Leader>a :keepmark .,$!autoformat<CR> 
 map <Leader>A :keepmark .,$!autoformat 
 map <Leader>t :keepmark %!perltidy<CR>
-" see .indent.pro
-map <Leader>i :keepmark %!gindent -st<CR>
 
 map <Leader>D :argdelete %<CR>:N<CR>
 
@@ -146,13 +144,14 @@ endif
 " TODO warning messages getting picked up by :cnext ??
 set makeprg=make\ %:r
 
-if has("autocmd")
-  filetype on
-  autocmd FileType make setlocal noexpandtab
-endif
-
 if !exists("autocommands_loaded")
   let autocommands_loaded = 1
+
+  if has("autocmd")
+    filetype on
+    autocmd FileType make setlocal noexpandtab
+    autocmd FileType perl call SetupForPerl()
+  endif
 
   " Workaround highly annoying 'more files to edit' (E173) bug
   au VimEnter * call VisitLastBuffer()
@@ -166,11 +165,16 @@ if !exists("autocommands_loaded")
   au BufNewFile,BufRead,BufEnter *.tex call SetupForTex()
 
   function SetupForC()
-    set shiftwidth=4
+    setlocal shiftwidth=4
+    " see .indent.pro
+    map <Leader>i :keepmark %!gindent -st<CR>
+    ab PUFF fprintf(stderr, "dbg
   endfunction
 
   function SetupForLISP()
-    set lisp
+    setlocal lisp
+    " makes a temporary repl following the execution of the current document,
+    " simpler if less featureful than a slime-like emulation.
     map <Leader>t :w!<CR>:!clisp -on-error abort -modern -q -q -repl %<CR><CR>
   endfunction
 
@@ -181,11 +185,18 @@ if !exists("autocommands_loaded")
     " bottom of the document, forcing a scroll back up to see the notes.
     " mupdf is delightfully free of such an annoyance.
     map t :w!<CR>:!playit %<CR><CR>
-    set makeprg=playit\ %
+    setlocal makeprg=playit\ %
+  endfunction
+
+  function SetupForPerl()
+    " hmm, "i" for indent (gindent in c, or ...) and "t" for "try it out" ?
+    map <Leader>i :keepmark %!perltidy<CR>
+    map <Leader>t :keepmark %!perltidy<CR>
   endfunction
 
   function SetupForPerlTests()
-    set makeprg=prove\ --blib\ --nocolor\ %:r
+    call SetupForPerl()
+    setlocal makeprg=prove\ --blib\ --nocolor\ %:r
   endfunction
 
   function SetupForTex()
