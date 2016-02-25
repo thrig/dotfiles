@@ -4,7 +4,7 @@
 "
 " Though, "Practical Vim" has shown some nifty things vim can do...
 
-ab hbp #!/usr/bin/env perl<CR>use 5.14.0;<CR>
+ab hbp #!/usr/bin/env perl<CR>use 5.14.0;<CR>use warnings;<CR>
 ab DIAG use Data::Dumper; diag Dumper
 ab DIAC use Data::Dumper::Concise::Aligned; diag DumperA
 ab PUDD use Data::Dumper; warn Dumper
