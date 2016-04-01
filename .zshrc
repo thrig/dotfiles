@@ -209,11 +209,14 @@ function myvi-inc-search {
 }
 
 zle -N myvi-inc-search
-# TODO url-quote-magic going away in recent zsh?
-autoload -U compinit edit-command-line select-word-style url-quote-magic
+
+# aaargh. copy-paste totally busted in zsh 5.2, disable this wacky thing
+unset zle_bracketed_paste
+
+autoload -U compinit edit-command-line select-word-style
 compinit
 zle -N edit-command-line
-zle -N self-insert url-quote-magic
+
 # bad habits die hard
 select-word-style bash
 
