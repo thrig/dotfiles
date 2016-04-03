@@ -202,14 +202,6 @@ export CC CFLAGS PKG_CONFIG_PATH LD_LIBRARY_PATH SCHEME_LIBRARY_PATH
 typeset -aU dns_servers
 dns_servers=('\:\:1' 8.8.4.4)
 
-# always switch to command mode on ^R search
-function myvi-inc-search {
-  zle -K vicmd;
-  zle history-incremental-search-backward
-}
-
-zle -N myvi-inc-search
-
 # aaargh. copy-paste totally busted in zsh 5.2, disable this wacky thing
 unset zle_bracketed_paste
 
@@ -274,23 +266,41 @@ local mode
 for mode in vicmd viins; do
   bindkey -M $mode "^v" edit-command-line
   bindkey -M $mode "^t" push-line-or-edit
-  # bad habit from back when I used emacs
-  bindkey -M $mode "^R" myvi-inc-search
 
   # lets me know whether I'm in tmux or not
   bindkey -M $mode "^P" up-history
+  bindkey -M $mode "^N" down-history
 done
 
 # probably a bit extreme, as it nixes the arrow keys and such, but even
 # with KEYTIMEOUT at min value, that delay is still annoying.
 bindkey -rpM viins '^['
+bindkey -rpM vicmd '^['
 
-# lets me know whether I'm in tmux (formerly screen) or not
-bindkey "^P" up-history
+# mostly for "cp somelongname somelongnamewithtweaks" cases
+function myrepeat-last-word {
+  BUFFER="$BUFFER ${${(z)BUFFER}[-1]}"
+  CURSOR=$#BUFFER
+}
+zle -N myrepeat-last-word
+bindkey -M vicmd "^W" myrepeat-last-word
+bindkey -M viins "^W" myrepeat-last-word
 
 ########################################################################
 #
 # Functions
+
+function term-embiggen { echo -ne "\e[3;0;0t\e[8;0;0t" }
+function term-norm { echo -ne "\e[8;24;80t" }
+function term-chat { echo -ne "\e[8;34;80t" }
+function term-tall { echo -ne "\e[8;0;80t" }
+function term-floatleft { echo -ne "\e[3;0;0t" }
+# this is for laptop, and depends on font used, etc
+function term-floatright { echo -ne "\e[3;795;0t" }
+# possibly handy as "term-down; dosomelongcalc; term-up" (or more likely
+# for pranks on coworkers who leave their screens unlocked)
+function term-down { echo -ne "\e[2t" }
+function term-up { echo -ne "\e[1t" }
 
 function cd {
   if [[ -z "$1" ]]; then
