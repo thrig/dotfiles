@@ -121,6 +121,11 @@ typeset -TU LD_LIBRARY_PATH ld_library_path
 MYSYSID=
 
 if [[ $OSTYPE =~ "^darwin" ]]; then
+  # eff you Apple Terminal mouse reporting!
+  if [[ $TERM_PROGRAM = Apple_Terminal ]]; then
+    osascript -e 'tell application "System Events" to keystroke "r" using command down'
+  fi
+
   fpath=(~/.zsh/functions/darwin $fpath)
 
   MYSYSID=$OSTYPE-$MACHTYPE
