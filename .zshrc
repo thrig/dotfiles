@@ -128,15 +128,18 @@ if [[ $OSTYPE =~ "^darwin" ]]; then
   # for MacPorts
   pkg_config_path=(/opt/local/lib/pkgconfig $pkg_config_path)
 
+  # as ld(1) on OS X not doing the -Wl,-rpath=... linker thing
+  ld_library_path+=( ~/usr/$MYSYSID/lib )
+
   CC=clang
 
   # These either cargo-culted from elsewhere or copied in from a review
   # of the gcc/clang man pages, with an eye towards as many warnings as
   # possible. Some compiles can therefore be very warning infested,
   # which hopefully folks will clean up one day.
-  CFLAGS='-O2 -std=c11 -Wall -Wglobal-constructors -Winit-self -Wmissing-include-dirs -Wextra -Wdeclaration-after-statement -Wundef -Wshadow -Wpointer-arith -Wbad-function-cast -Wcast-qual -Wcast-align -Wwrite-strings -Wconversion -Wshorten-64-to-32 -Waggregate-return -Wold-style-definition -Wmissing-prototypes -Wmissing-declarations -Wmissing-field-initializers -Wredundant-decls -Wnested-externs -Winvalid-pch -pedantic -pipe'
- # This may need to be unset when compiling certain things.
- #
+  # (except only for reference, as setting these by default can break
+  # other things)
+  #CFLAGS='-O2 -std=c11 -Wall -Wglobal-constructors -Winit-self -Wmissing-include-dirs -Wextra -Wdeclaration-after-statement -Wundef -Wshadow -Wpointer-arith -Wbad-function-cast -Wcast-qual -Wcast-align -Wwrite-strings -Wconversion -Wshorten-64-to-32 -Waggregate-return -Wold-style-definition -Wmissing-prototypes -Wmissing-declarations -Wmissing-field-initializers -Wredundant-decls -Wnested-externs -Winvalid-pch -pedantic -pipe'
  # Add -Werror to make warnings blow up so those can be looked at, e.g.
  # with :cnext in vim.
 
@@ -167,7 +170,7 @@ elif [[ $OSTYPE =~ "openbsd" ]]; then
   CC=gcc
   # NOTE with -fstack-protector-all things like 'return 0;' to exit from a
   # C program will cause aborts; use 'exit(0);' instead from <stdlib.h>.
-  CFLAGS='-O2 -std=c99 -Wall -Winit-self -Wmissing-include-dirs -Wextra -Wdeclaration-after-statement -Wundef -Wshadow -Wpointer-arith -Wbad-function-cast -Wcast-qual -Wcast-align -Wwrite-strings -Wconversion -Waggregate-return -Wold-style-definition -Wmissing-prototypes -Wmissing-declarations -Wmissing-field-initializers -Wnested-externs -Winvalid-pch -pedantic -pipe -fstack-protector-all'
+  #CFLAGS='-O2 -std=c99 -Wall -Winit-self -Wmissing-include-dirs -Wextra -Wdeclaration-after-statement -Wundef -Wshadow -Wpointer-arith -Wbad-function-cast -Wcast-qual -Wcast-align -Wwrite-strings -Wconversion -Waggregate-return -Wold-style-definition -Wmissing-prototypes -Wmissing-declarations -Wmissing-field-initializers -Wnested-externs -Winvalid-pch -pedantic -pipe -fstack-protector-all'
 
   function showscore {
     if [[ -n "$1" ]]; then
@@ -193,10 +196,11 @@ else
   # for a local software depot of sorts under my home dir (where the C
   # stuff goes that is not in OS or ports/packages space)
   pkg_config_path+=( ~/usr/$MYSYSID/lib/pkgconfig )
-  ld_library_path+=( ~/usr/$MYSYSID/lib )
+  # NOTE LD_LIBRARY_PATH no longer set; instead build (if possible)
+  # with -Wl,-rpath=... linker option.
 fi
 
-export CC CFLAGS PKG_CONFIG_PATH LD_LIBRARY_PATH SCHEME_LIBRARY_PATH
+export CC PKG_CONFIG_PATH LD_LIBRARY_PATH SCHEME_LIBRARY_PATH
 
 # for my _dig completion script over in zsh-compdef
 typeset -aU dns_servers
