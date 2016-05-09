@@ -186,8 +186,8 @@ elif [[ $OSTYPE =~ "openbsd" ]]; then
   #  # export GAMBIT_IMPLEMENTATION_PATH=/usr/local/lib/gambit-c
   #  # gsi -:s /usr/local/share/slib/gambit.init -
   #  > (require 'new-catalog)
-  export GAMBIT_IMPLEMENTATION_PATH=/usr/local/lib/gambit-c
-  SCHEME_LIBRARY_PATH=/usr/local/share/slib/
+# export GAMBIT_IMPLEMENTATION_PATH=/usr/local/lib/gambit-c
+# SCHEME_LIBRARY_PATH=/usr/local/share/slib/
 fi
 
 if [[ -z $MYSYSID ]]; then
@@ -200,7 +200,8 @@ else
   # with -Wl,-rpath=... linker option.
 fi
 
-export CC PKG_CONFIG_PATH LD_LIBRARY_PATH SCHEME_LIBRARY_PATH
+export CC PKG_CONFIG_PATH LD_LIBRARY_PATH
+# SCHEME_LIBRARY_PATH
 
 # for my _dig completion script over in zsh-compdef
 typeset -aU dns_servers
@@ -566,9 +567,10 @@ if [[ $OSTYPE == darwin* ]]; then
   # over in scripts repository -- jmates@ 2014-07-04
   # handy means for marking config files/wiki so folks know the who/when
   # directly and do not have to delve back through version control or whatnot
-  function tagit {
-    =tagit -id | pbcopy
-  }
+# but not really using it so....
+# function tagit {
+#   =tagit -id | pbcopy
+# }
 
   # for ly-fu (install from MacPorts)
   export SCORE_VIEWER=mupdf-x11

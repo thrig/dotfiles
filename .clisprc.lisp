@@ -25,9 +25,10 @@
          (setf ,out ,where)
          (setf ,out (append-file ,where)))
        (when ,out
-         (let ((,stream ,out)) ,@body)
-         (if (not (streamp ,where))
-           (close ,out))))))
+         (let ((,stream ,out))
+           (unwind-protect (progn ,@body)
+             (if (not (streamp ,where))
+               (close ,out))))))))
 
 (defmacro capture-stdout (where &body body)
   `(capture *standard-output* ,where ,@body))
@@ -42,6 +43,15 @@
            while line do (format t "~a~%" line))
        (close ,in)))))
 
+;;; just the command line arguments, if any
+(defun cli-args ()
+  (or
+    #+CLISP ext:*args*
+    #+SBCL (cdr *posix-argv*)                ; nix the program name
+    #+LISPWORKS system:*line-arguments-list* ; untested
+    #+CMU extensions:*command-line-words*    ; untested
+    nil))
+
 ;;; Copies text into clipboard (assuming Mac OS X or that a PATH-available
 ;;; `pbcopy` command exists (that calls `xsel` or `xclip` or whatever) with
 ;;; the necessary arguments to set the clipboard from the contents of stdin.
@@ -53,12 +63,14 @@
        ; TODO needs better error checking
        (setf ,out (run-program "pbcopy" :input :stream :output nil))
        (when ,out
-         (write-string ,this ,out)
-         (close ,out)))))
+         (unwind-protect (write-string ,this ,out)
+           (close ,out))))))
 
 ;;; Returns stream (check if nil, though) to write to
 (defmacro clobber-file (file)
   `(open ,file :direction :output :if-exists :supersede))
+
+(defun coinflip () (plusp (random 2)))
 
 ;;; nixes return value (though there's still a trailing blank line in
 ;;; `clisp -q -q -x ...` output).
@@ -104,10 +116,24 @@
 (defmacro set-hash-value (value key hash)
   `(setf (gethash ,key ,hash) ,value))
 
+;;; and this form needs a '(key value key2 value2 ...) list. TODO might
+;;; want something that can make a string hash, populate it with a given
+;;; list, and return the hash?
+(defun set-hash-values (list hash)
+  ; without this guard value of trailing key would be nil, and there
+  ; would be no error
+  (if (oddp (list-length list)) (error "odd number of elements in list"))
+  (loop while list do
+        (set-hash-value (pop list) (pop list) hash)))
+
 ;;; for music related needs. also note the (/= a b) function to check
 ;;; whether the given values differ or not
 (defmacro sign-of (number)
   `(if (minusp ,number) -1 1))
+
+;;; as (last vector) barfs with not-a-list
+(defmacro vector-last (v) `(elt ,v (1- (length ,v))))
+(defmacro vector-index (v) `(1- (length ,v)))
 
 ;;; Lisp already has (warn) but I want something similar that emits to
 ;;; stderr but without the WARNING prefix of (warn). So, copy a C

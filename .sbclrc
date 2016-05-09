@@ -1,0 +1,7 @@
+(defun cli-args ()
+  (or
+    #+CLISP ext:*args*
+    #+SBCL (cdr *posix-argv*)
+    #+LISPWORKS system:*line-arguments-list* ; untested
+    #+CMU extensions:*command-line-words*    ; untested
+    nil))
