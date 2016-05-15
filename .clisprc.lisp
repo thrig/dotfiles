@@ -45,12 +45,16 @@
 
 ;;; just the command line arguments, if any
 (defun cli-args ()
-  (or
-    #+CLISP ext:*args*
-    #+SBCL (cdr *posix-argv*)                ; nix the program name
-    #+LISPWORKS system:*line-arguments-list* ; untested
-    #+CMU extensions:*command-line-words*    ; untested
-    nil))
+  #+CLISP ext:*args*
+  #+SBCL (cdr *posix-argv*)    ; nix the program name
+; not sure what these give so instead error out if encountered
+; #+LISPWORKS system:*line-arguments-list*
+; #+CMU extensions:*command-line-words*
+  #-(or CLISP SBCL) (error "Unimplemented"))
+; tested with:
+;   clisp .clisprc.lisp test test 1 2 3
+;   sbcl --script .clisprc.lisp test test 1 2 3
+;(print (cli-args)) (fresh-line)
 
 ;;; Copies text into clipboard (assuming Mac OS X or that a PATH-available
 ;;; `pbcopy` command exists (that calls `xsel` or `xclip` or whatever) with
@@ -130,6 +134,15 @@
 ;;; whether the given values differ or not
 (defmacro sign-of (number)
   `(if (minusp ,number) -1 1))
+
+;;; mostly so I can build a list up from either end; if building a list
+;;; only from one end, (push) and then (nreverse) if needed would be
+;;; more idiomatic (and efficient). probably needs more error handling.
+(defmacro unshift (item place)
+  `(progn
+     (unless (listp ,place) (error "place must be a list"))
+     (rplacd (last ,place) (cons ,item nil))
+     ,place))
 
 ;;; as (last vector) barfs with not-a-list
 (defmacro vector-last (v) `(elt ,v (1- (length ,v))))
