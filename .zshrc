@@ -544,6 +544,9 @@ alias sbcl='sbcl --noinform'
 
 alias scp='scp -p'
 
+alias show-cursor='echo -ne $terminfo[cvvis]'
+alias hide-cursor='echo -ne $terminfo[civis]'
+
 # from 'Bash to Z Shell' book (`stty tostop` might also be handy to halt
 # anything backgrounded if it tries to spam the console)
 alias stop='kill -TSTP'

@@ -15,3 +15,11 @@ proc repeat {n body} {
   }
   return $res
 }
+
+proc strreverse str {
+  set res ""
+  for {set i [string length $str]} {$i > 0} {} {
+    append res [string index $str [incr i -1]]
+  }
+  set res
+}
