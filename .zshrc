@@ -480,8 +480,23 @@ function timidity {
 }
 
 function vagrant {
-  # KLUGE no option to de-colorize the output, so hide terminal :(
-  command vagrant "$@" | cat
+  # okay so vagrant and gem piddling files all over $TMP and not
+  # cleaning them up is cute and all...
+  local vtmpdir=$TMP/.vagranttmpspam
+  [[ ! -d $vtmpdir ]] && mkdir $vtmpdir
+
+  (
+    TMP=$vtmpdir
+    TMPDIR=$TMP
+
+    # yay! now an option to disable colour vomit, so don't need | cat kluge
+    VAGRANT_NO_COLOR=1 =vagrant "$@"
+  )
+
+  # clear any term titlebar spam
+  if [[ -t 1 && $@ =~ ssh && ! $@ =~ ssh-config ]]; then
+    echo -ne "\e]2;\a\ec"
+  fi
 }
 
 ########################################################################
@@ -536,6 +551,8 @@ alias octave='octave --silent'
 alias prove='prove --nocolor --blib'
 
 alias psql='psql -A -q -S'
+
+alias puts='print -l'
 
 # R license spam :(
 alias R='R --silent'

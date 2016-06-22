@@ -153,8 +153,7 @@ if !exists("autocommands_loaded")
     autocmd FileType perl call SetupForPerl()
   endif
 
-  " Workaround highly annoying 'more files to edit' (E173) bug
-  au VimEnter * call VisitLastBuffer()
+  autocmd VimEnter * call StartupFoo()
 
   au BufNewFile,BufRead,BufEnter *.c call SetupForC()
   au BufNewFile,BufRead,BufEnter *.ino call SetupForC()
@@ -203,10 +202,18 @@ if !exists("autocommands_loaded")
     map <Leader>t :w!<CR>:!dotex %<CR><CR>
   endfunction
 
-  function VisitLastBuffer()
+  function StartupFoo()
+    " KLUGE workaround highly annoying 'more files to edit' (E173) bug
     if(argc()>1)
       last
       rewind
     endif
+    " never, ever edit a directory.
+    for f in argv()
+      if isdirectory(f)
+        echomsg "cowardly refusing to edit directory " . f
+        quit
+      endif
+    endfor
   endfunction
 endif
