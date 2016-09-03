@@ -4,7 +4,23 @@
 # otherwise big confusion with my ZSH prompt of "% "
 set tcl_prompt1 {printf "tclsh> "}
 
-# from the tcl apply docs
+# from book
+proc do {varname first last body} {
+  upvar $varname vv
+  for {set vv $first} {$vv <= $last} {incr vv} {
+    uplevel 1 $body
+  }
+}
+
+# "args" kind of like &rest foo in lisp?
+#proc listargs {args} {
+#  foreach el $args {
+#    puts [llength $el]
+#    puts $el
+#  }
+#}
+
+# from the tcl apply docs (for Tcl >= 8.5)
 #   map {x {string length $x}} {a bb ccc ddd}
 proc map {lambda list} {
   set res {}
@@ -29,13 +45,13 @@ proc numrange {from to {step 1}} {
 
 # totally not going to remember how to do it the tcl way
 proc shift {list} {
-  upvar $list ll
+  upvar 1 $list ll
   set ll [lassign $ll res]
   return $res
 }
 
 proc unshift {list val} {
-  upvar $list ll
+  upvar 1 $list ll
   # TODO how create if var not exist?
   set ll [linsert $ll 0 $val]
 }
@@ -46,11 +62,11 @@ foreach o [list + - * /] {
 }
 # more LISP
 proc 1+ {n} {
-  if {[string is digit $n]} { set x $n } { upvar $n x }
+  if {[string is digit $n]} { set x $n } { upvar 1 $n x }
   expr {$x + 1}
 }
 proc 1- {n} {
-  if {[string is digit $n]} { set x $n } { upvar $n x }
+  if {[string is digit $n]} { set x $n } { upvar 1 $n x }
   expr {$x - 1}
 }
 # even more LISP
@@ -60,7 +76,7 @@ proc reduce {call list} {
   if {$last > 1} {
     incr last -1
     foreach el [lrange $list 1 $last] {
-      set val [uplevel $call $val $el]
+      set val [uplevel 1 $call $val $el]
     }
   }
   return $val
@@ -70,7 +86,7 @@ proc repeat {n body} {
   set res ""
   while {$n} {
     incr n -1
-    set res [uplevel $body]
+    set res [uplevel 1 $body]
   }
   return $res
 }
