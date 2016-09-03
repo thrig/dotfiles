@@ -1,10 +1,69 @@
+#   puts $errorInfo
+# when things go awry for debug
+
 # otherwise big confusion with my ZSH prompt of "% "
 set tcl_prompt1 {printf "tclsh> "}
 
-# LISP, yo
-set operators [list + - * /]
-foreach o $operators {
+# from the tcl apply docs
+#   map {x {string length $x}} {a bb ccc ddd}
+proc map {lambda list} {
+  set res {}
+  foreach item $list {
+    lappend res [apply $lambda $item]
+  }
+  return $res
+}
+
+# TODO built-in or better equivalent of this?
+proc numrange {from to {step 1}} {
+  if {$from == $to} { return $from }
+  set res {}
+  set op [expr {($from < $to) ? [list <=] : [list >=]}]
+  if {$to < $from && $step > 0} { set step [expr -$step] }
+  while {[expr $from $op $to]} {
+    lappend res $from
+    set from [expr $from + $step]
+  }
+  return $res
+}
+
+# totally not going to remember how to do it the tcl way
+proc shift {list} {
+  upvar $list ll
+  set ll [lassign $ll res]
+  return $res
+}
+
+proc unshift {list val} {
+  upvar $list ll
+  # TODO how create if var not exist?
+  set ll [linsert $ll 0 $val]
+}
+
+# LISP
+foreach o [list + - * /] {
   proc $o {a b} [list expr "\$a $o \$b"]
+}
+# more LISP
+proc 1+ {n} {
+  if {[string is digit $n]} { set x $n } { upvar $n x }
+  expr {$x + 1}
+}
+proc 1- {n} {
+  if {[string is digit $n]} { set x $n } { upvar $n x }
+  expr {$x - 1}
+}
+# even more LISP
+proc reduce {call list} {
+  set val [lindex $list 0]
+  set last [llength $list]
+  if {$last > 1} {
+    incr last -1
+    foreach el [lrange $list 1 $last] {
+      set val [uplevel $call $val $el]
+    }
+  }
+  return $val
 }
 
 proc repeat {n body} {
