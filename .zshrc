@@ -401,7 +401,7 @@ function ssh {
     stty sane
     # clear any title bar spam and ensure cursor is visible subsequent
     # (civis hides the cursor)
-    echo -ne "\e]2;\a$terminfo[cvvis]"
+    echo -ne "\e]2;\a$terminfo[cnorm]"
   fi
 }
 
@@ -561,7 +561,9 @@ alias sbcl='sbcl --noinform'
 
 alias scp='scp -p'
 
-alias show-cursor='echo -ne $terminfo[cvvis]'
+# cnorm should undo both civis and cvvis, though "very visible" cursors
+# appear no different on the systems I use...
+alias show-cursor='echo -ne $terminfo[cnorm]'
 alias hide-cursor='echo -ne $terminfo[civis]'
 
 # from 'Bash to Z Shell' book (`stty tostop` might also be handy to halt
@@ -571,6 +573,8 @@ alias stop='kill -TSTP'
 #
 # Another fun thing for terminal foo:
 #   printf '%q\n' "$(tput cup 3 10)"
+# (and also `tput sc` ... `tput rc` to save/restore the cursor position
+# between whatever happens in ...)
 
 alias sudo='sudo -H'
 
