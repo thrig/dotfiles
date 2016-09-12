@@ -536,6 +536,7 @@ alias ipcalc='ipcalc -n'
 
 # but in the event I want to see the local time... (another bad habit)
 alias mydate="TZ=US/Pacific mydate -dt"
+alias realdate='tput civis; clear; while :; do sleep 1; echo 12:00; sleep 1; clear; done'
 
 # As I'm usually running netstat when things are broken, and then it stalls
 # trying to lookup broken things, and then you're C-cing and swearing and
