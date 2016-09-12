@@ -102,6 +102,15 @@
        (error "random-list-item needs a list to act on"))
      (nth (random (list-length ,alist)) ,alist)))
 
+;;; ported from my .tclshrc
+(defun range (min max &optional (step 1))
+  (if (zerop step) (error "step must not be zero"))
+  (setf op (if (< min max) #'> #'<))
+  (if (and (< max min) (plusp step)) (setf step (* step -1)))
+  (do ((list nil)) ((funcall op min max) (nreverse list))
+    (push min list)
+    (setf min (+ min step))))
+
 ;;; repeat N times doing something(s), e.g.
 ;;;   (repeat 4 (print "hi"))
 ;;;   (repeat 4 (print "hi") (print "there"))

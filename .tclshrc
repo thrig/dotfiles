@@ -31,7 +31,7 @@ proc map {lambda list} {
 }
 
 # TODO built-in or better equivalent of this?
-proc numrange {from to {step 1}} {
+proc range {from to {step 1}} {
   if {$from == $to} { return $from }
   set res {}
   set op [expr {($from < $to) ? [list <=] : [list >=]}]
