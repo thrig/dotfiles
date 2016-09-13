@@ -105,9 +105,9 @@
 ;;; ported from my .tclshrc
 (defun range (min max &optional (step 1))
   (if (zerop step) (error "step must not be zero"))
-  (setf op (if (< min max) #'> #'<))
   (if (and (< max min) (plusp step)) (setf step (* step -1)))
-  (do ((list nil)) ((funcall op min max) (nreverse list))
+  (do ((list nil) (op (if (< min max) #'> #'<)))
+    ((funcall op min max) (nreverse list))
     (push min list)
     (setf min (+ min step))))
 
