@@ -4,6 +4,10 @@
 # otherwise big confusion with my ZSH prompt of "% "
 set tcl_prompt1 {printf "tclsh> "}
 
+# compat with Perl
+proc chr {number} {format "%c" $number}   
+proc ord {string} {scan $string %c}
+
 # from book
 proc do {varname first last body} {
   upvar $varname vv
