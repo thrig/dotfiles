@@ -123,6 +123,11 @@ MYSYSID=
 if [[ $OSTYPE =~ "^darwin" ]]; then
   fpath=(~/.zsh/functions/darwin $fpath)
 
+  # Custom ordering with section 1 notably last so that builtin(1) or
+  # bash(1) or write(1) do not come up before the Perl, system, or TCL
+  # docs I'm actually trying to read.
+  export MANSECT=2:3:4:5:6:7:8:9:1p:3p:n:l:1
+
   MYSYSID=$OSTYPE-$MACHTYPE
 
   # for MacPorts
