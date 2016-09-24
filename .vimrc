@@ -161,6 +161,7 @@ if !exists("autocommands_loaded")
   au BufNewFile,BufRead,BufEnter *.lisp call SetupForLISP()
   au BufNewFile,BufRead,BufEnter *.ly call SetupForLy()
   au BufNewFile,BufRead,BufEnter *.t call SetupForPerlTests()
+  au BufNewFile,BufRead,BufEnter *.tcl call SetupForTCL()
   au BufNewFile,BufRead,BufEnter *.tex call SetupForTex()
 
   function SetupForC()
@@ -174,7 +175,7 @@ if !exists("autocommands_loaded")
     setlocal lisp
     " makes a temporary repl following the execution of the current document,
     " simpler if less featureful than a slime-like emulation.
-    map <Leader>t :w!<CR>:!clisp -on-error abort -modern -q -q -repl %<CR><CR>
+    map <Leader>t :w!<CR>:!feed % clisp -on-error abort -modern -q -q<CR><CR>
   endfunction
 
   function SetupForLy()
@@ -196,6 +197,10 @@ if !exists("autocommands_loaded")
   function SetupForPerlTests()
     call SetupForPerl()
     setlocal makeprg=prove\ --blib\ --nocolor\ %:r
+  endfunction
+
+  function SetupForTCL()
+    map <Leader>t :w!<CR>:!feed % tclsh<CR><CR>
   endfunction
 
   function SetupForTex()

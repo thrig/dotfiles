@@ -87,15 +87,6 @@
   `(let ,(loop for n in names collect `(,n (gensym)))
      ,@body))
 
-;;; Like warnx, below, only for stdout
-(defmacro putf (format &rest args)
-  `(progn
-     (format *standard-output* ,format ,@args)
-     (fresh-line *standard-output*)))
-
-;;; Unix shell habit
-(defmacro pwd () `(cd))
-
 (defmacro random-list-item (alist)
   `(progn
      (or (listp ,alist)
@@ -184,10 +175,9 @@
 ;;; Lisp already has (warn) but I want something similar that emits to
 ;;; stderr but without the WARNING prefix of (warn). So, copy a C
 ;;; system call.
-(defmacro warnx (format &rest args)
-  `(progn
-     (format *error-output* ,format ,@args)
-     (fresh-line *error-output*)))
+(defun warnx (format &rest args)
+  (format *error-output* format args)
+  (fresh-line *error-output*))
 
 ;;; copying Perl 'while' loop, roughly
 (defmacro while (expr &body body)
