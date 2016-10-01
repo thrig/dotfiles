@@ -554,8 +554,6 @@ alias now='TZ=US/Pacific now'
 # GNU license spam :(
 alias octave='octave --silent'
 
-alias prove='prove --nocolor --blib'
-
 alias psql='psql -A -q -S'
 
 alias puts='print -l'
