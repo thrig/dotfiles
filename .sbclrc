@@ -78,12 +78,6 @@
   `(let ,(loop for n in names collect `(,n (gensym)))
      ,@body))
 
-;;; Like warnx, below, only for stdout
-(defmacro putf (format &rest args)
-  `(progn
-     (format *standard-output* ,format ,@args)
-     (fresh-line *standard-output*)))
-
 (defmacro random-list-item (alist)
   `(progn
      (or (listp ,alist)
@@ -174,7 +168,8 @@
 ;;; system call.
 (defun warnx (format &rest args)
   (format *error-output* format args)
-  (fresh-line *error-output*))
+  (fresh-line *error-output*)
+  (values))
 
 ;;; copying Perl 'while' loop, roughly
 (defmacro while (expr &body body)

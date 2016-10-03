@@ -177,7 +177,8 @@
 ;;; system call.
 (defun warnx (format &rest args)
   (format *error-output* format args)
-  (fresh-line *error-output*))
+  (fresh-line *error-output*)
+  (values))
 
 ;;; copying Perl 'while' loop, roughly
 (defmacro while (expr &body body)
