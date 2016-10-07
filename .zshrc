@@ -237,6 +237,10 @@ zstyle ':completion:*' ignore-parents parent pwd
 # Make this exist for completion even if unset
 zstyle ':completion::*:(-command-|export):*' fake-parameters LD_LIBRARY_PATH:scalar
 
+# For use with my feed(1) util
+zstyle ':completion:*:*:feed:*:commands' fake-always clisp sbcl tclsh expect wish perl tinyrepl gdb
+zstyle ':completion:*:*:feed:*:commands' ignored-patterns '*'
+
 # perhaps good for /:cygdrive or for automount, if you have those
 #zstyle ':completion:*' fake-files '/somedir'
 
