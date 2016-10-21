@@ -212,9 +212,6 @@ export CC PKG_CONFIG_PATH LD_LIBRARY_PATH
 typeset -aU dns_servers
 dns_servers=('\:\:1' 8.8.4.4)
 
-# aaargh. copy-paste totally busted in zsh 5.2, disable this wacky thing
-unset zle_bracketed_paste
-
 autoload -U compinit edit-command-line select-word-style
 compinit
 zle -N edit-command-line
@@ -626,3 +623,6 @@ elif [[ $OSTYPE =~ "openbsd" ]]; then
   # for ly-fu
   export SCORE_VIEWER=mupdf
 fi
+
+# aaargh. copy-paste totally busted in zsh 5.2, disable this wacky thing
+unset zle_bracketed_paste
