@@ -7,9 +7,6 @@ export TZ=UTC
 export RSYNC_RSH='ssh -ax -o PreferredAuthentications=hostbased,publickey -o Cle
 arAllForwardings=yes'
 
-# can cause security warnings, but clever folks go-rwx those files
-umask 002
-
 # PATH setup for ZSH: arrays > annoying ${PATH:+$PATH:}$foo or, worse,
 # forking out to awk(1) for each and every path element. If concerned
 # about building PATH for each new shell, setup a Makefile or something
@@ -60,3 +57,18 @@ EOPATH
 # MANPATH and suchlike can also be setup in this fashion, but should not
 # be done here, but instead only in .zshrc (unless you have a command
 # run via say SSH that needs MANPATH setup for some reason...)
+
+if [[ -n $SUDO_COMMAND ]]; then
+  export TMP=$HOME/tmp
+  export TMPDIR=$HOME/tmp
+  # Used by various ZSH completion scripts, subject to usual local
+  # malicious user games if one uses the default. If $HOME is
+  # networked (you poor sap!) perhaps mktemp a directory under /tmp
+  # and then use that.
+  TMPPREFIX=$HOME/tmp/zsh
+else
+  # In event forgot to 'sudo -H' do not want to become someone else with
+  # these set (which is then a risk of TMPPREFIX attacks as that user,
+  # but hopefullly the 'sudo -s' bit isn't happening much if at all...
+  unset TMP TMPDIR TMPPREFIX
+fi

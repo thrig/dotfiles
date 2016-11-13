@@ -91,21 +91,6 @@ else
   PS1='%# '
 fi
 
-if [[ -n $SUDO_COMMAND ]]; then
-  export TMP=$HOME/tmp
-  export TMPDIR=$HOME/tmp
-  # Used by various ZSH completion scripts, subject to usual local
-  # malicious user games if one uses the default. If $HOME is
-  # networked (you poor sap!) perhaps mktemp a directory under /tmp
-  # and then use that.
-  TMPPREFIX=$HOME/tmp/zsh
-else
-  # In event forgot to 'sudo -H' do not want to become someone else with
-  # these set (which is then a risk of TMPPREFIX attacks as that user,
-  # but hopefullly the 'sudo -s' bit isn't happening much if at all...
-  unset TMP TMPDIR TMPPREFIX
-fi
-
 ZLE_SPACE_SUFFIX_CHARS='&|'
 
 ########################################################################
@@ -330,15 +315,24 @@ function cd {
   fi
 }
 
-# Except no gdb on Mac OS X so...
-if [[ ! $OSTYPE =~ "^darwin" ]]; then
-  # ugh, both GNU license spam, and then lack of echo when ^D out. bleh.
-  function gdb {
-    command gdb -q "$@"
-    echo
-  }
-fi
-
+# to get gdb workey on OS X (at least as of 10.11; 10.12 is unsupported
+# on my 2009 era macbook):
+#
+#   sudo pkg_add gcc6 gdb
+#   rehash
+#   ln -s =ggdb ~/bin/gdb
+#   port select --list gcc
+#   sudo port select --set gcc mp-gcc6
+#   rehash
+#   sudo dseditgroup -o edit -a $USER -t user procmod
+#
+# Then option-key-boot and then edit
+#   /System/Library/LaunchDaemons/com.apple.taskgated.plist 
+# and set flags to -sp
+function gdb {
+  command gdb -q "$@"
+  echo
+}
 function lldb {
   command lldb "$@"
   echo

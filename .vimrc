@@ -15,11 +15,13 @@ let loaded_matchparen = 1
 
 set noedcompatible
 
-" http://trout.me.uk/synhi.jpg
+" XTerm*colorMode:false in ~/.Xdefaults also good for killing wacky colors,
+" or if you're in a hurry try TERM=vt220 to nix them
 set syntax=no
 if version >= 600
   syntax off
 endif
+" http://trout.me.uk/synhi.jpg
 
 " nope.
 set mouse=
@@ -44,7 +46,7 @@ set noruler
 set scrolloff=5
 set shortmess=aoOItTW
 set noshowcmd
-set showmatch
+set noshowmatch
 set noshowmode
 set nosmartindent
 set notitle
@@ -63,7 +65,7 @@ set textwidth=0
 
 set tabstop=8
 set expandtab
-set shiftwidth=2
+set shiftwidth=4
 
 " more "Practical Vim" stuff
 set wildmenu
@@ -102,6 +104,9 @@ map <S-K> <nop>
 
 " no splits.
 map <C-w> <nop>
+
+" ESC can't ESC from this annoyance, disable
+map <q> <nop>
 
 " custom key definitions (prefix these with \ to obtain)
 map <Leader>a :keepmark .,$!autoformat<CR> 
@@ -158,6 +163,7 @@ if !exists("autocommands_loaded")
   au BufNewFile,BufRead,BufEnter *.c call SetupForC()
   au BufNewFile,BufRead,BufEnter *.ino call SetupForC()
   au BufNewFile,BufRead,BufEnter *.h call SetupForC()
+  au BufNewFile,BufRead,BufEnter *.gdb call SetupForGDB()
   au BufNewFile,BufRead,BufEnter *.lisp call SetupForLISP()
   au BufNewFile,BufRead,BufEnter *.ly call SetupForLy()
   au BufNewFile,BufRead,BufEnter *.t call SetupForPerlTests()
@@ -165,26 +171,31 @@ if !exists("autocommands_loaded")
   au BufNewFile,BufRead,BufEnter *.tex call SetupForTex()
 
   function SetupForC()
-    setlocal shiftwidth=4
     " see .indent.pro
     map <Leader>i :keepmark %!gindent -st<CR>
     ab PUFF fprintf(stderr, "dbg
   endfunction
+ 
+  function SetupForGDB()
+    map <Leader>t :!feed % gdb -q<CR><CR>
+  endfunction
 
   function SetupForLISP()
     setlocal lisp
+    set showmatch
     " makes a temporary repl following the execution of the current document,
     " simpler if less featureful than a slime-like emulation.
-    map <Leader>t :w!<CR>:!feed % clisp -on-error abort -modern -q -q<CR><CR>
+    map <Leader>t :!feed % clisp -on-error abort -modern -q -q<CR><CR>
   endfunction
 
   function SetupForLy()
+    setlocal shiftwidth=2
     " Show music (if not already loaded) and play it (unless speaker muted).
     " A major reason I switched to OpenBSD as primary instead of Mac OS X
     " 10.10 is that Preview.app started scrolling automatically to the blank
     " bottom of the document, forcing a scroll back up to see the notes.
     " mupdf is delightfully free of such an annoyance.
-    map t :w!<CR>:!playit %<CR><CR>
+    map t :!playit %<CR><CR>
     setlocal makeprg=playit\ %
   endfunction
 
@@ -200,11 +211,11 @@ if !exists("autocommands_loaded")
   endfunction
 
   function SetupForTCL()
-    map <Leader>t :w!<CR>:!feed % tclsh<CR><CR>
+    map <Leader>t :!feed % tclsh<CR><CR>
   endfunction
 
   function SetupForTex()
-    map <Leader>t :w!<CR>:!dotex %<CR><CR>
+    map <Leader>t :!dotex %<CR><CR>
   endfunction
 
   function StartupFoo()
