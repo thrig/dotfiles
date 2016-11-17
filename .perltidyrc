@@ -4,13 +4,13 @@
 # Output control
 -st	# output to STDOUT (so works with BBEdit or vi as Filter)
 -se	# errors to STDERR
--q	# deactivate error messages and syntax checking
+-q	# deativate error messages and syntax checking
 -nsyn	# no syntax checking
 --force-read-binary
 
 # Perl style preferences
 -l=80   # max line length
--i=2    # indentation level
+-i=4    # indentation level
 -ci=2   # continuation indentation level
 -cti=0  # non-block closing indentation
 -ce	# else cuddling
@@ -22,7 +22,7 @@
 -vt=2   # vertical tightness
 -vtc=0  # ditto, closing
 -nsfs	# no space around ; in for loops
--vmll   # variable max line len
+-vmll   # variable max line length
 #-nasc	# do not add missing optional ;
 -bar	# opening brace on right
 -nbbc   # no blanks before comments
