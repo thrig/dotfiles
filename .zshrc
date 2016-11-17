@@ -197,9 +197,6 @@ export CC PKG_CONFIG_PATH LD_LIBRARY_PATH
 typeset -aU dns_servers
 dns_servers=('\:\:1' 8.8.4.4)
 
-# aaargh. copy-paste totally busted in zsh 5.2, disable this wacky thing
-unset zle_bracketed_paste
-
 autoload -U compinit edit-command-line select-word-style
 compinit
 zle -N edit-command-line
@@ -221,6 +218,10 @@ zstyle ':completion:*' ignore-parents parent pwd
 
 # Make this exist for completion even if unset
 zstyle ':completion::*:(-command-|export):*' fake-parameters LD_LIBRARY_PATH:scalar
+
+# For use with my feed(1) util
+zstyle ':completion:*:*:feed:*:commands' fake-always clisp sbcl tclsh expect wish perl tinyrepl gdb
+zstyle ':completion:*:*:feed:*:commands' ignored-patterns '*'
 
 # perhaps good for /:cygdrive or for automount, if you have those
 #zstyle ':completion:*' fake-files '/somedir'
@@ -548,8 +549,6 @@ alias now='TZ=US/Pacific now'
 # GNU license spam :(
 alias octave='octave --silent'
 
-alias prove='prove --nocolor --blib'
-
 alias psql='psql -A -q -S'
 
 alias puts='print -l'
@@ -618,3 +617,6 @@ elif [[ $OSTYPE =~ "openbsd" ]]; then
   # for ly-fu
   export SCORE_VIEWER=mupdf
 fi
+
+# aaargh. copy-paste totally busted in zsh 5.2, disable this wacky thing
+unset zle_bracketed_paste
