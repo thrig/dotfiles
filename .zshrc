@@ -19,8 +19,6 @@ export VISUAL=vim
 # hopefully FTP dies one of these years: http://mywiki.wooledge.org/FtpMustDie
 export FTP_PASSIVE=1
 
-export GIT_SSH=$HOME/libexec/git_ssh
-
 # Write a function, Makefile, or script to capture anything crazy you're
 # doing on the CLI. Otherwise, toss history to avoid accumulating a
 # midden of shell commands.
@@ -237,6 +235,7 @@ zstyle ':completion:*' special-dirs ..
 
 zstyle ':completion:*:*:lilypond:*' file-patterns '*.ly:lilypond\ files *(-/):directories'
 zstyle ':completion:*:*:(midiutil*:pianoteq|timidity|tlymidity):*' file-patterns '*.(mid|MID|midi):MIDI\ files *(-/):directories'
+zstyle ':completion:*:*:mopen:*:all-files' file-patterns '*.pdf:PDF *(-/):directories'
 
 zstyle ':completion:*:*:prove:*' file-patterns '*.t:test\ files *(-/):directories'
 
@@ -472,11 +471,7 @@ function sqlite3 {
 # that inspects *.ly if available and reads timidity options from
 # special comment therein)
 function timidity {
-  if [[ -n "$1" ]]; then
-    command tlymidity "$@"
-  else
-    command tlymidity *.midi(om[1])
-  fi
+  command tlymidity "$@"
 }
 
 function vagrant {

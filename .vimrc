@@ -115,8 +115,8 @@ map <Leader>t :keepmark %!perltidy<CR>
 
 map <Leader>D :argdelete %<CR>:N<CR>
 
-" Easy saves, habit from growing up with load shedding
-map <Leader>g :w!<CR>
+" Easy saves (if necessary), habit from growing up with load shedding
+map <Leader>g :update<CR>
 
 " this opens a search on whatever is in the default register (mostly to avoid
 " needing to type in the <C-r>0 bit)

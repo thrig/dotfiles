@@ -1,0 +1,2 @@
+set checkout_dir(localhost) "co"
+set checkout_dir(linode)    "share"

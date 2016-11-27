@@ -3,6 +3,10 @@
 HISTFILE="$HOME/.sh_history"
 HISTSIZE=128
 
+if [ -n "$SSH_CLIENT" ]; then
+    PS1='lion$ '
+fi
+
 set -o markdirs
 set -o vi-tabcomplete
 
@@ -21,8 +25,6 @@ LOCO_TZ="@@BLAHBLAH@@"
 
 LANG="en_US.UTF-8"
 LC_MESSAGES=POSIX
-
-GIT_SSH=$HOME/libexec/git_ssh
 
 LESSHISTFILE="/dev/null"
 LESS="-igX-j5"
@@ -61,13 +63,20 @@ function cd {
     if [[ -z "$1" ]]; then
         builtin cd
     elif [[ -f "$1" ]]; then
-        builtin cd $(dirname "$1")
+        builtin cd "$(dirname "$1")"
     else
         builtin cd "$1"
     fi
 }
 function cleanup_term {
     printf "\033]2;\a"
+}
+function dc {
+    if [ -z "$1" ]; then
+        command dc -e '4 k' -
+    else
+        command dc -e '4 k' "$@"
+    fi
 }
 function gh {
     ssh gh "$@"
@@ -83,7 +92,7 @@ function ghre {
     fi
 }
 function gw {
-    ssh gh "$@"
+    ssh gw "$@"
     cleanup_term
 }
 function info {
@@ -132,7 +141,9 @@ alias scp='scp -p'
 # TODO tput for these?
 alias term-chat='printf "\033[8;34;80t"'
 alias term-norm='printf "\033[8;24;80t"'
+alias timidity=tlymidity
 alias top='top -o CPU -F'
 alias ttywrite='ttywrite -N'
 alias vbm='VBoxManage -q'
+alias vbm-showvirts='VBoxManage -q list vms'
 alias wv='ow -d'
