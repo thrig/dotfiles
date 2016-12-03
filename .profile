@@ -103,10 +103,10 @@ function j {
     jobs -l
 }
 function pmt {
-    if [[ -e Makefile.PL ]]; then
+    if [ -r Makefile.PL ]; then
         make clean;
         perl Makefile.PL && \
-        make && RELEASE_TESTING=1 TEST_SIGNATURE=1 make test |& $PAGER
+        make && RELEASE_TESTING=1 TEST_SIGNATURE=1 make test 2>&1 | $PAGER
     else
         false
     fi
@@ -142,7 +142,7 @@ alias scp='scp -p'
 alias term-chat='printf "\033[8;34;80t"'
 alias term-norm='printf "\033[8;24;80t"'
 alias timidity=tlymidity
-alias top='top -o CPU -F'
+alias top='top -o CPU -F; echo'
 alias ttywrite='ttywrite -N'
 alias vbm='VBoxManage -q'
 alias vbm-showvirts='VBoxManage -q list vms'
