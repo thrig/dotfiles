@@ -4,24 +4,16 @@
 "
 " Though, "Practical Vim" has shown some nifty things vim can do...
 
-ab hbp #!/usr/bin/env perl<CR>use 5.14.0;<CR>use warnings;<CR>
-ab DIAG use Data::Dumper; diag Dumper
-ab DIAC use Data::Dumper::Concise::Aligned; diag DumperA
-ab PUDD use Data::Dumper; warn Dumper
-ab PUCC use Data::Dumper::Concise::Aligned; warn DumperA
+ab hbp #!/usr/bin/env perl<CR>use 5.14.0;<CR>use warnings;<CR><Esc>:setf perl<CR>i
 
-" kill horrible brace highliting "feature"
-let loaded_matchparen = 1
-
-set noedcompatible
-
-" XTerm*colorMode:false in ~/.Xdefaults also good for killing wacky colors,
-" or if you're in a hurry try TERM=vt220 to nix them
+" XTerm*colorMode:false in ~/.Xdefaults also good for killing wacky
+" colors, or if you're in a hurry try TERM=vt220 to nix them
+"
+" http://trout.me.uk/synhi.jpg
 set syntax=no
 if version >= 600
-  syntax off
+    syntax off
 endif
-" http://trout.me.uk/synhi.jpg
 
 " nope.
 set mouse=
@@ -29,39 +21,49 @@ set mouse=
 " experiment w/ timouts
 set timeoutlen=1000 ttimeoutlen=0
 
+set noedcompatible
+
 set ignorecase
 
-set autoread
-set nobackup
-set nocindent
-set cpoptions+=!$
-set gdefault
-set nohlsearch
+" cursed vendor defaults require many of these
+set noshowmode
+set notitle
+set noshowcmd
+set syntax=no
+if version >= 600
+    syntax off
+endif
 set noincsearch
 set nojoinspaces
-set nomodeline
-set nomore
-set nopaste
-set noruler
-set scrolloff=5
+set cpoptions+=!$
+set nohlsearch
+set writeany
+set viminfo='1000,f1,<500,\"1000,:25,/25,n~/.viminfo
 set shortmess=aoOItTW
-set noshowcmd
-set noshowmatch
-set noshowmode
-set nosmartindent
-set notitle
-set uc=0
-" may need mkdir ~/.vim at some point on new systems
-set viminfo='1000,f1,<500,\"1000,:25,/25,n~/.vim/viminfo
+set noruler
+set nomodeline
+set gdefault
+
+set nobackup
+"set nowritebackup
+
+"set backspace=2
+set nopaste
 set wrapscan
 set wrap
-set writeany
+set uc=0
+set nomore
 
+set textwidth=0
+
+" hmmm. 
 set autoindent
 set nosmartindent
 set nocindent
+"set cinkeys-=0#
+"set indentkeys-=0#
 
-set textwidth=0
+set scrolloff=5
 
 set tabstop=8
 set expandtab
@@ -72,61 +74,30 @@ set wildmenu
 set wildmode=full
 
 " preserve flags on repeated s///, "Practical Vim" tip (that I will doubtless
-" forget how to use)
-" yep, no idea what these do, haven't used them.
+" forget how to use) yep forgot how to use
 "nnoremap & :&&<CR>
 "xnoremap & :&&<CR>
 
 " treat all numerals (for c-a, c-x) as decimals
-"set nrformats=
+set nrformats=
 
-" to disable the annoying term blanking from the "alternate screen" see also
+" disable annoying term blanking due to "alternate screen"
+" (can also be nixed from the terminfo files e.g. Linux has a bad case of this)
 " http://hints.macworld.com/article.php?story=20110905185128781
 set t_ti= t_te=
 
-" Avoid bad habits, keep fingers on home row.
-inoremap <up> <nop>
-inoremap <down> <nop>
-inoremap <left> <nop>
-inoremap <right> <nop>
-map <up> <nop>
-map <down> <nop>
-map <left> <nop>
-map <right> <nop>
-
-" argh. hate the help popup.
-map <F1> <Esc>
-nmap <F1> <Esc>
-imap <F1> <Esc>
-
-" what the heck is this?
-map <S-K> <nop>
-
-" no splits.
-map <C-w> <nop>
-
-" ESC can't ESC from this annoyance, disable
-map <q> <nop>
-
-" custom key definitions (prefix these with \ to obtain)
-map <Leader>a :keepmark .,$!autoformat<CR> 
-map <Leader>A :keepmark .,$!autoformat 
-map <Leader>t :keepmark %!perltidy<CR>
-
-map <Leader>D :argdelete %<CR>:N<CR>
-
-" Easy saves (if necessary), habit from growing up with load shedding
+" custom key definitions
+map <Leader>a :.,$!autoformat<CR> 
+map <Leader>A :.,$!autoformat 
 map <Leader>g :update<CR>
-
-" this opens a search on whatever is in the default register (mostly to avoid
-" needing to type in the <C-r>0 bit)
 map <Leader>/ /<C-r>0
+map <Leader>m :update<CR>:make<CR>
+map <Leader>c :cnext<CR>
+map <Leader>D :argdelete %<CR>:N<CR>
+" don't really use this...
+"map <Leader>W :set noreadonly<CR>:call system("chmod +w -- " . shellescape(expand("%")))<CR>
 
-" Easy file flipping (used to be v/V); do not like the wrap-around on
-" bnext/bprev, so use next and previous (I only "argadd" to tack files onto the
-" arg list, so can mostly ignore whatever superset the buffer list is of the
-" arg list), and save comes from autowrite so don't have to think about whether
-" or not some previous buffer is saved or not.
+set autoread
 set autowrite
 set noautowriteall
 nnoremap <silent> [b :N<CR>
@@ -134,102 +105,83 @@ nnoremap <silent> ]b :n<CR>
 nnoremap <silent> [B :first<CR>
 nnoremap <silent> ]B :last<CR>
 
-" KLUGE assume UTF-8 by default
+" argh. hate the help popup.
+map <F1> <Esc>
+nmap <F1> <Esc>
+imap <F1> <Esc>
+
+map <S-K> <nop>
+
+" arrow keys form bad habits, like moving fingers from home row
+map <up> <nop>
+map <down> <nop>
+map <left> <nop>
+map <right> <nop>
+inoremap <up> <nop>
+inoremap <down> <nop>
+inoremap <left> <nop>
+inoremap <right> <nop>
+
+" nope hit this by mistake and then ESC don't ESC
+map <q> <nop>
+
+" kill horrible brace highliting "feature"
+"let loaded_matchparen = 1
+set noshowmatch
+
+" assume UTF-8 by default. In the rare case not, will have to remember
+" to do something else.
 if has("multi_byte")
-  "if &termencoding == ""
-  "  let &termencoding = &encoding
-  "endif
-  set encoding=utf-8
-  setglobal fileencoding=utf-8
+    set encoding=utf-8
+    setglobal fileencoding=utf-8
 endif
 
 " Use the current filename as I more often have one-off scripts that
 " share the same directory rather than some huge project, or a specific
 " TeX file target. (lilypond gets a build-and-play-it script, below)
-" TODO warning messages getting picked up by :cnext ??
 set makeprg=make\ %:r
 
-if !exists("autocommands_loaded")
-  let autocommands_loaded = 1
+if has("autocmd")
+    if !exists("autocommands_loaded")
+        let autocommands_loaded = 1
 
-  if has("autocmd")
-    filetype on
-    autocmd FileType make setlocal noexpandtab
-    autocmd FileType perl call SetupForPerl()
-  endif
+        autocmd VimEnter * call StartupFoo()
+        filetype on
 
-  autocmd VimEnter * call StartupFoo()
+        au BufNewFile,BufRead,BufEnter *.gdb map <Leader>t :update<CR>:!feed % gdb -q<CR><CR>
+        au BufNewFile,BufRead,BufEnter *.ly setf lilypond
+        au BufNewFile,BufRead,BufEnter *.t setlocal makeprg=prove\ --blib\ %:r
+        au BufNewFile,BufRead,BufEnter *.zsh map <Leader>t :update<CR>:!feed % zsh -f<CR><CR>
 
-  au BufNewFile,BufRead,BufEnter *.c call SetupForC()
-  au BufNewFile,BufRead,BufEnter *.ino call SetupForC()
-  au BufNewFile,BufRead,BufEnter *.h call SetupForC()
-  au BufNewFile,BufRead,BufEnter *.gdb call SetupForGDB()
-  au BufNewFile,BufRead,BufEnter *.lisp call SetupForLISP()
-  au BufNewFile,BufRead,BufEnter *.ly call SetupForLy()
-  au BufNewFile,BufRead,BufEnter *.t call SetupForPerlTests()
-  au BufNewFile,BufRead,BufEnter *.tcl call SetupForTCL()
-  au BufNewFile,BufRead,BufEnter *.tex call SetupForTex()
+        autocmd FileType c map <Leader>i :%!gindent -st<CR>| ab PUFF fprintf(stderr, "dbg
 
-  function SetupForC()
-    " see .indent.pro
-    map <Leader>i :keepmark %!gindent -st<CR>
-    ab PUFF fprintf(stderr, "dbg
-  endfunction
- 
-  function SetupForGDB()
-    map <Leader>t :!feed % gdb -q<CR><CR>
-  endfunction
+        autocmd FileType forth map <Leader>t :update<CR>:!feed % gforth<CR><CR>
 
-  function SetupForLISP()
-    setlocal lisp
-    set showmatch
-    " makes a temporary repl following the execution of the current document,
-    " simpler if less featureful than a slime-like emulation.
-    map <Leader>t :!feed % clisp -on-error abort -modern -q -q<CR><CR>
-  endfunction
+        autocmd FileType lilypond setlocal shiftwidth=2 | setlocal makeprg=playit\ %\ nopager | map <Leader>t :update<CR>:!playit %<CR><CR>
 
-  function SetupForLy()
-    setlocal shiftwidth=2
-    " Show music (if not already loaded) and play it (unless speaker muted).
-    " A major reason I switched to OpenBSD as primary instead of Mac OS X
-    " 10.10 is that Preview.app started scrolling automatically to the blank
-    " bottom of the document, forcing a scroll back up to see the notes.
-    " mupdf is delightfully free of such an annoyance.
-    map t :!playit %<CR><CR>
-    setlocal makeprg=playit\ %
-  endfunction
+        autocmd FileType lisp setlocal lisp | setlocal showmatch | map <Leader>t :update<CR>:!feed % sbcl --noinform<CR><CR>| ab PUFF (format t "~a~%"
 
-  function SetupForPerl()
-    " hmm, "i" for indent (gindent in c, or ...) and "t" for "try it out" ?
-    map <Leader>i :keepmark %!perltidy<CR>
-    map <Leader>t :keepmark %!perltidy<CR>
-  endfunction
+        autocmd FileType make setlocal noexpandtab
 
-  function SetupForPerlTests()
-    call SetupForPerl()
-    setlocal makeprg=prove\ --blib\ --nocolor\ %:r
-  endfunction
+        autocmd FileType perl map <Leader>i :%!perltidy<CR>| ab DIAG use Data::Dumper; diag Dumper| ab DIAC use Data::Dumper::Concise::Aligned; diag DumperA| ab PUDD use Data::Dumper; warn Dumper| ab PUCC use Data::Dumper::Concise::Aligned; warn DumperA
 
-  function SetupForTCL()
-    map <Leader>t :!feed % tclsh<CR><CR>
-  endfunction
+        autocmd FileType tcl map <Leader>t :update<CR>:!feed % tclsh<CR><CR>
 
-  function SetupForTex()
-    map <Leader>t :!dotex %<CR><CR>
-  endfunction
+        autocmd FileType tex map <Leader>t :!make<CR><CR>
+    endif
+endif
 
-  function StartupFoo()
+function StartupFoo()
     " KLUGE workaround highly annoying 'more files to edit' (E173) bug
     if(argc()>1)
-      last
-      rewind
+        last
+        rewind
     endif
     " never, ever edit a directory.
     for f in argv()
-      if isdirectory(f)
-        echomsg "cowardly refusing to edit directory " . f
-        quit
-      endif
+        if isdirectory(f)
+            echomsg "cowardly refusing to edit directory " . f
+            quit
+        endif
     endfor
-  endfunction
-endif
+endfunction

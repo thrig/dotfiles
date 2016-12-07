@@ -89,6 +89,7 @@ function ghre {
     else
         ssh -t gh 'tmux attach'
         cleanup_term
+        reset
     fi
 }
 function gw {
@@ -124,6 +125,7 @@ alias cp='cp -p'
 alias cursor-hide='tput civis'
 alias cursor-show='tput cnorm'
 alias diff='diff -u'
+alias fecha="TZ=$LOCO_TZ date +'%Y-%m-%d %H:%M:%S'"
 alias findin='findin -q'
 alias gdb='gdb -q'
 alias hangup-ssh="pkill -HUP -u $USER ssh; apple-randomize-macaddr"
@@ -131,16 +133,16 @@ alias ipcalc='ipcalc -n'
 alias ldd='otool -L'
 # KLUGE no colors on account of xterm TERM
 alias mutt='TERM=vt220 mutt'
-alias mydate="TZ=$LOCO_TZ mydate -dt"
 alias now="TZ=$LOCO_TZ now"
 alias octave='octave --silent'
 alias prove='prove --nocolor --blib'
 alias R='R -q --silent --no-save'
-alias sbcl='sbcl --noinform --disable-ldb --lose-on-corruption'
+alias sbcl='sbcl --noinform'
 alias scp='scp -p'
 # TODO tput for these?
 alias term-chat='printf "\033[8;34;80t"'
 alias term-norm='printf "\033[8;24;80t"'
+alias term-tall='printf "\033[8;0;80t"'
 alias timidity=tlymidity
 alias top='top -o CPU -F; echo'
 alias ttywrite='ttywrite -N'

@@ -530,7 +530,7 @@ alias ipcalc='ipcalc -n'
 #unalias ls 2>/dev/null          # "
 
 # but in the event I want to see the local time... (another bad habit)
-alias mydate="TZ=US/Pacific mydate -dt"
+alias fecha="TZ=US/Pacific date +'%Y-%m-%d %H:%M:%S'"
 alias realdate='tput civis; clear; while :; do sleep 1; echo 12:00; sleep 1; clear; done'
 
 # As I'm usually running netstat when things are broken, and then it stalls
@@ -544,9 +544,10 @@ alias now='TZ=US/Pacific now'
 # GNU license spam :(
 alias octave='octave --silent'
 
-alias psql='psql -A -q -S'
+# really don't use databases
+#alias psql='psql -A -q -S'
 
-alias puts='print -l'
+#alias puts='print -l'
 
 # R license spam :(
 alias R='R --silent'
