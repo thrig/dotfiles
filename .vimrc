@@ -148,26 +148,26 @@ if has("autocmd")
         autocmd VimEnter * call StartupFoo()
         filetype on
 
-        au BufNewFile,BufRead,BufEnter *.gdb map <Leader>t :update<CR>:!feed % gdb -q<CR><CR>
+        au BufNewFile,BufRead,BufEnter *.gdb map <LocalLeader>t :update<CR>:!feed % gdb -q<CR><CR>
         au BufNewFile,BufRead,BufEnter *.ly setf lilypond
         au BufNewFile,BufRead,BufEnter *.t setlocal makeprg=prove\ --blib\ %:r
-        au BufNewFile,BufRead,BufEnter *.zsh map <Leader>t :update<CR>:!feed % zsh -f<CR><CR>
+        au BufNewFile,BufRead,BufEnter *.zsh map <LocalLeader>t :update<CR>:!feed % zsh -f<CR><CR>
 
-        autocmd FileType c map <Leader>i :%!gindent -st<CR>| ab PUFF fprintf(stderr, "dbg
+        autocmd FileType c map <LocalLeader>i :%!gindent -st<CR>| ab PUFF fprintf(stderr, "dbg
 
-        autocmd FileType forth map <Leader>t :update<CR>:!feed % gforth<CR><CR>
+        autocmd FileType forth map <LocalLeader>t :update<CR>:!feed % gforth<CR><CR>
 
-        autocmd FileType lilypond setlocal shiftwidth=2 | setlocal makeprg=playit\ %\ nopager | map <Leader>t :update<CR>:!playit %<CR><CR>
+        autocmd FileType lilypond setlocal shiftwidth=2 | setlocal makeprg=playit\ %\ nopager | map <LocalLeader>t :update<CR>:!playit %<CR><CR>
 
-        autocmd FileType lisp setlocal lisp | setlocal showmatch | map <Leader>t :update<CR>:!feed % sbcl --noinform<CR><CR>| ab PUFF (format t "~a~%"
+        autocmd FileType lisp setlocal lisp | setlocal showmatch | map <LocalLeader>t :update<CR>:!feed % sbcl --noinform<CR><CR>| ab PUFF (format t "~a~%"
 
         autocmd FileType make setlocal noexpandtab
 
-        autocmd FileType perl map <Leader>i :%!perltidy<CR>| ab DIAG use Data::Dumper; diag Dumper| ab DIAC use Data::Dumper::Concise::Aligned; diag DumperA| ab PUDD use Data::Dumper; warn Dumper| ab PUCC use Data::Dumper::Concise::Aligned; warn DumperA
+        autocmd FileType perl map <LocalLeader>i :%!perltidy<CR>| ab DIAG use Data::Dumper; diag Dumper| ab DIAC use Data::Dumper::Concise::Aligned; diag DumperA| ab PUDD use Data::Dumper; warn Dumper| ab PUCC use Data::Dumper::Concise::Aligned; warn DumperA
 
-        autocmd FileType tcl map <Leader>t :update<CR>:!feed % tclsh<CR><CR>
+        autocmd FileType tcl map <LocalLeader>t :update<CR>:!feed % tclsh<CR><CR>
 
-        autocmd FileType tex map <Leader>t :!make<CR><CR>
+        autocmd FileType tex map <LocalLeader>t :!make<CR><CR>
     endif
 endif
 

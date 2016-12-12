@@ -79,7 +79,7 @@ function dc {
     fi
 }
 function gh {
-    ssh gh "$@"
+    command ssh gh "$@"
     cleanup_term
 }
 function ghre {
@@ -87,13 +87,13 @@ function ghre {
         echo >&2 not while within tmux
         false
     else
-        ssh -t gh 'tmux attach'
+        command ssh -t gh 'tmux attach'
         cleanup_term
         reset
     fi
 }
 function gw {
-    ssh gw "$@"
+    command ssh gw "$@"
     cleanup_term
 }
 function info {
@@ -112,9 +112,14 @@ function pmt {
         false
     fi
 }
+function ssh {
+    command ssh "$@"
+    # because linux systems spam the title bar by default
+    cleanup_term
+}
 
 alias ack='ack --nocolor'
-alias anykey="getraw -o '*:+'"
+alias anykey="getraw -o '*:0'"
 alias atonal-util='atonal-util --ly --flats'
 alias bat='pmset -g ps'
 alias cdt="cd $TMP"
@@ -148,4 +153,4 @@ alias top='top -o CPU -F; echo'
 alias ttywrite='ttywrite -N'
 alias vbm='VBoxManage -q'
 alias vbm-showvirts='VBoxManage -q list vms'
-alias wv='ow -d'
+#alias xmltidy='xmllint --nsclean --encode UTF-8 --format'
