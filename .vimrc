@@ -158,10 +158,12 @@ if has("autocmd")
 
         autocmd FileType c map <LocalLeader>i :%!gindent -st<CR>| ab PUFF fprintf(stderr, "dbg
 
-        " NOTE probably requires
+        " NOTE gforth probably requires
         "   ln -s /dev/null ~/.gforth-history
         " to avoid spamming history with near-duplicate feed runs
-        autocmd FileType forth map <LocalLeader>t :update<CR>:!feed % gforth<CR><CR>
+        " sigh, portability, pfe no worky on OS X and gforth no worky
+        " on OpenBSD
+        autocmd FileType forth map <LocalLeader>t :update<CR>:!feed % ~/libexec/aforth<CR><CR>
 
         autocmd FileType lilypond setlocal shiftwidth=2 | setlocal makeprg=playit\ %\ nopager | map <LocalLeader>t :update<CR>:!playit %<CR><CR>
 

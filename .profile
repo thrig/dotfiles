@@ -144,6 +144,7 @@ alias ldd='otool -L'
 alias mutt='TERM=vt220 mutt'
 alias now="TZ=$LOCO_TZ now"
 alias octave='octave --silent'
+alias pfe="pfe -q -I $HOME"
 alias prove='prove --nocolor --blib'
 alias R='R -q --silent --no-save'
 alias sbcl='sbcl --noinform'
