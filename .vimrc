@@ -87,13 +87,15 @@ set nrformats=
 set t_ti= t_te=
 
 " custom key definitions
-map <Leader>a :.,$!autoformat<CR> 
-map <Leader>A :.,$!autoformat 
-map <Leader>g :update<CR>
 map <Leader>/ /<C-r>0
-map <Leader>m :update<CR>:make<CR>
-map <Leader>c :cnext<CR>
+map <Leader>A :.,$!autoformat 
 map <Leader>D :argdelete %<CR>:N<CR>
+map <Leader>a :.,$!autoformat<CR> 
+map <Leader>c :call system("enclippen " . shellescape("<C-r>0"))<CR>
+map <Leader>g :update<CR>
+map <Leader>m :update<CR>:make<CR>
+map <Leader>n :cnext<CR>
+
 " don't really use this...
 "map <Leader>W :set noreadonly<CR>:call system("chmod +w -- " . shellescape(expand("%")))<CR>
 
