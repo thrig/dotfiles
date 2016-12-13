@@ -148,6 +148,7 @@ if has("autocmd")
         autocmd VimEnter * call StartupFoo()
         filetype on
 
+        au BufNewFile,BufRead,BufEnter *.1 map <LocalLeader>t :update<CR>:!dmanview %<CR><CR>
         au BufNewFile,BufRead,BufEnter *.gdb map <LocalLeader>t :update<CR>:!feed % gdb -q<CR><CR>
         au BufNewFile,BufRead,BufEnter *.ly setf lilypond
         au BufNewFile,BufRead,BufEnter *.t setlocal makeprg=prove\ --blib\ %:r
@@ -155,6 +156,9 @@ if has("autocmd")
 
         autocmd FileType c map <LocalLeader>i :%!gindent -st<CR>| ab PUFF fprintf(stderr, "dbg
 
+        " NOTE probably requires
+        "   ln -s /dev/null ~/.gforth-history
+        " to avoid spamming history with near-duplicate feed runs
         autocmd FileType forth map <LocalLeader>t :update<CR>:!feed % gforth<CR><CR>
 
         autocmd FileType lilypond setlocal shiftwidth=2 | setlocal makeprg=playit\ %\ nopager | map <LocalLeader>t :update<CR>:!playit %<CR><CR>
