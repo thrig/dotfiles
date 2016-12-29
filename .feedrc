@@ -1,0 +1,79 @@
+# FORTH
+if {$tocall eq "pfe" || [string match "*forth*" $tocall]} {
+    # PFE is tricky as you have to wait for it to get up otherwise
+    # it ignores the input, hence check for "ok" -- but gforth does
+    # not print an "ok" at startup, argh.
+    expect -re {(ok|bye)}
+
+    proc dosomethingwith {line} {
+        # "\ " as a comment and not a line extender, so strange!
+        if {[regexp {^[[:blank:]]*(\\[[:blank:]].*)?$} $line]} { return }
+
+        send -- "$line\r"
+    }
+
+# GDB
+} elseif {$tocall eq "gdb"} {
+    proc dosomethingwith {line} {
+
+        if {[regexp {^[[:blank:]]*$} $line]} { return }
+        if {[regexp {^[#]} $line]} { return }
+
+        # TWEAK will need adjustment if `set prompt` has been
+        # customized in gdb; '>' is for "Breakpoint Command Lists"
+        # continuation lines
+        expect -re {\(gdb|>}
+
+        send -- "$line\r"
+    }
+
+# LISP
+} elseif {$tocall eq "clisp" || $tocall eq "sbcl"} {
+    proc dosomethingwith {line} {
+        # both clisp and sbcl hang on ; comments so MUST skip those,
+        # also skip blank lines as have yet to see them in lisp code...
+        if {[regexp {^[[:blank:]]*(;.*)?$} $line]} { return }
+
+        # only expect prompt if line starts with ( presumably a new
+        # statement
+        if {[regexp {^\(} $line]} {
+            expect -re {[*>] }
+        }
+
+        send -- "$line\r"
+    }
+
+# Perl
+} elseif {($tocall eq "perl" && "-d" in $argv)
+  || $tocall eq "tinyrepl"} {
+    proc dosomethingwith {line} {
+
+        if {[regexp {^[[:blank:]]*(#.*)?$} $line]} { return }
+
+        # always expect prompt, as the perl REPL appear to only consume
+        # one line without continuation
+        expect -re {(  DB<|re\.pl\$ )}
+
+        send -- "$line\r"
+    }
+
+# TCL
+} elseif {$tocall eq "expect"
+  || [string match "tclsh*" $tocall]
+  || [string match "wish*" $tocall]} {
+    proc dosomethingwith {line} {
+
+        # TCL allows # or ;# as comments though the latter is usually
+        # only after some statement that must be noted as ended
+        if {[regexp {^[[:blank:]]*(;?#.*)?$} $line]} { return }
+
+        # don't wait for prompt if line looks like continuation (via the
+        # leading whitespace or closing curly of a block)
+        if {![regexp {^[[:blank:]]*\}?} $line]} {
+            # default "% " prompt or I've instead set tcl_prompt1 to "foo> "
+            expect -re {[%>] }
+        }
+
+        send -- "$line\r"
+    }
+}
