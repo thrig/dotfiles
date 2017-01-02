@@ -29,10 +29,6 @@ set ignorecase
 set noshowmode
 set notitle
 set noshowcmd
-set syntax=no
-if version >= 600
-    syntax off
-endif
 set noincsearch
 set nojoinspaces
 set cpoptions+=!$

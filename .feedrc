@@ -29,7 +29,10 @@ if {$tocall eq "pfe" || [string match "*forth*" $tocall]} {
 
 # LISP
 } elseif {$tocall eq "clisp" || $tocall eq "sbcl"} {
+    set timeout .05
     proc dosomethingwith {line} {
+        global tocall
+
         # both clisp and sbcl hang on ; comments so MUST skip those,
         # also skip blank lines as have yet to see them in lisp code...
         if {[regexp {^[[:blank:]]*(;.*)?$} $line]} { return }
@@ -41,6 +44,13 @@ if {$tocall eq "pfe" || [string match "*forth*" $tocall]} {
         }
 
         send -- "$line\r"
+        sleep .05
+
+        if {$tocall eq "sbcl"} {
+            expect {
+                -ex "debugger invoked on a " interactionby
+            }
+        }
     }
 
 # Perl

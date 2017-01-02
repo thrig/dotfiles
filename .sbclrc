@@ -1,71 +1,93 @@
+;;; more-or-less tested with both clisp and sbcl. look for PORTABILITY
+;;; related things relevant to use on other implementations.
+
+;;; NOTE probably need to
+;;;   ln .sbclrc .clisprc.lisp
+
+(progn (setq *random-state* (make-random-state t)) (values))
+
 ;;; integer modulus more or less how Perl does it
 (defmacro % (a b)
   `(mod (truncate ,a) (truncate ,b)))
 
-(defmacro append-file (file)
-  `(open ,file
-         :direction :output
-         :if-exists :append
-         :if-does-not-exist :create))
+(defmacro capture-append (file &body body)
+  `(with-open-file
+     (*standard-output* ,file
+                        :direction :output
+                        :if-exists :append
+                        :if-does-not-exist :create)
+     ,@body))
 
-;;; Captures output to the given stream, sending it instead to the given
-;;; destination (a stream, otherwise assumed a filename that will be
-;;; opened and appended to) and runs the remainder of the arguments
-;;; within that capture. For example, to send the output of a (format)
-;;; call to "somefile", via the (capture-stdout) wrapper macro:
-;;;   (capture-stdout "somefile" (format t ...))
-(defmacro capture (stream where &body body)
-  (let ((out (gensym)))
-    `(progn
-       (if (streamp ,where)
-         (setf ,out ,where)
-         (setf ,out (append-file ,where)))
-       (when ,out
-         (let ((,stream ,out))
-           (unwind-protect (progn ,@body)
-             (if (not (streamp ,where))
-               (close ,out))))))))
-
-(defmacro capture-stdout (where &body body)
-  `(capture *standard-output* ,where ,@body))
+(defmacro capture-clobber (file &body body)
+  `(with-open-file
+     (*standard-output* ,file
+                        :direction :output
+                        :if-exists :supersede)
+     ,@body))
 
 ;;; lazy(?) way to peek at contents of a given file
-(defmacro cat (file)
-  (let ((in (gensym)))
-  `(progn
-     (setf ,in (open ,file :if-does-not-exist nil))
-     (when ,in
-       (loop for line = (read-line ,in nil)
-           while line do (format t "~a~%" line))
-       (close ,in)))))
+(defun cat (file)
+  (with-open-file (in file :if-does-not-exist nil)
+    (when in
+      (loop for line = (read-line in nil) while line do
+            (write-string line)
+            (fresh-line))
+      (values))))
 
+;;; PORTABILITY just the command line arguments, if any
 (defun cli-args ()
-  (or
-    #+CLISP ext:*args*
-    #+SBCL (cdr *posix-argv*)
-    #+LISPWORKS system:*line-arguments-list* ; untested
-    #+CMU extensions:*command-line-words*    ; untested
-    nil))
+  #+CLISP ext:*args*
+  #+SBCL (cdr *posix-argv*)    ; nix the program name
+; not sure what these give so instead error out if encountered
+; #+LISPWORKS system:*line-arguments-list*
+; #+CMU extensions:*command-line-words*
+  #-(or CLISP SBCL) (error "cli-args unimplemented"))
+; tested with:
+;   clisp .clisprc.lisp test test 1 2 3
+;   sbcl --script .clisprc.lisp test test 1 2 3
+;(print (cli-args)) (fresh-line)
 
-;;; Copies text into clipboard (assuming Mac OS X or that a PATH-available
-;;; `pbcopy` command exists (that calls `xsel` or `xclip` or whatever) with
-;;; the necessary arguments to set the clipboard from the contents of stdin.
+;;; more PORTABILITY
+(defun stream-to-program (prog &rest args)
+  #+CLISP (run-program prog
+                       :arguments args
+                       :input :stream
+                       :output nil)
+  #+SBCL (sb-ext:process-input
+           (sb-ext:run-program prog args
+                               :input :stream
+                               :output nil
+                               :search t
+                               :wait nil))
+  #-(or CLISP SBCL) (error "run-program unimplemented"))
+
+;;; Copies text into clipboard
 ;;;   (clippy "blah")
 ;;;   (clippy (format nil "~d" (truncate pi)))
+;;;
+;;; Assuming Mac OS X or that a `pbcopy` command exists that Does The
+;;; Right Thing, e.g. perhaps something like
+;;;
+;;;   #!/bin/sh
+;;;   exec xclip -in
+;;;
+;;; or instead with xsel, or whatever.
 (defmacro clippy (this)
   (let ((out (gensym)))
-    `(progn
-       ; TODO needs better error checking
-       (setf ,out (run-program "pbcopy" :input :stream :output nil))
-       (when ,out
-         (unwind-protect (write-string ,this ,out)
-           (close ,out))))))
-
-;;; Returns stream (check if nil, though) to write to
-(defmacro clobber-file (file)
-  `(open ,file :direction :output :if-exists :supersede))
+    `(with-open-stream (,out (stream-to-program "pbcopy"))
+       (unwind-protect (write-string ,this ,out))
+       (close ,out))))
 
 (defun coinflip () (plusp (random 2)))
+
+;;; reminder: probably want
+;;;   (make-hash-table :test 'equal)
+;;; as the default test is surprising coming from Perl
+(defun hash-empty (table)
+  (maphash #'(lambda (k unused) (remhash k table)) table))
+
+(defun hash-show (table)
+  (maphash #'(lambda (k v) (format t "~a => ~a~%" k v)) table))
 
 ;;; nixes return value (though there's still a trailing blank line in
 ;;; `clisp -q -q -x ...` output).
@@ -94,7 +116,7 @@
     (push min list)
     (setf min (+ min step))))
 
-;;; range + lambda so can say
+;;; range + reducing lambda so can say
 ;;;   (rangel 2 5 #'+)
 ;;; to avoid the generation-of-the-complete-list thing under
 ;;;   (reduce ... (range ...))
@@ -129,21 +151,16 @@
          ((< ,repnum 1) (return))
          (progn ,@body)))))
 
-;;; this is backwards as an extension of (gethash) or (push) putting the
-;;; thing being pushed to or gotten from after the value (Perl is hash
-;;; key value form)
-(defmacro set-hash-value (value key hash)
+(defmacro sethash (hash key &optional (value nil))
   `(setf (gethash ,key ,hash) ,value))
 
-;;; and this form needs a '(key value key2 value2 ...) list. TODO might
-;;; want something that can make a string hash, populate it with a given
-;;; list, and return the hash?
-(defun set-hash-values (list hash)
+;;; and this form needs a '(key value key2 value2 ...) list.
+(defun sethash-fromlist (hash list)
   ; without this guard value of trailing key would be nil, and there
   ; would be no error
   (if (oddp (list-length list)) (error "odd number of elements in list"))
   (loop while list do
-        (set-hash-value (pop list) (pop list) hash)))
+        (sethash hash (pop list) (pop list))))
 
 ;;; for music related needs. also note the (/= a b) function to check
 ;;; whether the given values differ or not
@@ -164,8 +181,9 @@
 (defmacro vector-index (v) `(1- (length ,v)))
 
 ;;; Lisp already has (warn) but I want something similar that emits to
-;;; stderr but without the WARNING prefix of (warn). So, copy a C
-;;; system call.
+;;; stderr but without the WARNING prefix of (warn). So, copy a C system
+;;; call. (reminder: ~& is like (fresh-line) within a format but then
+;;; the user would have to remember to use it in their format...)
 (defun warnx (format &rest args)
   (format *error-output* format args)
   (fresh-line *error-output*)
