@@ -4,7 +4,9 @@
 ;;; NOTE probably need to
 ;;;   ln .sbclrc .clisprc.lisp
 
-(progn (setq *random-state* (make-random-state t)) (values))
+;;; (progn ... (values)) is another way to prevent the return value from
+;;; make-random-state from cluttering up the output
+(block nil (setq *random-state* (make-random-state t)) (return))
 
 ;;; integer modulus more or less how Perl does it
 (defmacro % (a b)
@@ -47,20 +49,6 @@
 ;   sbcl --script .clisprc.lisp test test 1 2 3
 ;(print (cli-args)) (fresh-line)
 
-;;; more PORTABILITY
-(defun stream-to-program (prog &rest args)
-  #+CLISP (run-program prog
-                       :arguments args
-                       :input :stream
-                       :output nil)
-  #+SBCL (sb-ext:process-input
-           (sb-ext:run-program prog args
-                               :input :stream
-                               :output nil
-                               :search t
-                               :wait nil))
-  #-(or CLISP SBCL) (error "run-program unimplemented"))
-
 ;;; Copies text into clipboard
 ;;;   (clippy "blah")
 ;;;   (clippy (format nil "~d" (truncate pi)))
@@ -75,15 +63,17 @@
 (defmacro clippy (this)
   (let ((out (gensym)))
     `(with-open-stream (,out (stream-to-program "pbcopy"))
-       (unwind-protect (write-string ,this ,out))
-       (close ,out))))
+       (unwind-protect (write-string ,this ,out)
+         (close ,out)))))
 
 (defun coinflip () (plusp (random 2)))
 
 ;;; reminder: probably want
 ;;;   (make-hash-table :test 'equal)
 ;;; as the default test is surprising coming from Perl
+;;; PORTABILITY style warning reduction for SBCL
 (defun hash-empty (table)
+  #+SBCL (declare (sb-ext:muffle-conditions style-warning))
   (maphash #'(lambda (k unused) (remhash k table)) table))
 
 (defun hash-show (table)
@@ -166,6 +156,20 @@
 ;;; whether the given values differ or not
 (defmacro sign-of (number)
   `(if (minusp ,number) -1 1))
+
+;;; more PORTABILITY
+(defun stream-to-program (prog &rest args)
+  #+CLISP (run-program prog
+                       :arguments args
+                       :input :stream
+                       :output nil)
+  #+SBCL (sb-ext:process-input
+           (sb-ext:run-program prog args
+                               :input :stream
+                               :output nil
+                               :search t
+                               :wait nil))
+  #-(or CLISP SBCL) (error "run-program unimplemented"))
 
 ;;; mostly so I can build a list up from either end; if building a list
 ;;; only from one end, (push) and then (nreverse) if needed would be
