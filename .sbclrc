@@ -29,12 +29,11 @@
 
 ;;; lazy(?) way to peek at contents of a given file
 (defun cat (file)
-  (with-open-file (in file :if-does-not-exist nil)
-    (when in
-      (loop for line = (read-line in nil) while line do
-            (write-string line)
-            (fresh-line))
-      (values))))
+  (with-open-file (in file)
+    (loop for line = (read-line in nil) while line do
+          (write-string line)
+          (fresh-line))
+    (values)))
 
 ;;; PORTABILITY just the command line arguments, if any
 (defun cli-args ()
@@ -154,8 +153,8 @@
 
 ;;; for music related needs. also note the (/= a b) function to check
 ;;; whether the given values differ or not
-(defmacro sign-of (number)
-  `(if (minusp ,number) -1 1))
+(defun sign-of (number)
+  (if (minusp number) -1 1))
 
 ;;; more PORTABILITY
 (defun stream-to-program (prog &rest args)
@@ -173,11 +172,12 @@
 
 ;;; mostly so I can build a list up from either end; if building a list
 ;;; only from one end, (push) and then (nreverse) if needed would be
-;;; more idiomatic (and efficient). probably needs more error handling.
+;;; more idiomatic (and efficient).
 (defmacro unshift (item place)
   `(progn
-     (unless (listp ,place) (error "place must be a list"))
-     (rplacd (last ,place) (cons ,item nil))
+     (if (consp ,place)
+       (rplacd (last ,place) (cons ,item nil))
+       (setf ,place (cons ,item nil)))
      ,place))
 
 ;;; as (last vector) barfs with not-a-list
@@ -195,4 +195,4 @@
 
 ;;; copying Perl 'while' loop, roughly
 (defmacro while (expr &body body)
-  `(do () ((not ,expr)) (progn ,@body)))
+  `(tagbody check (if ,expr (progn ,@body (go check)))))
