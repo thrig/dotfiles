@@ -1,1 +1,2 @@
-moveamount 11
+moveamount 1
+bind C-F1 lock

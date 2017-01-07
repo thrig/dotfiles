@@ -130,6 +130,7 @@ alias cdt="cd $TMP"
 alias clisp='clisp -q -q -on-error abort -modern'
 # TODO tput for this?
 alias clterm='printf "\033]2;\a"'
+alias commit='git commit -a'
 alias cp='cp -p'
 alias cursor-hide='tput civis'
 alias cursor-show='tput cnorm'

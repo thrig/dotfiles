@@ -4,7 +4,7 @@ XTerm*alwaysHighlight:  false
 XTerm*background:black
 XTerm*colorMode:false
 XTerm*cursorBlink:      false
-XTerm*cursorColor:white
+XTerm*cursorColor:gold
 XTerm*dynamicColors:false
 XTerm*foreground:gold
 XTerm*loginShell:       true
@@ -12,19 +12,23 @@ XTerm*loginShell:true
 XTerm*pointerMode:      1
 XTerm*scrollBar:false
 XTerm*titleInhibit: true
+XTerm*saveLines: 0
 
 UXTerm*background:black
-UXTerm*faceName:Mono
-UXTerm*faceSize:18
+UXTerm*colorMode:true
+UXTerm*faceName:noto
+UXTerm*dynamicColors:true
+UXTerm*faceSize:20
 UXTerm*foreground:gold
 UXTerm*pointerMode:      1
+UXTerm*saveLines: 0
 UXTerm*scrollBar:false
 UXTerm*titleInhibit: true
 
 urxvt*secondaryScreen: false
 
-xload*background:       white
-xload*foreground:       black
+xload*background:       black
+xload*foreground:       gold
 xload*highlight:        darkred
 xload*showLabel:        false
 xload*update:           3

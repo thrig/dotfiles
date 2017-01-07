@@ -169,15 +169,6 @@ elif [[ $OSTYPE =~ "openbsd" ]]; then
     fi
   }
 
-  # TODO though this first required:
-  #  # export SCHEME_LIBRARY_PATH=/usr/local/share/slib/
-  #  # export GAMBIT_IMPLEMENTATION_PATH=/usr/local/lib/gambit-c
-  #  # gsi -:s /usr/local/share/slib/gambit.init -
-  #  > (require 'new-catalog)
-# export GAMBIT_IMPLEMENTATION_PATH=/usr/local/lib/gambit-c
-# SCHEME_LIBRARY_PATH=/usr/local/share/slib/
-fi
-
 if [[ -z $MYSYSID ]]; then
   echo >&2 warning MYSISID not set on this platform
 else
