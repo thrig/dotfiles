@@ -22,3 +22,5 @@ export LESSHISTFILE=/dev/null
 export LESSSECURE=1
 
 alias firefox='firefox -no-remote'
+
+set -o vi

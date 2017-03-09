@@ -3,7 +3,7 @@
 HISTFILE="$HOME/.sh_history"
 HISTSIZE=128
 
-if [ -n "$SSH_CLIENT" ]; then
+if [ -n "$SSH_CLIENT" -o -n "$TMUX" ]; then
     PS1='lion$ '
 fi
 
