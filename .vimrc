@@ -169,7 +169,7 @@ if has("autocmd")
 
         autocmd FileType perl map <LocalLeader>i :%!perltidy<CR>| ab DIAG use Data::Dumper; diag Dumper| ab DIAC use Data::Dumper::Concise::Aligned; diag DumperA| ab PUDD use Data::Dumper; warn Dumper| ab PUCC use Data::Dumper::Concise::Aligned; warn DumperA
 
-        autocmd FileType tcl map <LocalLeader>t :update<CR>:!feed % tclsh<CR><CR>
+        autocmd FileType tcl map <LocalLeader>t :update<CR>:!feed % expect<CR><CR>
 
         autocmd FileType tex map <LocalLeader>t :!make<CR><CR>
     endif

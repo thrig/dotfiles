@@ -71,17 +71,17 @@ if {$tocall eq "pfe" || [string match "*forth*" $tocall]} {
 } elseif {$tocall eq "expect"
   || [string match "tclsh*" $tocall]
   || [string match "wish*" $tocall]} {
+
     proc dosomethingwith {line} {
 
         # TCL allows # or ;# as comments though the latter is usually
         # only after some statement that must be noted as ended
         if {[regexp {^[[:blank:]]*(;?#.*)?$} $line]} { return }
 
-        # don't wait for prompt if line looks like continuation (via the
-        # leading whitespace or closing curly of a block)
-        if {![regexp {^[[:blank:]]*\}?} $line]} {
+        if {[regexp {^[A-Za-z:0-9_]} $line]} {
             # default "% " prompt or I've instead set tcl_prompt1 to "foo> "
-            expect -re {[%>] }
+            # also do not match expect's "+>" continuation prompts
+            expect -re {[^+][%>] }
         }
 
         send -- "$line\r"
