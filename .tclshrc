@@ -8,15 +8,24 @@ set tcl_prompt1 {printf "tclsh> "}
 proc chr {number} {format "%c" $number}   
 proc ord {string} {scan $string %c}
 
-# from book
+# from book (second blood part II)
 proc do {varname first last body} {
-  upvar $varname vv
+  upvar 1 $varname vv
   for {set vv $first} {$vv <= $last} {incr vv} {
-    uplevel 1 $body
+    set code [catch {uplevel 1 $body} msg options]
+    switch -- $code {
+      0 -
+      4   {}
+      3   {return}
+      default {
+        dict incr options -level
+        return -options $options $msg
+      }
+    }
   }
 }
 
-# "args" kind of like &rest foo in lisp?
+# "args" kind of like &rest foo in lisp? - yes!
 #proc listargs {args} {
 #  foreach el $args {
 #    puts [llength $el]
@@ -80,7 +89,16 @@ proc reduce {call list} {
   if {$last > 1} {
     incr last -1
     foreach el [lrange $list 1 $last] {
-      set val [uplevel 1 $call $val $el]
+      set code [catch {set val [uplevel 1 $call $val $el]} msg options]
+      switch -- $code {
+        0 -
+        4   {}
+        3   {return}
+        default {
+          dict incr options -level
+          return -options $options $msg
+        }
+      }
     }
   }
   return $val
@@ -90,7 +108,16 @@ proc repeat {n body} {
   set res ""
   while {$n} {
     incr n -1
-    set res [uplevel 1 $body]
+    set code [catch {set res [uplevel 1 $body]} msg options]
+    switch -- $code {
+      0 -
+      4   {}
+      3   {return}
+      default {
+        dict incr options -level
+        return -options $options $msg
+      }
+    }
   }
   return $res
 }
