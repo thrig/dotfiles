@@ -7,7 +7,10 @@ if [ -n "$SSH_CLIENT" -o -n "$TMUX" ]; then
     PS1='lion$ '
 fi
 
+# NOTE markdirs may influence what rsync copies; related ZSH option is
+# the MARK_DIRS setopt
 set -o markdirs
+
 set -o vi-tabcomplete
 
 set -o allexport
