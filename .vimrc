@@ -82,6 +82,23 @@ set nrformats=
 " http://hints.macworld.com/article.php?story=20110905185128781
 set t_ti= t_te=
 
+" bracketed paste foo from http://stackoverflow.com/questions/5585129
+" ... but note that pasting from a CSS-infested browser can be a terrible idea
+if &term =~ "xterm.*"
+    let &t_ti = &t_ti . "\e[?2004h"
+    let &t_te = "\e[?2004l" . &t_te
+    function XTermPasteBegin(ret)
+        set pastetoggle=<Esc>[201~
+        set paste
+        return a:ret
+    endfunction
+    map <expr> <Esc>[200~ XTermPasteBegin("i")
+    imap <expr> <Esc>[200~ XTermPasteBegin("")
+    vmap <expr> <Esc>[200~ XTermPasteBegin("c")
+    cmap <Esc>[200~ <nop>
+    cmap <Esc>[201~ <nop>
+endif
+
 " custom key definitions
 map <Leader>/ /<C-r>0
 map <Leader>A :.,$!autoformat 

@@ -132,7 +132,7 @@ if [[ $OSTYPE =~ "^darwin" ]]; then
  # with :cnext in vim.
 
   function showscore {
-    if [[ -n "$1" ]]; then
+    if [[ -n $1 ]]; then
       # Not really happy with any PDF viewer thus far, but Preview.app no
       # worse than the rest. sigh. Nope, scratch that, Preview.app on Mac
       # OS X 10.10 is unusable, as it automatically scrolls down to the
@@ -161,7 +161,7 @@ elif [[ $OSTYPE =~ "openbsd" ]]; then
   #CFLAGS='-O2 -std=c99 -Wall -Winit-self -Wmissing-include-dirs -Wextra -Wdeclaration-after-statement -Wundef -Wshadow -Wpointer-arith -Wbad-function-cast -Wcast-qual -Wcast-align -Wwrite-strings -Wconversion -Waggregate-return -Wold-style-definition -Wmissing-prototypes -Wmissing-declarations -Wmissing-field-initializers -Wnested-externs -Winvalid-pch -pedantic -pipe -fstack-protector-all'
 
   function showscore {
-    if [[ -n "$1" ]]; then
+    if [[ -n $1 ]]; then
       open "$@"
     else
       # custom open implementation for OpenBSD, see scripts repo
@@ -289,20 +289,17 @@ function term-down { echo -ne "\e[2t" }
 function term-up { echo -ne "\e[1t" }
 
 function cd {
-  if [[ -z "$1" ]]; then
+  if [[ -z $1 ]]; then
     builtin cd
-  # steal from osse/dotfiles
-  elif [[ $1 = :/ ]]; then
-    builtin cd "$(git rev-parse --show-toplevel)"
-  elif [[ -f "$1" ]]; then
-    builtin cd "${1:h}"
-  elif [[ "$1" = "-" ]]; then
+  elif [[ -f $1 ]]; then
+    builtin cd ${1:h}
+  elif [[ $1 == - ]]; then
     builtin cd -
-  elif [[ ! -e "$1" ]]; then
-    echo >&2 cd: no such file or directory: $1
+  elif [[ ! -e $1 ]]; then
+    echo >&2 "cd: no such file or directory: $1"
     return 1
   else
-    builtin cd "$1"
+    builtin cd $1
   fi
 }
 
@@ -408,13 +405,13 @@ function j {
 function lilypond {
   local MRF MRP
 
-  if [[ -n "$1" ]]; then
+  if [[ -n $1 ]]; then
     command lilypond --silent -dno-point-and-click "$@"
   else
     # \include files trip this up, so name those with an extra .
     # somewhere in the filename, e.g. voice1.inc.ly (or hide them in
     # a subdir)
-    MRF="$(glf --exclude='[.](?!ly$)' '\.ly' .)"
+    MRF=$(glf --exclude='[.](?!ly$)' '\.ly' .)
 
     if [[ -z $MRF ]]; then
       echo >&2 "no *.ly found (or glf problem)"
@@ -432,7 +429,7 @@ function lilypond {
 function pmr {
   local -a midi_file
 
-  if [[ -n "$1" ]]; then
+  if [[ -n $1 ]]; then
     if [[ $1 == *.ly || -e $1.ly ]]; then
       lilypond $1
     elif [[ -f ${1:r}.ly ]]; then
@@ -558,7 +555,7 @@ alias stop='kill -TSTP'
 # TODO need hammertime
 #
 # Another fun thing for terminal foo:
-#   printf '%q\n' "$(tput cup 3 10)"
+#   printf '%q\n' $(tput cup 3 10)
 # (and also `tput sc` ... `tput rc` to save/restore the cursor position
 # between whatever happens in ...)
 
