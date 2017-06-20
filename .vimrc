@@ -104,7 +104,9 @@ map <Leader>/ /<C-r>0
 map <Leader>A :.,$!autoformat 
 map <Leader>D :argdelete %<CR>:N<CR>
 map <Leader>a :.,$!autoformat<CR> 
-map <Leader>c :call system("enclippen " . shellescape("<C-r>0"))<CR>
+map <Leader>ca :%!copycat<CR>
+map <Leader>cl :.!copycat<CR>
+map <Leader>cr :call system("enclippen " . shellescape("<C-r>0"))<CR>
 map <Leader>g :update<CR>
 map <Leader>m :update<CR>:make<CR>
 map <Leader>n :cnext<CR>
@@ -163,7 +165,7 @@ if has("autocmd")
         autocmd VimEnter * call StartupFoo()
         filetype on
 
-        au BufNewFile,BufRead,BufEnter *.1 map <LocalLeader>t :update<CR>:!dmanview %<CR><CR>
+        au BufNewFile,BufRead,BufEnter *.[13] map <LocalLeader>t :update<CR>:!dmanview %<CR><CR>
         au BufNewFile,BufRead,BufEnter *.gdb map <LocalLeader>t :update<CR>:!feed % gdb -q<CR><CR>
         au BufNewFile,BufRead,BufEnter *.ly setf lilypond
         au BufNewFile,BufRead,BufEnter *.t setlocal makeprg=prove\ --blib\ %:r

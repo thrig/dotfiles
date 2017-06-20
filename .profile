@@ -15,6 +15,8 @@ set -o vi-tabcomplete
 
 set -o allexport
 
+ENV=$HOME/.profile
+
 #no_proxy="127.0.0.1"
 #http_proxy="http://127.0.0.1:@@BLAHBLAH@@"
 #https_proxy="http://127.0.0.1:@@BLAHBLAH@@"
@@ -163,3 +165,4 @@ alias ttywrite='ttywrite -N'
 alias vbm='VBoxManage -q'
 alias vbm-showvirts='VBoxManage -q list vms'
 #alias xmltidy='xmllint --nsclean --encode UTF-8 --format'
+alias xpquery='xpquery -E UTF-8'
