@@ -1,0 +1,21 @@
+[core]
+	excludesfile = ~/.gitignore
+	pager = 
+	editor = vim
+	autocrlf = false
+[init]
+        templateDir = ~/.gittemplate
+[alias]
+	amend = commit --amend --no-edit
+	br = branch
+	ci = commit -q
+	co = checkout
+	di = diff
+	last = log --stat -1 HEAD
+	rbi = rebase -i
+	st = status -sb
+	unstage = reset HEAD --
+[push]
+	default = simple
+[color]
+	ui = false
