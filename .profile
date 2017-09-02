@@ -11,7 +11,7 @@ fi
 # the MARK_DIRS setopt
 set -o markdirs
 
-set -o vi-tabcomplete
+set -o vi
 
 set -o allexport
 
@@ -30,7 +30,7 @@ LOCO_TZ="@@BLAHBLAH@@"
 
 # TODO so not portable. Also no rc file option implemented, :/
 # so this then requires a "require .gforth.fs" in each source file.
-GFORTHPATH=/opt/local/lib/gforth/0.7.3:$HOME
+#GFORTHPATH=/opt/local/lib/gforth/0.7.3:$HOME
 
 LANG="en_US.UTF-8"
 LC_MESSAGES=POSIX
