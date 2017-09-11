@@ -3,17 +3,26 @@
 " through filters.
 "
 " Though, "Practical Vim" has shown some nifty things vim can do...
+"
+" capture stuff with e.g. redir
+"   :redir @b|sil let|redir end
 
-ab hbp #!/usr/bin/env perl<CR>use 5.14.0;<CR>use warnings;<CR><Esc>:setf perl<CR>i
+iabbrev hbp #!/usr/bin/env perl<CR>use 5.14.0;<CR>use warnings;<CR><Esc>:setf perl<CR>i
+
+"digraph n ñ
+" <C-k>n? for ñ or <C-k>a' for á and ?I for ¿  and !I for ¡
+" assuming utf-8 mapping (defaulted on, below)
 
 " XTerm*colorMode:false in ~/.Xdefaults also good for killing wacky
 " colors, or if you're in a hurry try TERM=vt220 to nix them
 "
 " http://trout.me.uk/synhi.jpg
-set syntax=no
-if version >= 600
-    syntax off
-endif
+"
+" Pretty sure not running anything before vim 6 anywhere...
+"set syntax=no
+"if version >= 600
+syntax off
+"endif
 
 " nope.
 set mouse=
@@ -24,6 +33,8 @@ set timeoutlen=1000 ttimeoutlen=0
 set noedcompatible
 
 set ignorecase
+" for <C-p> completion to match case with what newly typed
+set infercase
 
 " cursed vendor defaults require many of these
 set noshowmode
@@ -171,7 +182,7 @@ if has("autocmd")
         au BufNewFile,BufRead,BufEnter *.t setlocal makeprg=prove\ --blib\ %:r
         au BufNewFile,BufRead,BufEnter *.zsh map <LocalLeader>t :update<CR>:!feed % zsh -f<CR><CR>
 
-        autocmd FileType c map <LocalLeader>i :%!gindent -st<CR>| ab PUFF fprintf(stderr, "dbg
+        autocmd FileType c map <LocalLeader>i :%!gindent -st<CR>| iabbrev PUFF fprintf(stderr, "dbg
 
         " NOTE gforth probably requires
         "   ln -s /dev/null ~/.gforth-history
@@ -182,11 +193,11 @@ if has("autocmd")
 
         autocmd FileType lilypond setlocal shiftwidth=2 | setlocal makeprg=playit\ %\ nopager | map <LocalLeader>t :update<CR>:!playit %<CR><CR>
 
-        autocmd FileType lisp setlocal lisp | setlocal showmatch | map <LocalLeader>t :update<CR>:!feed % sbcl --noinform<CR><CR>| ab PUFF (format t "~a~%"
+        autocmd FileType lisp setlocal lisp | setlocal showmatch | map <LocalLeader>t :update<CR>:!feed % sbcl --noinform<CR><CR>| iabbrev PUFF (format t "~a~%"
 
         autocmd FileType make setlocal noexpandtab
 
-        autocmd FileType perl map <LocalLeader>i :%!perltidy<CR>| ab DIAG use Data::Dumper; diag Dumper| ab DIAC use Data::Dumper::Concise::Aligned; diag DumperA| ab PUDD use Data::Dumper; warn Dumper| ab PUCC use Data::Dumper::Concise::Aligned; warn DumperA
+        autocmd FileType perl map <LocalLeader>i :%!perltidy<CR>| iabbrev DIAG use Data::Dumper; diag Dumper| iabbrev DIAC use Data::Dumper::Concise::Aligned; diag DumperA| iabbrev PUDD use Data::Dumper; warn Dumper| iabbrev PUCC use Data::Dumper::Concise::Aligned; warn DumperA
 
         autocmd FileType tcl map <LocalLeader>t :update<CR>:!feed % expect<CR><CR>
 

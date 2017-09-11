@@ -1,4 +1,4 @@
-# for pdksh on Mac OS X
+# for mksh on Mac OS X
 
 HISTFILE="$HOME/.sh_history"
 HISTSIZE=128
