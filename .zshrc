@@ -96,7 +96,7 @@ ZLE_SPACE_SUFFIX_CHARS='&|'
 # Completion Foo (and some compile flags)
 
 # NOTE this must be done before autoload
-fpath=(~/.zsh/functions $fpath)
+fpath[0,1]=(~/.zsh/functions)
 
 typeset -TU PKG_CONFIG_PATH pkg_config_path
 typeset -TU LD_LIBRARY_PATH ld_library_path
@@ -104,7 +104,7 @@ typeset -TU LD_LIBRARY_PATH ld_library_path
 MYSYSID=
 
 if [[ $OSTYPE =~ "^darwin" ]]; then
-  fpath=(~/.zsh/functions/darwin $fpath)
+  fpath[0,1]=(~/.zsh/functions/darwin)
 
   # Custom ordering with section 1 notably last so that builtin(1) or
   # bash(1) or write(1) do not come up before the Perl, system, or TCL
@@ -114,7 +114,7 @@ if [[ $OSTYPE =~ "^darwin" ]]; then
   MYSYSID=$OSTYPE-$MACHTYPE
 
   # for MacPorts
-  pkg_config_path=(/opt/local/lib/pkgconfig $pkg_config_path)
+  pkg_config_path[0,1]=(/opt/local/lib/pkgconfig)
 
   # as ld(1) on OS X not doing the -Wl,-rpath=... linker thing
   ld_library_path+=( ~/usr/$MYSYSID/lib )
@@ -151,7 +151,7 @@ if [[ $OSTYPE =~ "^darwin" ]]; then
   zstyle ':completion:*:*:open:*:all-files' ignored-patterns '*.ps' '*.ly'
 
 elif [[ $OSTYPE =~ "openbsd" ]]; then
-  fpath=(~/.zsh/functions/openbsd $fpath)
+  fpath[0,1]=(~/.zsh/functions/openbsd)
 
   MYSYSID=$OSTYPE-$MACHTYPE
 
