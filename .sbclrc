@@ -93,7 +93,9 @@
   `(progn
      (or (listp ,alist)
        (error "random-list-item needs a list to act on"))
-     (nth (random (list-length ,alist)) ,alist)))
+     (if (= 0 (list-length ,alist))
+       nil
+       (nth (random (list-length ,alist)) ,alist))))
 
 ;;; ported from my .tclshrc, allows stuff like
 ;;;   (reduce #'+ (range 2 5))
