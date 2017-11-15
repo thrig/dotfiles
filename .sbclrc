@@ -12,6 +12,13 @@
 (defmacro % (a b)
   `(mod (truncate ,a) (truncate ,b)))
 
+;;; also copied from perl as can't remember expt (... but SBCL is very
+;;; unhappy about this definition, and CLISP also complains, so leave it
+;;; disabled here for reference)
+;#+SBCL (sb-ext:unlock-package 'COMMON-LISP)
+;(defmacro ** (a b)
+;  `(expt ,a ,b))
+
 (defmacro capture-append (file &body body)
   `(with-open-file
      (*standard-output* ,file

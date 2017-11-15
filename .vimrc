@@ -1,101 +1,95 @@
-" The RHEL defaults (ugh) prompted many of these settings. I'd be happy
-" with vi, except for the lack of multiple undos, and maintaining marks
-" through filters.
-"
-" Though, "Practical Vim" has shown some nifty things vim can do...
-"
-" capture stuff with e.g. redir
-"   :redir @b|sil let|redir end
-
-iabbrev hbp #!/usr/bin/env perl<CR>use 5.14.0;<CR>use warnings;<CR><Esc>:setf perl<CR>i
-
-"digraph n ñ
-" <C-k>n? for ñ or <C-k>a' for á and ?I for ¿  and !I for ¡
-" assuming utf-8 mapping (defaulted on, below)
-
-" XTerm*colorMode:false in ~/.Xdefaults also good for killing wacky
-" colors, or if you're in a hurry try TERM=vt220 to nix them
-"
 " http://trout.me.uk/synhi.jpg
-"
-" Pretty sure not running anything before vim 6 anywhere...
-"set syntax=no
-"if version >= 600
 syntax off
-"endif
 
-" nope.
 set mouse=
 
-" experiment w/ timouts
-set timeoutlen=1000 ttimeoutlen=0
+" too close to escape key
+map <F1> <nop>
+nmap <F1> <nop>
+imap <F1> <esc>
+
+" can't escape normally from this
+map q <nop>
+
+map <S-K> <nop>
+
+" arrow keys are a bad habit
+map <up> <nop>
+map <down> <nop>
+map <left> <nop>
+map <right> <nop>
+inoremap <up> <nop>
+inoremap <down> <nop>
+inoremap <left> <nop>
+inoremap <right> <nop>
+
+" disable annoying term blanking due to "alternate screen" (linux is
+" very bad about this, unlike OpenBSD) this can also be set in tmux
+" configuration or see tty/nukealtblank over in scripts repository
+set t_ti= t_te=
+
+" certain Linux vendors have in their infinite wisdom altered various
+" defaults, by default. this requires counter-defaults to return vim to
+" a semblance of usability (incsearch and hlsearch are in particular
+" extremely bothersome)
 
 set noedcompatible
 
+set timeoutlen=1000 ttimeoutlen=0
+
+set cpoptions+=!$
+set shortmess=aoOItTW
+
+set nomodeline
+set nomore
+set nopaste
+set noruler
+set noshowmode
+set noshowcmd
+set notitle
+
+set gdefault
 set ignorecase
 " for <C-p> completion to match case with what newly typed
 set infercase
-
-" cursed vendor defaults require many of these
-set noshowmode
-set notitle
-set noshowcmd
 set noincsearch
-set nojoinspaces
-set cpoptions+=!$
 set nohlsearch
-set writeany
-set viminfo='1000,f1,<500,\"1000,:25,/25,n~/.viminfo
-set shortmess=aoOItTW
-set noruler
-set nomodeline
-set gdefault
-
-set nobackup
-"set nowritebackup
-
-"set backspace=2
-set nopaste
 set wrapscan
 set wrap
-set uc=0
-set nomore
 
+set autoindent
+set backspace=0
+set expandtab
+set nojoinspaces
+set nocindent
+set nosmartindent
+set scrolloff=3
+set shiftwidth=4
+set tabstop=8
 set textwidth=0
 
-" hmmm. 
-set autoindent
-set nosmartindent
-set nocindent
-"set cinkeys-=0#
-"set indentkeys-=0#
+set autoread
+set autowrite
+set noautowriteall
+set nobackup
+set writeany
+set uc=0
 
-set scrolloff=5
+set viminfo='64,f0,<0,\"0,:0,/0,h,n~/.viminfo
 
-set tabstop=8
-set expandtab
-set shiftwidth=4
-
-" more "Practical Vim" stuff
 set wildmenu
 set wildmode=full
 
-" preserve flags on repeated s///, "Practical Vim" tip (that I will doubtless
-" forget how to use) yep forgot how to use
-"nnoremap & :&&<CR>
-"xnoremap & :&&<CR>
+" kill horrible brace highlighting "feature"
+let loaded_matchparen = 1
+set noshowmatch
 
 " treat all numerals (for c-a, c-x) as decimals
 set nrformats=
 
-" disable annoying term blanking due to "alternate screen"
-" (can also be nixed from the terminfo files e.g. Linux has a bad case of this)
-" http://hints.macworld.com/article.php?story=20110905185128781
-set t_ti= t_te=
-
 " bracketed paste foo from http://stackoverflow.com/questions/5585129
-" ... but note that pasting from a CSS-infested browser can be a terrible idea
-if &term =~ "xterm.*"
+" enabled by default for Mac OS X under iTerm.app or Terminal.app
+"if &term =~ "xterm.*"
     let &t_ti = &t_ti . "\e[?2004h"
     let &t_te = "\e[?2004l" . &t_te
     function XTermPasteBegin(ret)
@@ -108,54 +102,25 @@ if &term =~ "xterm.*"
     vmap <expr> <Esc>[200~ XTermPasteBegin("c")
     cmap <Esc>[200~ <nop>
     cmap <Esc>[201~ <nop>
-endif
+"endif
 
-" custom key definitions
 map <Leader>/ /<C-r>0
-map <Leader>A :.,$!autoformat 
+map <Leader>A :.,$!autoformat
 map <Leader>D :argdelete %<CR>:N<CR>
-map <Leader>a :.,$!autoformat<CR> 
+map <Leader>a :.,$!autoformat<CR>
 map <Leader>ca :%!copycat<CR>
 map <Leader>cl :.!copycat<CR>
-map <Leader>cr :call system("enclippen " . shellescape("<C-r>0"))<CR>
+" TODO this has problems; can instead pipe the register to copycat or
+" pbcopy or what program?
+map <Leader>cr :silent call system("enclippen " . shellescape("<C-r>0"))<CR>
 map <Leader>g :update<CR>
 map <Leader>m :update<CR>:make<CR>
 map <Leader>n :cnext<CR>
 
-" don't really use this...
-"map <Leader>W :set noreadonly<CR>:call system("chmod +w -- " . shellescape(expand("%")))<CR>
-
-set autoread
-set autowrite
-set noautowriteall
 nnoremap <silent> [b :N<CR>
 nnoremap <silent> ]b :n<CR>
 nnoremap <silent> [B :first<CR>
 nnoremap <silent> ]B :last<CR>
-
-" argh. hate the help popup.
-map <F1> <Esc>
-nmap <F1> <Esc>
-imap <F1> <Esc>
-
-map <S-K> <nop>
-
-" arrow keys form bad habits, like moving fingers from home row
-map <up> <nop>
-map <down> <nop>
-map <left> <nop>
-map <right> <nop>
-inoremap <up> <nop>
-inoremap <down> <nop>
-inoremap <left> <nop>
-inoremap <right> <nop>
-
-" nope hit this by mistake and then ESC don't ESC
-map <q> <nop>
-
-" kill horrible brace highliting "feature"
-"let loaded_matchparen = 1
-set noshowmatch
 
 " assume UTF-8 by default. In the rare case not, will have to remember
 " to do something else.
@@ -168,6 +133,8 @@ endif
 " share the same directory rather than some huge project, or a specific
 " TeX file target. (lilypond gets a build-and-play-it script, below)
 set makeprg=make\ %:r
+
+iabbrev hbp #!/usr/bin/env perl<CR>use 5.14.0;<CR>use warnings;<CR><Esc>:setf perl<CR>i
 
 if has("autocmd")
     if !exists("autocommands_loaded")
@@ -184,13 +151,6 @@ if has("autocmd")
 
         autocmd FileType c map <LocalLeader>i :%!gindent -st<CR>| iabbrev PUFF fprintf(stderr, "dbg
 
-        " NOTE gforth probably requires
-        "   ln -s /dev/null ~/.gforth-history
-        " to avoid spamming history with near-duplicate feed runs
-        " sigh, portability, pfe no worky on OS X and gforth no worky
-        " on OpenBSD
-        autocmd FileType forth map <LocalLeader>t :update<CR>:!feed % ~/libexec/aforth<CR><CR>
-
         autocmd FileType lilypond setlocal shiftwidth=2 | setlocal makeprg=playit\ %\ nopager | map <LocalLeader>t :update<CR>:!playit %<CR><CR>
 
         autocmd FileType lisp setlocal lisp | setlocal showmatch | map <LocalLeader>t :update<CR>:!feed % sbcl --noinform<CR><CR>| iabbrev PUFF (format t "~a~%"
@@ -200,18 +160,23 @@ if has("autocmd")
         autocmd FileType perl map <LocalLeader>i :%!perltidy<CR>| iabbrev DIAG use Data::Dumper; diag Dumper| iabbrev DIAC use Data::Dumper::Concise::Aligned; diag DumperA| iabbrev PUDD use Data::Dumper; warn Dumper| iabbrev PUCC use Data::Dumper::Concise::Aligned; warn DumperA
 
         autocmd FileType tcl map <LocalLeader>t :update<CR>:!feed % expect<CR><CR>
-
         autocmd FileType tex map <LocalLeader>t :!make<CR><CR>
     endif
 endif
 
 function StartupFoo()
+    " KLUGE this defangs the annoying repeated comment spam on newline
+    " or O; one may also want fo-=c to disable auto-wrap (somehow vim on
+    " Centos7 enables r and o by default...)
+    set fo-=r fo-=o
+
     " KLUGE workaround highly annoying 'more files to edit' (E173) bug
     if(argc()>1)
         last
         rewind
     endif
-    " never, ever edit a directory.
+
+    " never, ever edit a directory
     for f in argv()
         if isdirectory(f)
             echomsg "cowardly refusing to edit directory " . f
@@ -219,3 +184,12 @@ function StartupFoo()
         endif
     endfor
 endfunction
+
+" reference for stuff I will hardly ever use but don't want to forget
+"
+" capture stuff with e.g. redir
+"   :redir @b|sil let|redir end
+"
+"digraph n ñ
+" <C-k>n? for ñ or <C-k>a' for á and ?I for ¿  and !I for ¡
+" assuming utf-8 mapping
