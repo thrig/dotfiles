@@ -75,7 +75,7 @@ set nobackup
 set writeany
 set uc=0
 
-set viminfo='64,f0,<0,\"0,:0,/0,h,n~/.viminfo
+set viminfo='128,f0,<0,\"0,:0,/0,h,n~/.viminfo
 
 set wildmenu
 set wildmode=full
@@ -143,19 +143,23 @@ if has("autocmd")
         autocmd VimEnter * call StartupFoo()
         filetype on
 
-        au BufNewFile,BufRead,BufEnter *.[13] map <LocalLeader>t :update<CR>:!dmanview %<CR><CR>
+        au BufNewFile,BufRead,BufEnter *.[138] map <LocalLeader>t :update<CR>:!dmanview %<CR><CR>
         au BufNewFile,BufRead,BufEnter *.gdb map <LocalLeader>t :update<CR>:!feed % gdb -q<CR><CR>
         au BufNewFile,BufRead,BufEnter *.ly setf lilypond
         au BufNewFile,BufRead,BufEnter *.t setlocal makeprg=prove\ --blib\ %:r
         au BufNewFile,BufRead,BufEnter *.zsh map <LocalLeader>t :update<CR>:!feed % zsh -f<CR><CR>
 
-        autocmd FileType c map <LocalLeader>i :%!gindent -st<CR>| iabbrev PUFF fprintf(stderr, "dbg
+        " redhat is remarkably persistent in setting unwanted options so
+        " hit fo with a hammer in more places
+        autocmd FileType c map <LocalLeader>i :%!gindent -st<CR>| iabbrev PUFF fprintf(stderr, "dbg| set fo-=r fo-=o
+
+        autocmd FileType go map <LocalLeader>i :%!gofmt<CR> | setlocal expandtab | setlocal tabstop=4 | set makeprg=go\ build\ %
 
         autocmd FileType lilypond setlocal shiftwidth=2 | setlocal makeprg=playit\ %\ nopager | map <LocalLeader>t :update<CR>:!playit %<CR><CR>
 
         autocmd FileType lisp setlocal lisp | setlocal showmatch | map <LocalLeader>t :update<CR>:!feed % sbcl --noinform<CR><CR>| iabbrev PUFF (format t "~a~%"
 
-        autocmd FileType make setlocal noexpandtab
+        autocmd FileType make setlocal noexpandtab | set fo-=r fo-=o
 
         autocmd FileType perl map <LocalLeader>i :%!perltidy<CR>| iabbrev DIAG use Data::Dumper; diag Dumper| iabbrev DIAC use Data::Dumper::Concise::Aligned; diag DumperA| iabbrev PUDD use Data::Dumper; warn Dumper| iabbrev PUCC use Data::Dumper::Concise::Aligned; warn DumperA
 

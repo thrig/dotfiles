@@ -1,0 +1,3 @@
+# don't use much of anything that uses readline, but just in case...
+set editing-mode vi
+set keymap vi-command

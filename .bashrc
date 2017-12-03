@@ -1,16 +1,21 @@
-# RHEL sets colours by default, ugh! Turn off if stuck on bash-only host so
-# can read things.
+# not that I run bash, but
+
+# RHEL sets colours by default, ugh! turn off if stuck on bash-only host
+# so can read things
 unalias ll 2>/dev/null
 unalias l. 2>/dev/null
 unalias ls 2>/dev/null
+
 # die colors, die!
 unset LS_COLORS
-# no really.
+
+# no. really.
 unalias grep 2>/dev/null
 
 # KLUGE eliminate super annoying "alternate screen" that blanks out
 # the contents of the man page you were just reading when you exit
-# from the pager. Also, reduce chances of color spam.
+# from the pager (see also vim config and terminfo foo)
+# on modern systems TERM trick no longer fixes the color spam, alas!
 TERM=vt220
 
 # avoid linux "helper" scripts

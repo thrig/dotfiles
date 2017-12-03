@@ -1,7 +1,9 @@
 # for mksh on Mac OS X
 
-HISTFILE="$HOME/.sh_history"
-HISTSIZE=128
+# if it's important put it in a Makefile or script or such
+#HISTFILE="$HOME/.sh_history"
+HISTFILE=
+HISTSIZE=64
 
 if [ -n "$SSH_CLIENT" -o -n "$TMUX" ]; then
     PS1='lion$ '
@@ -15,25 +17,30 @@ set -o vi
 
 set -o allexport
 
-ENV=$HOME/.profile
-
-#no_proxy="127.0.0.1"
+no_proxy="127.0.0.1,localhost,*.local"
 #http_proxy="http://127.0.0.1:@@BLAHBLAH@@"
 #https_proxy="http://127.0.0.1:@@BLAHBLAH@@"
+
+# on account of OS X not using BSD make so not picking up on CC?=gcc in
+# the Makefile and instead defaulting to clang which in turn does not
+# appear to know about the -fPIE -pie flags so warns about them (this
+# will cause problems if something else assumes clang...)
+CC=gcc
 
 EDITOR=vim
 VISUAL=vim
 PAGER=less
 
+GOPATH="$HOME/src/go"
+
 TZ=UTC
 LOCO_TZ="@@BLAHBLAH@@"
 
-# TODO so not portable. Also no rc file option implemented, :/
-# so this then requires a "require .gforth.fs" in each source file.
-#GFORTHPATH=/opt/local/lib/gforth/0.7.3:$HOME
-
 LANG="en_US.UTF-8"
 LC_MESSAGES=POSIX
+# default UTF-8 insufficient to work-make w3m on Mac OS X
+LC_CTYPE=en_US.UTF-8
+unset LC_ALL
 
 LESSHISTFILE="/dev/null"
 LESS="-igX-j5"
@@ -45,7 +52,9 @@ MANPATH="$HOME/usr/share/man:$HOME/usr/darwin15.0-x86_64/share/man:$HOME/perl5/m
 # use 'man 1 printf' in the rare case need the not-C-library page
 MANSECT='2:3:4:5:6:7:8:9:1p:3p:n:l:1'
 
-PATH="$HOME/bin:$HOME/usr/darwin15.0-x86_64/bin:$HOME/perl5/bin:$HOME/usr/bin:$HOME/Library/Haskell/bin:/opt/local/libexec/perl5.24:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/local/sbin:/usr/X11R6/bin:/usr/bin:/usr/sbin:/bin:/sbin"
+# I've disabled path_helper on Mac OS X so instead of that program being
+# run alot I run it now and then and update this (and MANPATH) as needed
+PATH="$HOME/bin:$HOME/usr/darwin15.0-x86_64/bin:$HOME/perl5/bin:$HOME/usr/bin:/opt/local/libexec/perl5.26:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/local/sbin:/usr/X11R6/bin:/usr/bin:/usr/sbin:/bin:/sbin"
 
 # for local::lib installed modules
 PERL5LIB="$HOME/perl5/lib/perl5"
@@ -148,6 +157,7 @@ alias ipcalc='ipcalc -n'
 alias ldd='otool -L'
 # KLUGE no colors on account of xterm TERM
 alias mutt='TERM=vt220 mutt'
+alias newshell='exec mksh -l'
 alias now="TZ=$LOCO_TZ now"
 alias octave='octave --silent'
 alias pfe="pfe -q -I $HOME"
