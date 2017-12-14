@@ -1,12 +1,3 @@
-My dotfiles for ZSH and various other programs. If you like colours, or
-pimped out prompts, or other time wasters, look elsewhere.
+if you like colours or pimped out prompts or piles of plugins -- look elsewhere
 
-@@BLAHBLAH@@ will very likely need alteration to something suitable.
-
-I use ZSH on my "desktop" systems, and largely do not care what any of
-the thousands of other systems and user accounts I have to deal with set
-for their shell or their shell configuration. Though I might go as far
-as `exec zsh` or the like if the default shell is too annoying, or
-disable colours so that I can actually read the text. In my younger
-days, I dabbled with a shell configuration that would support both bash
-and zsh, but that's thankless extra work, so meh.
+any @@BLAHBLAH@@ will very likely need alteration to something suitable
