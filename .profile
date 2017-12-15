@@ -48,7 +48,7 @@ LESSSECURE=1
 
 unset LESSOPEN LESSCLOSE
 
-MANPATH="$HOME/usr/share/man:$HOME/usr/darwin15.0-x86_64/share/man:$HOME/perl5/man:/usr/local/man:/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/share/man:/opt/local/share/texmf-texlive/doc/man:/opt/X11/share/man:/opt/local/share/man:/usr/share/man"
+MANPATH="$HOME/usr/share/man:$HOME/usr/darwin15.0-x86_64/share/man:$HOME/perl5/man:/usr/local/man:/Applications/Xcode.app/Contents/Developer/usr/share/man:/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/share/man:/opt/local/share/texmf-texlive/doc/man:/opt/X11/share/man:/opt/local/share/man:/usr/share/man"
 # use 'man 1 printf' in the rare case need the not-C-library page
 MANSECT='2:3:4:5:6:7:8:9:1p:3p:n:l:1'
 
