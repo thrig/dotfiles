@@ -154,13 +154,14 @@ alias findin='findin -q'
 alias gdb='gdb -q'
 alias hangup-ssh="pkill -HUP -u $USER ssh; apple-randomize-macaddr"
 alias ipcalc='ipcalc -n'
+# NOTE otool also does disassemble, try `otool -tv`
 alias ldd='otool -L'
+alias lldb='lldb -X'
 # KLUGE no colors on account of xterm TERM
 alias mutt='TERM=vt220 mutt'
 alias newshell='exec mksh -l'
 alias now="TZ=$LOCO_TZ now"
 alias octave='octave --silent'
-alias pfe="pfe -q -I $HOME"
 alias prove='prove --nocolor --blib'
 alias R='R -q --silent --no-save'
 alias sbcl='sbcl --noinform'
