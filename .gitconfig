@@ -3,8 +3,9 @@
 	pager = 
 	editor = vim
 	autocrlf = false
+        hooksPath = ~/.gittemplate
 [init]
-        templateDir = ~/.gittemplate
+        templateDir = /var/empty
 [alias]
 	amend = commit --amend --no-edit
 	br = branch

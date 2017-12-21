@@ -48,13 +48,13 @@ LESSSECURE=1
 
 unset LESSOPEN LESSCLOSE
 
-MANPATH="$HOME/usr/share/man:$HOME/usr/darwin15.0-x86_64/share/man:$HOME/perl5/man:/usr/local/man:/Applications/Xcode.app/Contents/Developer/usr/share/man:/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/share/man:/opt/local/share/texmf-texlive/doc/man:/opt/X11/share/man:/opt/local/share/man:/usr/share/man"
+MANPATH="$HOME/usr/share/man:$HOME/usr/Darwin15.6.0-x86_64/share/man:$HOME/perl5/man:/usr/local/man:/Applications/Xcode.app/Contents/Developer/usr/share/man:/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/share/man:/opt/local/share/texmf-texlive/doc/man:/opt/X11/share/man:/opt/local/share/man:/usr/share/man"
 # use 'man 1 printf' in the rare case need the not-C-library page
 MANSECT='2:3:4:5:6:7:8:9:1p:3p:n:l:1'
 
 # I've disabled path_helper on Mac OS X so instead of that program being
 # run alot I run it now and then and update this (and MANPATH) as needed
-PATH="$HOME/bin:$HOME/usr/darwin15.0-x86_64/bin:$HOME/perl5/bin:$HOME/usr/bin:/opt/local/libexec/perl5.26:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/local/sbin:/usr/X11R6/bin:/usr/bin:/usr/sbin:/bin:/sbin"
+PATH="$HOME/bin:$HOME/usr/Darwin15.6.0-x86_64/bin:$HOME/perl5/bin:$HOME/usr/bin:/opt/local/libexec/perl5.26:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/local/sbin:/usr/X11R6/bin:/usr/bin:/usr/sbin:/bin:/sbin"
 
 # for local::lib installed modules
 PERL5LIB="$HOME/perl5/lib/perl5"
@@ -65,7 +65,7 @@ PERL_MM_USE_DEFAULT=1
 
 PERLDOC_PAGER='less -R'
 
-PKG_CONFIG_PATH="$HOME/usr/darwin15.0-x86_64/lib/pkgconfig:/opt/local/lib/pkgconfig"
+PKG_CONFIG_PATH="$HOME/usr/Darwin15.6.0-x86_64/lib/pkgconfig:/opt/local/lib/pkgconfig"
 
 R_LIBS_USER=$HOME/lib/R
 R_LIBS=$HOME/lib/R
