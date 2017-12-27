@@ -1,34 +1,59 @@
 *locale:                UTF-8
 
-XTerm*alwaysHighlight:  false
-XTerm*background:black
-XTerm*colorMode:false
-XTerm*cursorBlink:      false
-XTerm*cursorColor:gold
-XTerm*dynamicColors:false
-XTerm*foreground:gold
-XTerm*loginShell:       true
-XTerm*loginShell:true
-XTerm*pointerMode:      1
-XTerm*scrollBar:false
-XTerm*titleInhibit: true
-XTerm*saveLines: 0
+xterm*alwaysHighlight:  true
+xterm*background:       black
+xterm*colorMode:        false
+xterm*cursorBlink:      false
+xterm*cursorColor:      white
+xterm*dynamicColors:    false
+xterm*foreground:       gold
+xterm*loginShell:       true
+xterm*pointerMode:      1
+xterm*saveLines:        4096
+xterm*scrollBar:        false
+xterm*local:            true
+
+cxterm*alwaysHighlight:  true
+cxterm*background:       black
+cxterm*colorMode:        true
+cxterm*cursorBlink:      false
+cxterm*cursorColor:      white
+cxterm*dynamicColors:    true
+cxterm*foreground:       gold
+cxterm*loginShell:       true
+cxterm*pointerMode:      1
+cxterm*saveLines:        4096
+cxterm*scrollBar:        false
+cxterm*local:            true
 
 UXTerm*background:black
-UXTerm*colorMode:true
-UXTerm*faceName:noto
-UXTerm*dynamicColors:true
-UXTerm*faceSize:20
+UXTerm*faceName:Cousine-Bold
+UXTerm*faceSize:21
 UXTerm*foreground:gold
 UXTerm*pointerMode:      1
-UXTerm*saveLines: 0
 UXTerm*scrollBar:false
 UXTerm*titleInhibit: true
+UXTerm*colorMode:        true
+UXTerm*dynamicColors:    true
+UXTerm*local:            true
+
+mfterm*background:black
+mfterm*faceName:monofur
+mfterm*faceSize:24
+mfterm*foreground:gold
+mfterm*pointerMode:      1
+mfterm*scrollBar:false
+mfterm*titleInhibit: true
+mfterm*colorMode:        true
+mfterm*dynamicColors:    true
+mfterm*local:            true
+
+mupdf*pointerMode:      1
 
 urxvt*secondaryScreen: false
 
+xload*foreground:       white
 xload*background:       black
-xload*foreground:       gold
-xload*highlight:        darkred
 xload*showLabel:        false
-xload*update:           3
+xload*highlight:        darkred
+xload*update:           15
