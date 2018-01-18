@@ -29,6 +29,7 @@ if {$tocall eq "pfe" || [string match "*forth*" $tocall]} {
 
 # LISP
 } elseif {$tocall eq "clisp" || $tocall eq "sbcl"} {
+    expect -re {[*>] }
     set timeout .05
     proc dosomethingwith {line} {
         global tocall
