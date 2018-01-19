@@ -149,6 +149,9 @@ if has("autocmd")
         au BufNewFile,BufRead,BufEnter *.t setlocal makeprg=prove\ --blib\ %:r
         au BufNewFile,BufRead,BufEnter *.zsh map <LocalLeader>t :update<CR>:!feed % zsh -f<CR><CR>
 
+        " don't want vim guessing between Rexx, Rebol, or R
+        au BufNewFile,BufRead *.r,*.R setf r
+
         " redhat is remarkably persistent in setting unwanted options so
         " hit fo with a hammer in more places
         autocmd FileType c map <LocalLeader>i :%!gindent -st<CR>| iabbrev PUFF fprintf(stderr, "dbg| set fo-=r fo-=o
@@ -162,6 +165,8 @@ if has("autocmd")
         autocmd FileType make setlocal noexpandtab | set fo-=r fo-=o
 
         autocmd FileType perl map <LocalLeader>i :%!perltidy<CR>| iabbrev DIAG use Data::Dumper; diag Dumper| iabbrev DIAC use Data::Dumper::Concise::Aligned; diag DumperA| iabbrev PUDD use Data::Dumper; warn Dumper| iabbrev PUCC use Data::Dumper::Concise::Aligned; warn DumperA
+
+        autocmd FileType r map <LocalLeader>t :update<CR>:!feed % R -q --silent --no-save<CR><CR>
 
         autocmd FileType tcl map <LocalLeader>t :update<CR>:!feed % expect<CR><CR>
         autocmd FileType tex map <LocalLeader>t :!make<CR><CR>

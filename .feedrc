@@ -68,6 +68,21 @@ if {$tocall eq "pfe" || [string match "*forth*" $tocall]} {
         send -- "$line\r"
     }
 
+# R
+} elseif {$tocall eq "R"} {
+    # assumes options(prompt="rrr> ") in .Rprofile
+    #expect -ex {rrr> }
+
+    proc dosomethingwith {line} {
+
+        if {[regexp {^[[:blank:]]*$} $line]} { return }
+        if {[regexp {^[#]} $line]} { return }
+
+        expect -ex {rrr> }
+
+        send -- "$line\r"
+    }
+
 # TCL
 } elseif {$tocall eq "expect"
   || [string match "tclsh*" $tocall]
