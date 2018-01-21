@@ -122,13 +122,17 @@ function j {
     jobs -l
 }
 function pmt {
-    if [ -r Makefile.PL ]; then
-        make clean;
-        perl Makefile.PL && \
-        make && RELEASE_TESTING=1 TEST_SIGNATURE=1 make test 2>&1 | $PAGER
-    else
-        false
-    fi
+   if [ -r Makefile.PL ]; then
+      make clean;
+      perl Makefile.PL && make && \
+      RELEASE_TESTING=1 TEST_SIGNATURE=1 make test 2>&1 | $PAGER
+   elif [ -r Build.PL ]; then
+      ./Build clean >/dev/null 2>&1
+    ( perl Build.PL && ./Build && \
+      RELEASE_TESTING=1 TEST_SIGNATURE=1 ./Build test ) 2>&1 | $PAGER 
+   else
+      false
+   fi
 }
 function ssh {
     command ssh "$@"
