@@ -1,6 +1,6 @@
 # for mksh on Mac OS X
 
-# if it's important put it in a Makefile or script or such
+# if it's important put it in a Makefile or script or function or alias
 #HISTFILE="$HOME/.sh_history"
 HISTFILE=
 HISTSIZE=64
@@ -21,10 +21,7 @@ no_proxy="127.0.0.1,localhost,*.local"
 #http_proxy="http://127.0.0.1:@@BLAHBLAH@@"
 #https_proxy="http://127.0.0.1:@@BLAHBLAH@@"
 
-# on account of OS X not using BSD make so not picking up on CC?=gcc in
-# the Makefile and instead defaulting to clang which in turn does not
-# appear to know about the -fPIE -pie flags so warns about them (this
-# will cause problems if something else assumes clang...)
+# unset this if something needs or assumes clang
 CC=gcc
 
 EDITOR=vim
@@ -65,6 +62,7 @@ PERL_MM_USE_DEFAULT=1
 
 PERLDOC_PAGER='less -R'
 
+# my $HOME software depot and also MacPorts
 PKG_CONFIG_PATH="$HOME/usr/Darwin15.6.0-x86_64/lib/pkgconfig:/opt/local/lib/pkgconfig"
 
 R_LIBS_USER=$HOME/lib/R
@@ -87,7 +85,7 @@ function cd {
     fi
 }
 function cleanup_term {
-    printf "\033]2;\a"
+    print "\e]2;\a"
 }
 function dc {
     if [ -z "$1" ]; then
@@ -140,20 +138,22 @@ function ssh {
     cleanup_term
 }
 
+# the ";: " in aliases is to ensure that nothing can follow an alias
+# where nothing should follow
+
 alias ack='ack --nocolor'
-alias anykey="getraw -o '*:0'"
+alias anykey="getraw -o '*:0';: "
 alias atonal-util='atonal-util --ly --flats'
-alias bat='pmset -g ps'
-alias cdt="cd $TMP"
-alias clisp='clisp -q -q -on-error abort -modern'
-# TODO tput for this?
-alias clterm='printf "\033]2;\a"'
+alias bat='pmset -g ps;: '
+alias cdt="cd $TMP;: "
+alias cdc='cd;print -n "\ec";: '
+# using SBCL instead
+#alias clisp='clisp -q -q -on-error abort -modern'
 alias commit='git commit -a'
 alias cp='cp -p'
-alias cursor-hide='tput civis'
-alias cursor-show='tput cnorm'
+alias cursor-hide='tput civis;: '
+alias cursor-show='tput cnorm;: '
 alias diff='diff -u'
-alias fecha="TZ=$LOCO_TZ date +'%Y-%m-%d %H:%M:%S'"
 alias findin='findin -q'
 alias gdb='gdb -q'
 alias hangup-ssh="pkill -HUP -u $USER ssh; apple-randomize-macaddr"
@@ -170,14 +170,15 @@ alias prove='prove --nocolor --blib'
 alias R='R -q --silent --no-save'
 alias sbcl='sbcl --noinform'
 alias scp='scp -p'
-# TODO tput for these?
-alias term-chat='printf "\033[8;34;80t"'
-alias term-norm='printf "\033[8;24;80t"'
-alias term-tall='printf "\033[8;0;80t"'
+# TODO tput for these? (but on laptop hardly ever move windows sooooo...)
+#alias term-chat='printf "\033[8;34;80t"'
+#alias term-norm='printf "\033[8;24;80t"'
+#alias term-tall='printf "\033[8;0;80t"'
 alias timidity=tlymidity
-alias top='top -o CPU -F; echo'
+alias top='top -o CPU -F'
 alias ttywrite='ttywrite -N'
 alias vbm='VBoxManage -q'
-alias vbm-showvirts='VBoxManage -q list vms'
+alias showvirts='VBoxManage -q list vms;: '
+alias runningvirts='VBoxManage -q list runningvms;: '
 #alias xmltidy='xmllint --nsclean --encode UTF-8 --format'
 alias xpquery='xpquery -E UTF-8'
