@@ -1,131 +1,141 @@
-#   puts $errorInfo
+#     puts $errorInfo
 # when things go awry for debug
 
 # otherwise big confusion with my ZSH prompt of "% "
 set tcl_prompt1 {printf "tclsh> "}
 
 # compat with Perl
-proc chr {number} {format "%c" $number}   
+proc chr {number} {format "%c" $number}
 proc ord {string} {scan $string %c}
 
-# from book (second blood part II)
+# from book
 proc do {varname first last body} {
-  upvar 1 $varname vv
-  for {set vv $first} {$vv <= $last} {incr vv} {
-    set code [catch {uplevel 1 $body} msg options]
-    switch -- $code {
-      0 -
-      4   {}
-      3   {return}
-      default {
-        dict incr options -level
-        return -options $options $msg
-      }
+    upvar 1 $varname vv
+    for {set vv $first} {$vv <= $last} {incr vv} {
+        set code [catch {uplevel 1 $body} msg options]
+        switch -- $code {
+            0 -
+            4 {}
+            3 {return}
+            default {
+                dict incr options -level
+                return -options $options $msg
+            }
+        }
     }
-  }
 }
-
-# "args" kind of like &rest foo in lisp? - yes!
-#proc listargs {args} {
-#  foreach el $args {
-#    puts [llength $el]
-#    puts $el
-#  }
-#}
 
 # from the tcl apply docs (for Tcl >= 8.5)
 #   map {x {string length $x}} {a bb ccc ddd}
 proc map {lambda list} {
-  set res {}
-  foreach item $list {
-    lappend res [apply $lambda $item]
-  }
-  return $res
+    set res {}
+    foreach item $list {
+        lappend res [apply $lambda $item]
+    }
+    return $res
 }
 
 # TODO built-in or better equivalent of this?
 proc range {from to {step 1}} {
-  if {$from == $to} { return $from }
-  set res {}
-  set op [expr {($from < $to) ? [list <=] : [list >=]}]
-  if {$to < $from && $step > 0} { set step [expr -$step] }
-  while {[expr $from $op $to]} {
-    lappend res $from
-    set from [expr $from + $step]
-  }
-  return $res
+    if {$from == $to} { return $from }
+    set res {}
+    set op [expr {($from < $to) ? [list <=] : [list >=]}]
+    if {$to < $from && $step > 0} { set step [expr -$step] }
+    while {[expr $from $op $to]} {
+        lappend res $from
+        set from [expr $from + $step]
+    }
+    return $res
 }
 
 # totally not going to remember how to do it the tcl way
 proc shift {list} {
-  upvar 1 $list ll
-  set ll [lassign $ll res]
-  return $res
+    upvar 1 $list ll
+    set ll [lassign $ll res]
+    return $res
 }
 
 proc unshift {list val} {
-  upvar 1 $list ll
-  # TODO how create if var not exist?
-  set ll [linsert $ll 0 $val]
+    upvar 1 $list ll
+    # TODO how create if var not exist?
+    set ll [linsert $ll 0 $val]
 }
 
 # LISP
 foreach o [list + - * /] {
-  proc $o {a b} [list expr "\$a $o \$b"]
+    proc $o {a b} [list expr "\$a $o \$b"]
 }
 # more LISP
 proc 1+ {n} {
-  if {[string is digit $n]} { set x $n } { upvar 1 $n x }
-  expr {$x + 1}
+    if {[string is digit $n]} { set x $n } { upvar 1 $n x }
+    expr {$x + 1}
 }
 proc 1- {n} {
-  if {[string is digit $n]} { set x $n } { upvar 1 $n x }
-  expr {$x - 1}
+    if {[string is digit $n]} { set x $n } { upvar 1 $n x }
+    expr {$x - 1}
 }
 # even more LISP
 proc reduce {call list} {
-  set val [lindex $list 0]
-  set last [llength $list]
-  if {$last > 1} {
-    incr last -1
-    foreach el [lrange $list 1 $last] {
-      set code [catch {set val [uplevel 1 $call $val $el]} msg options]
-      switch -- $code {
-        0 -
-        4   {}
-        3   {return}
-        default {
-          dict incr options -level
-          return -options $options $msg
+    set val [lindex $list 0]
+    set last [llength $list]
+    if {$last > 1} {
+        incr last -1
+        foreach el [lrange $list 1 $last] {
+            set code [catch {set val [uplevel 1 $call $val $el]} msg options]
+            switch -- $code {
+                0 -
+                4     {}
+                3     {return}
+                default {
+                    dict incr options -level
+                    return -options $options $msg
+                }
+            }
         }
-      }
     }
-  }
-  return $val
+    return $val
 }
 
 proc repeat {n body} {
-  set res ""
-  while {$n} {
-    incr n -1
-    set code [catch {set res [uplevel 1 $body]} msg options]
-    switch -- $code {
-      0 -
-      4   {}
-      3   {return}
-      default {
-        dict incr options -level
-        return -options $options $msg
-      }
+    set res ""
+    while {$n} {
+        incr n -1
+        set code [catch {set res [uplevel 1 $body]} msg options]
+        switch -- $code {
+            0 -
+            4 {}
+            3 {return}
+            default {
+                dict incr options -level
+                return -options $options $msg
+            }
+        }
     }
-  }
-  return $res
+    return $res
 }
 
 proc strreverse str {
-  set res ""
-  for {set i [string length $str]} {$i > 0} {} {
-    append res [string index $str [incr i -1]]
-  }
-  set res
+    set res ""
+    for {set i [string length $str]} {$i > 0} {} {
+        append res [string index $str [incr i -1]]
+    }
+    set res
+}
+
+# see rdcomm(1)
+if {[info exists rdcomm]} {
+    fconfigure stdout -buffering none
+    set rdcount 0
+    proc hexview {} {
+        global _ rdcount
+        binary scan $_ H* hex
+        foreach hw [regexp -all -inline .. $hex] {
+            puts -nonewline "$hw "
+            incr rdcount
+            if {$rdcount >= 16} {
+                puts {}
+                set rdcount 0
+            }
+        }
+    }
 }
