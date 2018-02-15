@@ -109,7 +109,7 @@ map <Leader>A :.,$!autoformat
 map <Leader>D :argdelete %<CR>:N<CR>
 map <Leader>a :.,$!autoformat<CR>
 map <Leader>ca :%!copycat<CR>
-map <Leader>cl :.!copycat<CR>
+map <Leader>cl :.!copycat -n<CR>
 " TODO this has problems; can instead pipe the register to copycat or
 " pbcopy or what program?
 map <Leader>cr :silent call system("enclippen " . shellescape("<C-r>0"))<CR>
