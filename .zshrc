@@ -1,606 +1,159 @@
-# NOTE not yet my actual ~/.zshrc, mostly example configs selected from
-# what I currently have.
-
-setopt BSD_ECHO COMPLETE_IN_WORD EXTENDED_HISTORY HASH_CMDS HIST_FIND_NO_DUPS HIST_IGNORE_DUPS HIST_IGNORE_ALL_DUPS HIST_REDUCE_BLANKS HIST_SAVE_NO_DUPS INC_APPEND_HISTORY INTERACTIVE_COMMENTS LIST_PACKED LIST_ROWS_FIRST MAGIC_EQUAL_SUBST NOFLOW_CONTROL RM_STAR_SILENT EXTENDED_GLOB BRACE_CCL RC_EXPAND_PARAM
-unsetopt AUTO_NAME_DIRS AUTO_REMOVE_SLASH HIST_VERIFY MARK_DIRS promptcr
-
-########################################################################
-#
-# Environment (never export *HIST* nor prompt vars nor anything else
-# shell-internal-use-only)
-
-# NOTE these must be set *before* any bindkey calls, especially if the
-# editor differs from the line editing mode. Also, other applications
-# (e.g. Subversion, git) may have their own editor commands, check for
-# their environment variables or configuration for details.
+setopt BSD_ECHO HASH_CMDS HIST_FIND_NO_DUPS HIST_IGNORE_DUPS HIST_IGNORE_ALL_DUPS HIST_REDUCE_BLANKS HIST_SAVE_NO_DUPS INC_APPEND_HISTORY INTERACTIVE_COMMENTS LIST_PACKED LIST_ROWS_FIRST MAGIC_EQUAL_SUBST NOFLOW_CONTROL RM_STAR_SILENT BRACE_CCL RC_EXPAND_PARAM AUTO_LIST EXTENDED_GLOB
+unsetopt AUTO_NAME_DIRS AUTO_REMOVE_SLASH HIST_VERIFY MARK_DIRS NO_LIST_AMBIGUOUS EXTENDED_HISTORY
+[[ -z "$SSH_CLIENT" ]] && PS1='%# '
+HISTSIZE=64
+KEYTIMEOUT=1
+MAILCHECK=0
+path=(@@HOME@@/bin @@HOME@@/usr/Darwin15.6.0-x86_64/bin @@HOME@@/perl5/bin /opt/local/libexec/perl5.26 /opt/local/bin /opt/local/sbin /usr/local/bin /usr/local/sbin /usr/X11R6/bin /usr/bin /usr/sbin /bin /sbin)
+export MANPATH="@@HOME@@/usr/share/man:@@HOME@@/usr/Darwin15.6.0-x86_64/share/man:@@HOME@@/perl5/man:/usr/local/man:/Applications/Xcode.app/Contents/Developer/usr/share/man:/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/share/man:/opt/local/share/texmf-texlive/doc/man:/opt/X11/share/man:/opt/local/share/man:/usr/share/man:/Applications/Wireshark.app/Contents/Resources/share/man"
+no_proxy="127.0.0.1,localhost,*.local"
+export CC=gcc
 export EDITOR=vim
 export VISUAL=vim
-
-# hopefully FTP dies one of these years: http://mywiki.wooledge.org/FtpMustDie
-export FTP_PASSIVE=1
-
-# Write a function, Makefile, or script to capture anything crazy you're
-# doing on the CLI. Otherwise, toss history to avoid accumulating a
-# midden of shell commands.
-#
-# Reviews of "what commands have typed" might be assisted with:
-#   print -l $commands:t ${(k)functions} ${(k)aliases} 
-# to collect the available commands, functions, and aliases.
-HISTFILE=~/.zsh/history
-HISTSIZE=500
-SAVEHIST=1000
-
-export LANG=en_US.UTF-8
-# but then need some or all of the following to avoid e.g. setlocale failures
-# when launching R, or such. This is worse under bash, as is typical:
-# http://utcc.utoronto.ca/~cks/space/blog/linux/BashLocaleScriptDestruction
-#   ... especially if /bin/sh is improperly bash.
-export LC_COLLATE=POSIX
-export LC_CTYPE=POSIX
+export LANG="en_US.UTF-8"
+export LC_CTYPE=en_US.UTF-8
 export LC_MESSAGES=POSIX
-export LC_MONETARY=POSIX
-export LC_NUMERIC=POSIX
-export LC_TIME=POSIX
-
-# Nuke the annoying alternate screen banking (on a per TERM basis) via:
-#
-#   infocmp | sed -e 's/[sr]mcup=[^,]*,//' > blah
-#   tic -o ~/.terminfo/ blah
-#   rm blah
-#
-# See also .vimrc and .tmux.conf for more ways to ensure the alternate
-# screen is never used.
-export LESS="-iegX-j5"
+unset LC_ALL
+export GOPATH=@@HOME@@/src/go
+export LESS="-igX-j5"
 export LESSHISTFILE=/dev/null
 export LESSSECURE=1
-
-# Paranoia, in event OS calls unaudited programs that can then be exploited.
-# http://seclists.org/fulldisclosure/2014/Nov/74
 unset LESSOPEN LESSCLOSE
-
-# annoying distraction
-MAILCHECK=0
-
-# http_proxy set elsewhere
-export no_proxy="127.0.0.1"
-
 export PAGER=less
-export PERLDOC_PAGER='less -R' 
-
-# disabling as probably should fix encoding in various scripts, not force
-# it to UTF-8 here (which in turn can cause DBI to fail to build)
-#export PERL_UNICODE=ALS
-
-# helps automate builds, also set
-# 'prerequisites_policy' => q[follow], in ~/.cpan/CPAN/MyConfig.pm
-# (or install App::cpanminus and use cpanm)
+export PERLDOC_PAGER="less -R"
 export PERL_MM_USE_DEFAULT=1
-
-# prompt - not having the machine name on remote logins is a bit too
-# minimal for my tastes.
-if [[ -n $SSH_CLIENT ]]; then
-  PS1='%m%# '
-# these I use rarely, so a warning about the subshell is handy
-elif [[ -n $PERL5_CPAN_IS_RUNNING ]]; then
-  PS1='(cpan)%# '
-elif [[ -n $VIM ]]; then
-  PS1='(vim)%# '
-else 
-  PS1='%# '
-fi
-
-ZLE_SPACE_SUFFIX_CHARS='&|'
-
-########################################################################
-#
-# Completion Foo (and some compile flags)
-
-# NOTE this must be done before autoload
-fpath[0,1]=(~/.zsh/functions)
-
-typeset -TU PKG_CONFIG_PATH pkg_config_path
-typeset -TU LD_LIBRARY_PATH ld_library_path
-
-MYSYSID=
-
-if [[ $OSTYPE =~ "^darwin" ]]; then
-  fpath[0,1]=(~/.zsh/functions/darwin)
-
-  # Custom ordering with section 1 notably last so that builtin(1) or
-  # bash(1) or write(1) do not come up before the Perl, system, or TCL
-  # docs I'm actually trying to read.
-  export MANSECT=2:3:4:5:6:7:8:9:1p:3p:n:l:1
-
-  MYSYSID=$OSTYPE-$MACHTYPE
-
-  # for MacPorts
-  pkg_config_path[0,1]=(/opt/local/lib/pkgconfig)
-
-  # as ld(1) on OS X not doing the -Wl,-rpath=... linker thing
-  ld_library_path+=( ~/usr/$MYSYSID/lib )
-
-  CC=clang
-
-  # These either cargo-culted from elsewhere or copied in from a review
-  # of the gcc/clang man pages, with an eye towards as many warnings as
-  # possible. Some compiles can therefore be very warning infested,
-  # which hopefully folks will clean up one day.
-  # (except only for reference, as setting these by default can break
-  # other things)
-  #CFLAGS='-O2 -std=c11 -Wall -Wglobal-constructors -Winit-self -Wmissing-include-dirs -Wextra -Wdeclaration-after-statement -Wundef -Wshadow -Wpointer-arith -Wbad-function-cast -Wcast-qual -Wcast-align -Wwrite-strings -Wconversion -Wshorten-64-to-32 -Waggregate-return -Wold-style-definition -Wmissing-prototypes -Wmissing-declarations -Wmissing-field-initializers -Wredundant-decls -Wnested-externs -Winvalid-pch -pedantic -pipe'
- # Add -Werror to make warnings blow up so those can be looked at, e.g.
- # with :cnext in vim.
-
-  function showscore {
-    if [[ -n $1 ]]; then
-      # Not really happy with any PDF viewer thus far, but Preview.app no
-      # worse than the rest. sigh. Nope, scratch that, Preview.app on Mac
-      # OS X 10.10 is unusable, as it automatically scrolls down to the
-      # end of the thus blank page with the new music hidden above, sigh.
-      #open --background -a Preview "$@"
-      #xpdf -remote music -exec "gotoLastPage" "$@"
-      open "$@"
-    else
-      open --background -a Preview *.pdf(om[1])
-    fi
-  }
-
-  zstyle ':completion:*:processes' command 'ps -A -o pid,user,command'
-
-  # help open find just the "*.pdf" when completing on a lilypond-built file
-  zstyle ':completion:*:*:open:*:all-files' ignored-patterns '*.ps' '*.ly'
-
-elif [[ $OSTYPE =~ "openbsd" ]]; then
-  fpath[0,1]=(~/.zsh/functions/openbsd)
-
-  MYSYSID=$OSTYPE-$MACHTYPE
-
-  CC=gcc
-  # NOTE with -fstack-protector-all things like 'return 0;' to exit from a
-  # C program will cause aborts; use 'exit(0);' instead from <stdlib.h>.
-  #CFLAGS='-O2 -std=c99 -Wall -Winit-self -Wmissing-include-dirs -Wextra -Wdeclaration-after-statement -Wundef -Wshadow -Wpointer-arith -Wbad-function-cast -Wcast-qual -Wcast-align -Wwrite-strings -Wconversion -Waggregate-return -Wold-style-definition -Wmissing-prototypes -Wmissing-declarations -Wmissing-field-initializers -Wnested-externs -Winvalid-pch -pedantic -pipe -fstack-protector-all'
-
-  function showscore {
-    if [[ -n $1 ]]; then
-      open "$@"
-    else
-      # custom open implementation for OpenBSD, see scripts repo
-      open *.pdf(om[1])
-    fi
-  }
-
-if [[ -z $MYSYSID ]]; then
-  echo >&2 warning MYSISID not set on this platform
-else
-  # for a local software depot of sorts under my home dir (where the C
-  # stuff goes that is not in OS or ports/packages space)
-  pkg_config_path+=( ~/usr/$MYSYSID/lib/pkgconfig )
-  # NOTE LD_LIBRARY_PATH no longer set; instead build (if possible)
-  # with -Wl,-rpath=... linker option.
-fi
-
-export CC PKG_CONFIG_PATH LD_LIBRARY_PATH
-# SCHEME_LIBRARY_PATH
-
-# for my _dig completion script over in zsh-compdef
+export PKG_CONFIG_PATH="@@HOME@@/usr/Darwin15.6.0-x86_64/lib/pkgconfig:/opt/local/lib/pkgconfig"
+export R_LIBS_USER=@@HOME@@/lib/R
+export R_LIBS=@@HOME@@/lib/R
+export RSYNC_RSH='ssh -ax -o PreferredAuthentications=hostbased,publickey -o ClearAllForwardings=yes'
+export SCORE_VIEWER=mupdf
+export TMP=@@HOME@@/tmp
+export TMPDIR=@@HOME@@/tmp
+export TZ=UTC
+alias cal="LC_TIME=es_ES.UTF-8 cal"
+alias date="LC_TIME=es_ES.UTF-8 date"
+alias mycal="LC_TIME=es_ES.UTF-8 mycal"
+alias now="LC_TIME=es_ES.UTF-8 now"
+alias ack='ack --nocolor'
+alias anykey="getraw -o '*:0';: "
+alias ascii='man 7 ascii;: '
+alias atonal-util='atonal-util --ly --flats'
+alias bat='pmset -g ps;: '
+alias cdt="cd @@HOME@@/tmp;: "
+alias cdc='cd;print -n "\ec";: '
+alias commit='git commit -a'
+alias cp='cp -p'
+alias cursor-hide='tput civis;: '
+alias cursor-show='tput cnorm;: '
+alias diff='diff -u'
+alias diss='otool -dtv'
+alias ipcalc='ipcalc -n'
+alias ldd='otool -L'
+alias lldb='lldb -X'
+alias mitysisku='mitysisku -e'
+alias mutt='TERM=vt220 mutt'
+alias newshell='exec zsh -l'
+alias perldoc='perldoc -t'
+alias prove='prove --nocolor --blib'
+alias R='R -q --silent --no-save'
+alias scp='scp -p'
+alias timidity=tlymidity
+alias top='top -o CPU -F;print;: '
+alias ttywrite='ttywrite -N'
+alias vbm='VBoxManage -q'
+alias showvirts='VBoxManage -q list vms;: '
+alias runningvirts='VBoxManage -q list runningvms;: '
+alias xpquery='xpquery -E UTF-8'
+function cd {
+   if [[ -z $1 ]]; then
+      builtin cd
+   elif [[ -f $1 ]]; then
+      builtin cd ${1:h}
+   elif [[ $1 == - ]]; then
+      builtin cd -
+   elif [[ ! -e $1 ]]; then
+      echo >&2 "cd: no such file or directory: $1"
+      return 1
+   else
+      builtin cd $1
+   fi
+}
+function cleanup_term { print "\e]2;\a"; }
+function dc {
+   if [ -z "$1" ]; then
+      /usr/bin/dc -e '4 k' -
+   else
+      /usr/bin/dc -e '4 k' "$@"
+   fi
+}
+function info { command info "$@" 2>/dev/null | less; }
+function j { pgrep -u @@USER@@ -lf '(^|/)'vi '(^|/)'vim; jobs -l; }
+function perl-deparse { perl -MO=Deparse,-p,-sCi2 -e "$@"; }
+function pm-version { perl -M$1 -le "print \$$1::VERSION"; }
+function pm-path { perl -M$1 -le "print \$INC{\"${1//::/\/}.pm\"}"; }
+function pmt {
+   if [ -r Makefile.PL ]; then
+      make clean;
+      perl Makefile.PL && make && \
+      RELEASE_TESTING=1 TEST_SIGNATURE=1 make test 2>&1 | $PAGER
+   elif [ -r Build.PL ]; then
+      ./Build clean >/dev/null 2>&1
+    ( perl Build.PL && ./Build && \
+      RELEASE_TESTING=1 TEST_SIGNATURE=1 ./Build test ) 2>&1 | $PAGER 
+   else
+      false
+   fi
+}
+function sbcl {
+   if [ $# -eq 0 ]; then
+      # interactive, drop a newline on exit
+      /opt/local/bin/sbcl --noinform
+      print
+   else
+      /opt/local/bin/sbcl --noinform "$@"
+   fi
+}
+function vagrant {
+   (
+      unset TMP TMPDIR
+      VAGRANT_NO_COLOR=1 command vagrant "$@"
+   )
+}
+fpath[0,1]=(@@HOME@@/.zsh/functions/darwin @@HOME@@/.zsh/functions)
+autoload -U compinit edit-command-line
+compinit
 typeset -aU dns_servers
 dns_servers=('\:\:1' 8.8.4.4)
-
-autoload -U compinit edit-command-line select-word-style
-compinit
 zle -N edit-command-line
-
-# bad habits die hard
-select-word-style bash
-
-# Some tests from the "Bash to Z Shell" book
-zstyle ':completion:*' format %d
-zstyle ':completion:*' group-name ''
-zstyle ':completion:*:-command-:*:(commands|builtins|reserved-words|aliases)' group-name commands
-zstyle ':completion:*:manuals' separate-sections true
-zstyle ':completion:*:warnings' format 'No matches: %d'
-# test no dups to these
-zstyle ':completion::*:(cvs-add|less|rm|vi*):*' ignore-line true
-# meh? (though good to document the fashions of the time of the book)
-#zstyle ':completion:*:*:cd:*' ignored-patterns '(*/|)(CVS|SCCS)'
-zstyle ':completion:*' ignore-parents parent pwd
-
-# Make this exist for completion even if unset
-zstyle ':completion::*:(-command-|export):*' fake-parameters LD_LIBRARY_PATH:scalar
-
-# For use with my feed(1) util
-zstyle ':completion:*:*:feed:*:commands' fake-always clisp sbcl tclsh expect wish perl tinyrepl gdb
-zstyle ':completion:*:*:feed:*:commands' ignored-patterns '*'
-
-# perhaps good for /:cygdrive or for automount, if you have those
-#zstyle ':completion:*' fake-files '/somedir'
-
-# custom list, not from whatever inappropriate randomness is in the system
-# hosts file or whatever SSH dragged home
-zstyle -e ':completion:*' hosts 'reply=($(< ~/.hosts))'
-
-# might set this for all commands if have a large userbase
-zstyle ':completion:*:(rsync|scp|ssh|telnet):*' users root $USER
-
-zstyle ':completion:*' special-dirs ..
-
-zstyle ':completion:*:*:lilypond:*' file-patterns '*.ly:lilypond\ files *(-/):directories'
-zstyle ':completion:*:*:(midiutil*:pianoteq|timidity|tlymidity):*' file-patterns '*.(mid|MID|midi):MIDI\ files *(-/):directories'
-zstyle ':completion:*:*:mopen:*:all-files' file-patterns '*.pdf:PDF *(-/):directories'
-
-zstyle ':completion:*:*:prove:*' file-patterns '*.t:test\ files *(-/):directories'
-
-zstyle ':completion:*:*:showscore:*' file-patterns '*.pdf:PDF\ files *(-/):directories'
-
-# Texty things do not need to find binary things 99.x% of time
-zstyle ':completion:*:*:(ack|bbedit|di|diff|*grep|less|vi|vim):*:all-files' ignored-patterns '*.core' '*.o' '*.ps' '*.pdf' '*.midi' '*.mp3' '*.wav' '*.t2d' '*.eps' '*.aux' '*.bbl' '*.blg' '*.log' '*.toc'
-
-# Commands to ignore completion on as they 99.N% of the time just delay
-# me getting to what I want
-zstyle ':completion:*:*:-command-:*' ignored-patterns '(libtool|limit|link|linkicc|lipo|lispmtopgm|listings-ext.sh|listres|lilymidi|lilypond-book|lilypond-invoke-editor|lilysong|perlivp*|perlthanks*|perlbug*|perlcc*|perltex*|cron|*-config|libnetcfg*|pbm*)'
-
-########################################################################
-#
-# Key Bindings
-
-KEYTIMEOUT=1
-
-# or you can be explicit instead of relying on EDITOR peeks
+ZLE_SPACE_SUFFIX_CHARS='&|'
 bindkey -v
-
 local mode
 for mode in vicmd viins; do
-  bindkey -M $mode "^v" edit-command-line
-  bindkey -M $mode "^t" push-line-or-edit
-
-  # lets me know whether I'm in tmux or not
-  bindkey -M $mode "^P" up-history
-  bindkey -M $mode "^N" down-history
+   bindkey -M $mode "^e" edit-command-line
+   bindkey -M $mode "^t" push-line-or-edit
+   bindkey -M $mode "^P" up-history
 done
-
-# probably a bit extreme, as it nixes the arrow keys and such, but even
-# with KEYTIMEOUT at min value, that delay is still annoying.
+unset mode
+bindkey -M vicmd "j" vi-down-line-or-history
+bindkey -M vicmd "k" vi-up-line-or-history
 bindkey -rpM viins '^['
 bindkey -rpM vicmd '^['
-
-# mostly for "cp somelongname somelongnamewithtweaks" cases
-function myrepeat-last-word {
-  BUFFER="$BUFFER ${${(z)BUFFER}[-1]}"
-  CURSOR=$#BUFFER
-}
-zle -N myrepeat-last-word
-bindkey -M vicmd "^W" myrepeat-last-word
-bindkey -M viins "^W" myrepeat-last-word
-
-########################################################################
-#
-# Functions
-
-function term-embiggen { echo -ne "\e[3;0;0t\e[8;0;0t" }
-function term-norm { echo -ne "\e[8;24;80t" }
-function term-chat { echo -ne "\e[8;34;80t" }
-function term-tall { echo -ne "\e[8;0;80t" }
-function term-floatleft { echo -ne "\e[3;0;0t" }
-# this is for laptop, and depends on font used, etc
-function term-floatright { echo -ne "\e[3;795;0t" }
-# possibly handy as "term-down; dosomelongcalc; term-up" (or more likely
-# for pranks on coworkers who leave their screens unlocked)
-function term-down { echo -ne "\e[2t" }
-function term-up { echo -ne "\e[1t" }
-
-function cd {
-  if [[ -z $1 ]]; then
-    builtin cd
-  elif [[ -f $1 ]]; then
-    builtin cd ${1:h}
-  elif [[ $1 == - ]]; then
-    builtin cd -
-  elif [[ ! -e $1 ]]; then
-    echo >&2 "cd: no such file or directory: $1"
-    return 1
-  else
-    builtin cd $1
-  fi
-}
-
-# to get gdb workey on OS X (at least as of 10.11; 10.12 is unsupported
-# on my 2009 era macbook):
-#
-#   sudo pkg_add gcc6 gdb
-#   rehash
-#   ln -s =ggdb ~/bin/gdb
-#   port select --list gcc
-#   sudo port select --set gcc mp-gcc6
-#   rehash
-#   sudo dseditgroup -o edit -a $USER -t user procmod
-#
-# Then option-key-boot and then edit
-#   /System/Library/LaunchDaemons/com.apple.taskgated.plist 
-# and set flags to -sp
-function gdb {
-  command gdb -q "$@"
-  echo
-}
-function lldb {
-  command lldb "$@"
-  echo
-}
-
-# "go home" or "go work" being the two most common places I SSH to...
-# (there's a ~/.ssh/config entry that include 'gh' or 'gw' as a 'Host'
-# option, and then 'Hostname' of the IP address of the actual server)
-function gh {
-  command ssh gh "$@"
-  if [[ $? -ne 0 ]]; then
-    # help log timing info on any network burps
-    logger -- ssh non-zero exit $? for "$@"
-  fi
-  if [ -t 1 ]; then
-    # some vendors put crap in the title bar, clear it
-    echo -ne "\e]2;\a"
-    clear
-    stty sane
-  fi
-}
-
-function ghre {
-  command ssh -t gh tmux attach
-  if [[ $? -ne 0 ]]; then
-    # help log timing info on any network burps
-    logger -- ssh non-zero exit $? for "$@"
-  fi
-  if [ -t 1 ]; then
-    echo -ne "\e]2;\a"
-    clear
-    stty sane
-  fi
-}
-
-function gw {
-  command ssh gw "$@"
-  if [[ $? -ne 0 ]]; then
-    # help log timing info on any network burps
-    logger -- ssh non-zero exit $? for "$@"
-  fi
-  if [ -t 1 ]; then
-    echo -ne "\e]2;\a"
-    clear
-    stty sane
-  fi
-}
-
-# because I pretty much always forget to supply the device
-function midiplay {
-  if [[ $# -eq 1 ]]; then
-    =midiplay -f rmidi/0 $1
-  else
-    =midiplay "$@"
-  fi
-}
-
-function ssh {
-  command ssh $@
-  if [[ $? -ne 0 ]]; then
-    # help log timing info on any network burps
-    logger -- ssh non-zero exit $? for "$@"
-  fi
-  if [[ -t 1 ]]; then
-    stty sane
-    # clear any title bar spam and ensure cursor is visible subsequent
-    # (civis hides the cursor)
-    echo -ne "\e]2;\a$terminfo[cnorm]"
-  fi
-}
-
-# ENOTUSED
-#function h {
-#  history -$(($LINES-3))
-#}
-
-function j {
-  pgrep -u $USER -lf '(^|/)'vi '(^|/)'$EDITOR
-  jobs -l
-}
-
-function lilypond {
-  local MRF MRP
-
-  if [[ -n $1 ]]; then
-    command lilypond --silent -dno-point-and-click "$@"
-  else
-    # \include files trip this up, so name those with an extra .
-    # somewhere in the filename, e.g. voice1.inc.ly (or hide them in
-    # a subdir)
-    MRF=$(glf --exclude='[.](?!ly$)' '\.ly' .)
-
-    if [[ -z $MRF ]]; then
-      echo >&2 "no *.ly found (or glf problem)"
-      return 1
-    fi
-
-    MRP=${MRF%%ly}pdf
-
-    [[ ! -e $MRP || $MRF -nt $MRP ]] && {
-      command lilypond --silent -dno-point-and-click $MRF
-    }
-  fi
-}
-
-function pmr {
-  local -a midi_file
-
-  if [[ -n $1 ]]; then
-    if [[ $1 == *.ly || -e $1.ly ]]; then
-      lilypond $1
-    elif [[ -f ${1:r}.ly ]]; then
-      lilypond ${1:r}.ly
-    else
-      midi_file=($1)
-    fi
-  fi
-
-  (( $#midi_file )) || midi_file=(*.midi(om[1]))
-
-  ~/libexec/player $midi_file
-}
-
-function pmt {
-  # no, I don't use Module::Build nor dzil
-  make realclean; perl Makefile.PL && make && make test |& less
-}
-
-# ^D out of sqlite3 not clean (don't want to waste brain space on .q)
-function sqlite3 {
-  command sqlite3 "$@"
-  echo
-}
-
-# Play most recently modified MIDI if nothing passed (via custom wrapper
-# that inspects *.ly if available and reads timidity options from
-# special comment therein)
-function timidity {
-  command tlymidity "$@"
-}
-
-function vagrant {
-  # okay so vagrant and gem piddling files all over $TMP and not
-  # cleaning them up is cute and all...
-  local vtmpdir=$TMP/.vagranttmpspam
-  [[ ! -d $vtmpdir ]] && mkdir $vtmpdir
-
-  (
-    TMP=$vtmpdir
-    TMPDIR=$TMP
-
-    # yay! now an option to disable colour vomit, so don't need | cat kluge
-    VAGRANT_NO_COLOR=1 =vagrant "$@"
-  )
-
-  # clear any term titlebar spam
-  if [[ -t 1 && $@ =~ ssh && ! $@ =~ ssh-config ]]; then
-    echo -ne "\e]2;\a\ec"
-  fi
-}
-
-########################################################################
-#
-# Aliases
-
-alias ack='ack --nocolor'
-
-alias anykey="getraw -o '*:+'"
-
-alias arp='arp -n'
-
-alias atonal-util='atonal-util --ly --flats'
-
-# GNU license spam :(
-alias clisp='clisp -q -q -on-error abort -modern'
-
-# preserve permissions by default (also for scp, below)
-alias cp='cp -p'
-
-alias diff='diff -u'
-
-alias dig='dig +nocmd +nostats'
-
-# part of the "tl;dr" toolkit.
-alias dr=:
-
-alias findin='findin -q'
-
-# "history share"
-alias hs='fc -RI'
-
-alias ipcalc='ipcalc -n'
-
-#unalias grep 2>/dev/null        # in event vendor set color crap somehow
-#unalias ls 2>/dev/null          # "
-
-# but in the event I want to see the local time... (another bad habit)
-alias fecha="TZ=US/Pacific date +'%Y-%m-%d %H:%M:%S'"
-alias realdate='tput civis; clear; while :; do sleep 1; echo 12:00; sleep 1; clear; done'
-
-# As I'm usually running netstat when things are broken, and then it stalls
-# trying to lookup broken things, and then you're C-cing and swearing and
-# loosing time on troubleshooting...
-alias netstat='netstat -n'
-
-# but do need local timezone when reading labels off of bottles
-alias now='TZ=US/Pacific now'
-
-# GNU license spam :(
-alias octave='octave --silent'
-
-# really don't use databases
-#alias psql='psql -A -q -S'
-
-#alias puts='print -l'
-
-# R license spam :(
-alias R='R --silent'
-
-alias sbcl='sbcl --noinform'
-
-alias scp='scp -p'
-
-# cnorm should undo both civis and cvvis, though "very visible" cursors
-# appear no different on the systems I use...
-alias show-cursor='echo -ne $terminfo[cnorm]'
-alias hide-cursor='echo -ne $terminfo[civis]'
-
-# from 'Bash to Z Shell' book (`stty tostop` might also be handy to halt
-# anything backgrounded if it tries to spam the console)
-alias stop='kill -TSTP'
-# TODO need hammertime
-#
-# Another fun thing for terminal foo:
-#   printf '%q\n' $(tput cup 3 10)
-# (and also `tput sc` ... `tput rc` to save/restore the cursor position
-# between whatever happens in ...)
-
-alias sudo='sudo -H'
-
-alias xmllint="xmllint --encode utf8"
-
-if [[ $OSTYPE == darwin* ]]; then
-  alias bbedit="bbedit -b"
-  alias ldd='otool -L'
-  alias top='top -o CPU -F'
-
-  # as typing CamelCase sucks
-  alias vbm='VBoxManage -q'
-
-  # over in scripts repository -- jmates@ 2014-07-04
-  # handy means for marking config files/wiki so folks know the who/when
-  # directly and do not have to delve back through version control or whatnot
-# but not really using it so....
-# function tagit {
-#   =tagit -id | pbcopy
-# }
-
-  # for ly-fu (install from MacPorts)
-  export SCORE_VIEWER=mupdf-x11
-
-  # clear titlebar spam, if any
-  echo -ne "\e]2;\a"
-
-elif [[ $OSTYPE =~ "openbsd" ]]; then
-  alias pbcopy='xclip -in'
-  alias pbpaste='xclip -out'
-
-  # which is just a shell `exec xclip -in` wrapper (or fiddle with copycat.c)
-  export CLIPBOARD=~/libexec/pbcopy
-
-  function tagit {
-    =tagit -id | xclip -in
-  }
-
-  zstyle ':completion:*:*:open:*' file-patterns '*.pdf:PDF\ files *(-/):directories'
-
-  # for ly-fu
-  export SCORE_VIEWER=mupdf
-fi
-
-# aaargh. copy-paste totally busted in zsh 5.2, disable this wacky thing
-unset zle_bracketed_paste
+bindkey -M vicmd -- "-" vi-beginning-of-line
+zstyle ':completion:*:processes' command 'ps -A -o pid,user,command'
+zstyle ':completion:*:*:open:*:all-files' ignored-patterns '*.ps' '*.ly'
+zstyle ':completion:*' special-dirs ..
+zstyle ':completion:*:(scp|ssh|rsync|telnet):*' users root @@USER@@
+zstyle ':completion:*:*:(ack|bbedit|di|diff|*grep|less|vi|vim):*:all-files' ignored-patterns '*.o' '*.ps' '*.pdf' '*.midi' '*.mp3' '*.wav' '*.t2d' '*.eps' '*.fas' '*.lib'
+zstyle ':completion:*:*:(midi-util|pianoteq|timidity|tlymidity):*' file-patterns '*.midi:MIDI' '*(-/):directories'
+zstyle ':completion:*:*:-command-:*' ignored-patterns '(debinhex*|escputil|coproc|ilbmtoppm|libtool|limit|link|linkicc|lipo|lispmtopgm|listings-ext.sh|listres|link-parser|lilymidi|lilypond-book|lilypond-invoke-editor|lilysong|lily-glyph-commands|lily-image-commands|lily-rebuild-pdfs|perlivp*|perlthanks*|perlbug*|perlcc*|perltex*|cron|*-config*|libnetcfg*|showchar|showfont|showmount|showrgb|*pbm|midi2ly|mupdf-x11|port-tclsh|getmapdl)'
+zstyle ':completion:*:*:dmanview:*' file-patterns '*.[1-9]:man\ files *(-/):directories'
+zstyle ':completion:*:*:feed:*:commands' ignored-patterns '*'
+zstyle ':completion:*:*:feed:*:commands' fake-always expect gdb perl sbcl tclsh tinyrepl wish zsh
+zstyle ':completion:*:*:lilypond:*' file-patterns '*.ly:lilypond\ files *(-/):directories'
+zstyle ':completion:*:*:mopen:*:all-files' file-patterns '*.pdf:PDF *(-/):directories'
+zstyle ':completion:*:*:prove:*' file-patterns '*.t:test\ files *(-/):directories'
+zstyle ':completion:*:prefix:*' add-space true
+zstyle -e ':completion:*' hosts 'reply=($(< @@HOME@@/.hosts))'
+zmodload zsh/mathfunc
+#unset zle_bracketed_paste
+#print -z
