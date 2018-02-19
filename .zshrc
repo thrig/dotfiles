@@ -4,7 +4,6 @@ unsetopt AUTO_NAME_DIRS AUTO_REMOVE_SLASH HIST_VERIFY MARK_DIRS NO_LIST_AMBIGUOU
 HISTSIZE=64
 KEYTIMEOUT=1
 MAILCHECK=0
-path=(@@HOME@@/bin @@HOME@@/usr/Darwin15.6.0-x86_64/bin @@HOME@@/perl5/bin /opt/local/libexec/perl5.26 /opt/local/bin /opt/local/sbin /usr/local/bin /usr/local/sbin /usr/X11R6/bin /usr/bin /usr/sbin /bin /sbin)
 export MANPATH="@@HOME@@/usr/share/man:@@HOME@@/usr/Darwin15.6.0-x86_64/share/man:@@HOME@@/perl5/man:/usr/local/man:/Applications/Xcode.app/Contents/Developer/usr/share/man:/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/share/man:/opt/local/share/texmf-texlive/doc/man:/opt/X11/share/man:/opt/local/share/man:/usr/share/man:/Applications/Wireshark.app/Contents/Resources/share/man"
 no_proxy="127.0.0.1,localhost,*.local"
 export CC=gcc
@@ -119,7 +118,6 @@ function vagrant {
       VAGRANT_NO_COLOR=1 command vagrant "$@"
    )
 }
-fpath[0,1]=(@@HOME@@/.zsh/functions/darwin @@HOME@@/.zsh/functions)
 autoload -U compinit edit-command-line
 compinit
 typeset -aU dns_servers
