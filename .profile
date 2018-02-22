@@ -33,6 +33,8 @@ TMP=@@HOME@@/tmp
 TMPDIR=@@HOME@@/tmp
 TZ=UTC
 set +o allexport
+alias di='git diff'
+alias ketchup='git status -sb'
 alias cal="LC_TIME=es_ES.UTF-8 cal"
 alias date="LC_TIME=es_ES.UTF-8 date"
 alias mycal="LC_TIME=es_ES.UTF-8 mycal"
