@@ -1,0 +1,114 @@
+# http://danluu.com/input-lag
+
+env:
+  TERM: xterm-256color
+
+window:
+  dimensions:
+    columns: 80
+    lines: 30
+  padding:
+    x: 2
+    y: 2
+  decorations: true
+
+tabspaces: 8
+
+draw_bold_text_with_bright_colors: false
+
+font:
+  normal:
+    family: Menlo
+  bold:
+    family: Menlo
+    style: Bold
+  italic:
+    family: Menlo
+  size: 24.0
+  offset:
+    x: 2
+    y: 0
+  glyph_offset:
+    x: 0
+    y: 0
+  # can't read anemic thin fonts
+  use_thin_strokes: false
+
+render_timer: false
+
+custom_cursor_colors: false
+
+colors:
+  primary:
+    background: '0x000000'
+    foreground: '0xe7c547'
+
+  cursor:
+    text: '0x000000'
+    cursor: '0xffffff'
+
+  normal:
+    black:   '0x000000'
+    red:     '0xd54e53'
+    green:   '0xb9ca4a'
+    yellow:  '0xe6c547'
+    blue:    '0x7aa6da'
+    magenta: '0xc397d8'
+    cyan:    '0x70c0ba'
+    white:   '0xffffff'
+
+  # Bright colors
+  bright:
+    black:   '0x666666'
+    red:     '0xff3334'
+    green:   '0x9ec400'
+    yellow:  '0xe7c547'
+    blue:    '0x7aa6da'
+    magenta: '0xb77ee0'
+    cyan:    '0x54ced6'
+    white:   '0xffffff'
+
+  # Dim colors (Optional)
+  dim:
+    black:   '0x333333'
+    red:     '0xf2777a'
+    green:   '0x99cc99'
+    yellow:  '0xffcc66'
+    blue:    '0x6699cc'
+    magenta: '0xcc99cc'
+    cyan:    '0x66cccc'
+    white:   '0xdddddd'
+
+visual_bell:
+  animation: EaseOutExpo
+  duration: 0
+
+background_opacity: 1.0
+
+mouse_bindings:
+  - { mouse: Middle, action: PasteSelection }
+
+mouse:
+  double_click: { threshold: 300 }
+  triple_click: { threshold: 300 }
+
+  faux_scrollback_lines: 0
+
+selection:
+  semantic_escape_chars: ",│`|:\"' ()[]{}<>"
+
+dynamic_title: false
+
+hide_cursor_when_typing: true
+
+cursor_style: Block
+
+live_config_reload: false
+
+# TODO see if actually need arrow keys for anything important
+key_bindings:
+  - { key: V,        mods: Command, action: Paste                        }
+  - { key: C,        mods: Command, action: Copy                         }
+  - { key: Tab,      mods: Shift,   chars: "\x1b[Z"                      }
+  - { key: Back,                    chars: "\x7f"                        }
+  - { key: Delete,                  chars: "\x1b[3~"                     }
