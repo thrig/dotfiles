@@ -13,6 +13,7 @@ export LANG="en_US.UTF-8"
 export LC_CTYPE=en_US.UTF-8
 export LC_MESSAGES=POSIX
 unset LC_ALL
+export GIT_CEILING_DIRECTORIES=@@HOME@@
 export GOPATH=@@HOME@@/src/go
 export LESS="-igX-j5"
 export LESSHISTFILE=/dev/null

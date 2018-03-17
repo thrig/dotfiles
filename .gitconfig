@@ -7,15 +7,13 @@
 [init]
         templateDir = /var/empty
 [alias]
-	amend = commit --amend --no-edit
-	br = branch
-	ci = commit -q
+	amend = "!git add -A; git commit --amend --no-edit"
 	co = checkout
 	di = diff
 	last = log --stat -1 HEAD
-	rbi = rebase -i
-	st = status -sb
-	unstage = reset HEAD --
+	up = "!git remote update -p; git merge --ff-only @{u}"
+[pull]
+	ff = only
 [push]
 	default = simple
 [color]
