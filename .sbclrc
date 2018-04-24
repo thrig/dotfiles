@@ -74,6 +74,11 @@
 
 (defun coinflip () (plusp (random 2)))
 
+(defun date ()
+  (multiple-value-bind (ss mm hh day mon year) (get-decoded-time)
+    (format t "~D-~2,'0D-~2,'0D ~2,'0D:~2,'0D:~2,'0D~%"
+            year mon day hh mm ss)))
+
 ;;; reminder: probably want
 ;;;   (make-hash-table :test 'equal)
 ;;; as the default test is surprising coming from Perl

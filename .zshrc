@@ -90,6 +90,7 @@ function dc {
 }
 function info { command info "$@" 2>/dev/null | less; }
 function j { pgrep -u @@USER@@ -lf '(^|/)'vi '(^|/)'vim; jobs -l; }
+function lpass { LPASS_DISABLE_PINENTRY=1 =lpass "$@" --color=never }
 function perl-deparse { perl -MO=Deparse,-p,-sCi2 -e "$@"; }
 function pm-version { perl -M$1 -le "print \$$1::VERSION"; }
 function pm-path { perl -M$1 -le "print \$INC{\"${1//::/\/}.pm\"}"; }
