@@ -76,8 +76,19 @@
 
 (defun date ()
   (multiple-value-bind (ss mm hh day mon year) (get-decoded-time)
-    (format t "~D-~2,'0D-~2,'0D ~2,'0D:~2,'0D:~2,'0D~%"
+    (format nil "~D-~2,'0D-~2,'0D ~2,'0D:~2,'0D:~2,'0D"
             year mon day hh mm ss)))
+
+;;; so one can say things like (frequency nil '(e e e c)) or
+;;; (frequency #'length '((a) (b b) (c c c) (d d d)) :test #'equal)
+(defun frequency (fn list &key (test #'eql))
+  (let ((table (make-hash-table :test test)) (key nil) (value nil) (output nil))
+    (dolist (item list)
+      (setf key (if (null fn) item (funcall fn item)))
+      (setf value (gethash key table))
+      (setf (gethash key table) (1+ (if (numberp value) value 0))))
+    (maphash #'(lambda (k v) (push (list v k) output)) table)
+    (sort output #'< :key #'car)))
 
 ;;; reminder: probably want
 ;;;   (make-hash-table :test 'equal)
