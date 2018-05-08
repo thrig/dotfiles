@@ -45,7 +45,7 @@ if {$tocall eq "pfe" || [string match "*forth*" $tocall]} {
         }
 
         send -- "$line\r"
-        sleep .05
+        sleep .025
 
         if {$tocall eq "sbcl"} {
             expect {
