@@ -1,9 +1,3 @@
-;;; more-or-less tested with both clisp and sbcl. look for PORTABILITY
-;;; related things relevant to use on other implementations.
-
-;;; NOTE probably need to
-;;;   ln .sbclrc .clisprc.lisp
-
 ;;; (progn ... (values)) is another way to prevent the return value from
 ;;; make-random-state from cluttering up the output
 (block nil (setq *random-state* (make-random-state t)) (return))
@@ -19,29 +13,6 @@
 ;(defmacro ** (a b)
 ;  `(expt ,a ,b))
 
-(defmacro capture-append (file &body body)
-  `(with-open-file
-     (*standard-output* ,file
-                        :direction :output
-                        :if-exists :append
-                        :if-does-not-exist :create)
-     ,@body))
-
-(defmacro capture-clobber (file &body body)
-  `(with-open-file
-     (*standard-output* ,file
-                        :direction :output
-                        :if-exists :supersede)
-     ,@body))
-
-;;; lazy(?) way to peek at contents of a given file
-(defun cat (file)
-  (with-open-file (in file)
-    (loop for line = (read-line in nil) while line do
-          (write-string line)
-          (fresh-line))
-    (values)))
-
 ;;; PORTABILITY just the command line arguments, if any
 (defun cli-args ()
   #+CLISP ext:*args*
@@ -55,51 +26,12 @@
 ;   sbcl --script .clisprc.lisp test test 1 2 3
 ;(print (cli-args)) (fresh-line)
 
-;;; Copies text into clipboard
-;;;   (clippy "blah")
-;;;   (clippy (format nil "~d" (truncate pi)))
-;;;
-;;; Assuming Mac OS X or that a `pbcopy` command exists that Does The
-;;; Right Thing, e.g. perhaps something like
-;;;
-;;;   #!/bin/sh
-;;;   exec xclip -in
-;;;
-;;; or instead with xsel, or whatever.
-(defmacro clippy (this)
-  (let ((out (gensym)))
-    `(with-open-stream (,out (stream-to-program "pbcopy"))
-       (unwind-protect (write-string ,this ,out)
-         (close ,out)))))
-
 (defun coinflip () (plusp (random 2)))
 
 (defun date ()
   (multiple-value-bind (ss mm hh day mon year) (get-decoded-time)
     (format nil "~D-~2,'0D-~2,'0D ~2,'0D:~2,'0D:~2,'0D"
             year mon day hh mm ss)))
-
-;;; so one can say things like (frequency nil '(e e e c)) or
-;;; (frequency #'length '((a) (b b) (c c c) (d d d)) :test #'equal)
-(defun frequency (fn list &key (test #'eql))
-  (let ((table (make-hash-table :test test)) (key nil) (value nil) (output nil))
-    (dolist (item list)
-      (setf key (if (null fn) item (funcall fn item)))
-      (setf value (gethash key table))
-      (setf (gethash key table) (1+ (if (numberp value) value 0))))
-    (maphash #'(lambda (k v) (push (list v k) output)) table)
-    (sort output #'< :key #'car)))
-
-;;; reminder: probably want
-;;;   (make-hash-table :test 'equal)
-;;; as the default test is surprising coming from Perl
-;;; PORTABILITY style warning reduction for SBCL
-(defun hash-empty (table)
-  #+SBCL (declare (sb-ext:muffle-conditions style-warning))
-  (maphash #'(lambda (k unused) (remhash k table)) table))
-
-(defun hash-show (table)
-  (maphash #'(lambda (k v) (format t "~a => ~a~%" k v)) table))
 
 ;;; nixes return value (though there's still a trailing blank line in
 ;;; `clisp -q -q -x ...` output).
@@ -165,35 +97,10 @@
          ((< ,repnum 1) (return))
          (progn ,@body)))))
 
-(defmacro sethash (hash key &optional (value nil))
-  `(setf (gethash ,key ,hash) ,value))
-
-;;; and this form needs a '(key value key2 value2 ...) list.
-(defun sethash-fromlist (hash list)
-  ; without this guard value of trailing key would be nil, and there
-  ; would be no error
-  (if (oddp (list-length list)) (error "odd number of elements in list"))
-  (loop while list do
-        (sethash hash (pop list) (pop list))))
-
 ;;; for music related needs. also note the (/= a b) function to check
 ;;; whether the given values differ or not
 (defun sign-of (number)
   (if (minusp number) -1 1))
-
-;;; more PORTABILITY
-(defun stream-to-program (prog &rest args)
-  #+CLISP (run-program prog
-                       :arguments args
-                       :input :stream
-                       :output nil)
-  #+SBCL (sb-ext:process-input
-           (sb-ext:run-program prog args
-                               :input :stream
-                               :output nil
-                               :search t
-                               :wait nil))
-  #-(or CLISP SBCL) (error "run-program unimplemented"))
 
 ;;; mostly so I can build a list up from either end; if building a list
 ;;; only from one end, (push) and then (nreverse) if needed would be
