@@ -95,7 +95,7 @@
          (error "repeat count must be positive integer"))
        (do ((,repnum ,count (1- ,repnum)))
          ((< ,repnum 1) (return))
-         (progn ,@body)))))
+         ,@body))))
 
 ;;; for music related needs. also note the (/= a b) function to check
 ;;; whether the given values differ or not
