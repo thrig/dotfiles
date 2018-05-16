@@ -22,6 +22,10 @@
 (defun report-result (counter result form)
   (format t "~:[not ok~;ok~] ~d - ~a~%" result counter form)
   result)
+; TODO need TAP summary count 1..N afterwards, maybe a flag for
+; quiet mode to only show error out, or instead to use prove(1)
+; against a file in the CLI (or check out TAP implementations
+; and quicklisp...)
 (defmacro prove (&body forms)
   `(combine-results
     ,@(loop for f in forms for i from 1 collect
