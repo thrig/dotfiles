@@ -2,4 +2,9 @@
 ;;; make-random-state from cluttering up the output
 (block nil (setq *random-state* (make-random-state t)) (return))
 
+(defun date ()
+  (multiple-value-bind (ss mm hh day mon year) (get-decoded-time)
+    (format nil "~D-~2,'0D-~2,'0D ~2,'0D:~2,'0D:~2,'0D"
+            year mon day hh mm ss)))
+
 ;;; otherwise see files in .lisp directory

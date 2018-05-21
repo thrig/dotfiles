@@ -1,6 +1,6 @@
 ;;; integer modulus more or less how Perl does it
-(defmacro % (a b)
-  `(mod (truncate ,a) (truncate ,b)))
+(defun % (a b)
+  (mod (truncate a) (truncate b)))
 
 ;;; also copied from perl as can't remember expt (... but SBCL is very
 ;;; unhappy about this definition, and CLISP also complains, so leave it
@@ -24,11 +24,6 @@
 
 (defun coinflip () (plusp (random 2)))
 
-(defun date ()
-  (multiple-value-bind (ss mm hh day mon year) (get-decoded-time)
-    (format nil "~D-~2,'0D-~2,'0D ~2,'0D:~2,'0D:~2,'0D"
-            year mon day hh mm ss)))
-
 ;;; nixes return value (though there's still a trailing blank line in
 ;;; `clisp -q -q -x ...` output).
 (defmacro no-return (&body body)
@@ -40,13 +35,12 @@
   `(let ,(loop for n in names collect `(,n (gensym)))
      ,@body))
 
-(defmacro random-list-item (alist)
-  `(progn
-     (or (listp ,alist)
-       (error "random-list-item needs a list to act on"))
-     (if (= 0 (list-length ,alist))
-       nil
-       (nth (random (list-length ,alist)) ,alist))))
+(defun random-list-item (alist &optional alen)
+  (or (listp alist)
+      (error "need a list to act on"))
+  (let ((len (if (integerp alen) alen (list-length alist))))
+    (if (= 0 len) nil
+      (nth (random len) alist))))
 
 ;;; ported from my .tclshrc, allows stuff like
 ;;;   (reduce #'+ (range 2 5))
@@ -59,7 +53,7 @@
     (setf min (+ min step))))
 
 ;;; range + reducing lambda so can say
-;;;   (rangel 2 5 #'+)
+;;;   (rangel 2 5 1 #'+)
 ;;; to avoid the generation-of-the-complete-list thing under
 ;;;   (reduce ... (range ...))
 (defmacro rangel (min max step &optional call)
