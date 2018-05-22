@@ -52,28 +52,16 @@
     (push min list)
     (setf min (+ min step))))
 
-;;; range + reducing lambda so can say
-;;;   (rangel 2 5 1 #'+)
+;;;   (rrange #'+ 2 5)
 ;;; to avoid the generation-of-the-complete-list thing under
 ;;;   (reduce ... (range ...))
-(defmacro rangel (min max step &optional call)
-  (let
-    ((fn (gensym)) (incr (gensym)) (op (gensym)) (ret (gensym)) (val (gensym)))
-    `(progn
-       (if (null ,call)
-         (progn
-           (setf ,fn ,step)
-           (setf ,incr 1))
-         (progn
-           (if (zerop ,step) (error "step must not be zero"))
-           (setf ,fn ,call)
-           (setf ,incr ,step)))
-       (if (and (< ,max ,min) (plusp ,incr)) (setf ,incr (* ,incr -1)))
-       (setf ,op (if (< ,min ,max) #'> #'<))
-       (setf ,ret ,min)
-       (do ((,val (+ ,min ,incr) (+ ,val ,incr))) ((funcall ,op ,val ,max))
-         (setf ,ret (funcall ,fn ,ret ,val)))
-       ,ret)))
+(defun rrange (fn min max &optional (step 1))
+  (if (zerop step) (error "step must not be zero"))
+  (if (and (< max min) (plusp step)) (setf step (* step -1)))
+  (do* ((op (if (< min max) #'> #'<))
+        (ret min (funcall fn ret val))
+        (val (+ min step) (+ val step)))
+    ((funcall op val max) ret)))
 
 ;;; repeat N times doing something(s), e.g.
 ;;;   (repeat 4 (print "hi"))
