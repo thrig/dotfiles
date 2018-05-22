@@ -1,7 +1,7 @@
 [core]
 	excludesfile = ~/.gitignore
 	pager = 
-	editor = vim
+	editor = ed -p '* '
 	autocrlf = false
         hooksPath = ~/.gittemplate
 [init]
