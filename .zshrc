@@ -49,7 +49,6 @@ alias cursor-hide='tput civis;: '
 alias cursor-show='tput cnorm;: '
 alias diff='diff -u'
 alias diss='otool -dtv'
-alias ed='ed -p \*\ '
 alias ipcalc='ipcalc -n'
 alias ldd='otool -L'
 alias lldb='lldb -X'
@@ -123,6 +122,7 @@ function vagrant {
       VAGRANT_NO_COLOR=1 command vagrant "$@"
    )
 }
+fpath=(@@HOME@@/.zsh/functions/darwin @@HOME@@/.zsh/functions $fpath)
 autoload -U compinit edit-command-line
 compinit
 typeset -aU dns_servers
