@@ -3,12 +3,12 @@ syntax off
 
 set mouse=
 
-" too close to escape key
+" too close to escape key, does never what I want
 map <F1> <nop>
 nmap <F1> <nop>
 imap <F1> <esc>
 
-" can't escape normally from this
+" can't escape with escape from this and so rarely use
 map q <nop>
 
 map <S-K> <nop>
@@ -23,15 +23,18 @@ inoremap <down> <nop>
 inoremap <left> <nop>
 inoremap <right> <nop>
 
+" like? need more? less?
+cabbrev Wq wq
+
 " disable annoying term blanking due to "alternate screen" (linux is
 " very bad about this, unlike OpenBSD) this can also be set in tmux
 " configuration or see tty/nukealtblank over in scripts repository
 set t_ti= t_te=
 
-" certain Linux vendors have in their infinite wisdom altered various
-" defaults, by default. this requires counter-defaults to return vim to
-" a semblance of usability (incsearch and hlsearch are in particular
-" extremely bothersome)
+" vim on RedHat is so annoying and non-standard that I've taken to
+" compiling my own version of vim on it from scratch; various settings
+" below may reflect the (ultimately futile) effort to mend RedHat vim
+" back to a usable state
 
 set noedcompatible
 
@@ -75,7 +78,7 @@ set nobackup
 set writeany
 set uc=0
 
-set viminfo='128,f0,<0,\"0,:0,/0,h,n~/.viminfo
+set viminfo='256,f0,<0,\"0,:0,/0,h,n~/.viminfo
 
 set wildmenu
 set wildmode=full
@@ -144,17 +147,15 @@ if has("autocmd")
         filetype on
 
         au BufNewFile,BufRead,BufEnter *.[138] map <LocalLeader>t :update<CR>:!dmanview %<CR><CR>
+        au BufNewFile,BufRead,BufEnter *.ex,*.exs setlocal shiftwidth=2 | map <LocalLeader>t :update<CR>:!feed % iex<CR><CR>
         au BufNewFile,BufRead,BufEnter *.gdb map <LocalLeader>t :update<CR>:!feed % gdb -q<CR><CR>
         au BufNewFile,BufRead,BufEnter *.ly setf lilypond
+        " don't want vim guessing between Rexx, Rebol, or R
+        au BufNewFile,BufRead *.r,*.R setf r
         au BufNewFile,BufRead,BufEnter *.t setlocal makeprg=prove\ --blib\ %:r
         au BufNewFile,BufRead,BufEnter *.zsh map <LocalLeader>t :update<CR>:!feed % zsh -f<CR><CR>
 
-        " don't want vim guessing between Rexx, Rebol, or R
-        au BufNewFile,BufRead *.r,*.R setf r
-
-        " redhat is remarkably persistent in setting unwanted options so
-        " hit fo with a hammer in more places
-        autocmd FileType c map <LocalLeader>i :%!gindent -st<CR>| iabbrev PUFF fprintf(stderr, "dbg| set fo-=r fo-=o
+        autocmd FileType c map <LocalLeader>i :%!gindent -st<CR>| iabbrev PUFF fprintf(stderr, "dbg
 
         autocmd FileType go map <LocalLeader>i :%!gofmt<CR> | setlocal expandtab | setlocal tabstop=4 | set makeprg=go\ build\ %
 
@@ -162,7 +163,7 @@ if has("autocmd")
 
         autocmd FileType lisp setlocal lisp | setlocal showmatch | map <LocalLeader>t :update<CR>:!feed % sbcl --noinform<CR><CR>| iabbrev PUFF (format t "~a~%"
 
-        autocmd FileType make setlocal noexpandtab | set fo-=r fo-=o
+        autocmd FileType make setlocal noexpandtab
 
         autocmd FileType perl map <LocalLeader>i :%!perltidy<CR>| iabbrev DIAG use Data::Dumper; diag Dumper| iabbrev DIAC use Data::Dumper::Concise::Aligned; diag DumperA| iabbrev PUDD use Data::Dumper; warn Dumper| iabbrev PUCC use Data::Dumper::Concise::Aligned; warn DumperA
 
@@ -174,11 +175,6 @@ if has("autocmd")
 endif
 
 function StartupFoo()
-    " KLUGE this defangs the annoying repeated comment spam on newline
-    " or O; one may also want fo-=c to disable auto-wrap (somehow vim on
-    " Centos7 enables r and o by default...)
-    set fo-=r fo-=o
-
     " KLUGE workaround highly annoying 'more files to edit' (E173) bug
     if(argc()>1)
         last

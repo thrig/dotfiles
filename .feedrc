@@ -1,5 +1,9 @@
+# Elixir
+if {$tocall eq "iex"} {
+    expect -re {Interactive Elixir}
+
 # FORTH
-if {$tocall eq "pfe" || [string match "*forth*" $tocall]} {
+} elseif {$tocall eq "pfe" || [string match "*forth*" $tocall]} {
     # PFE is tricky as you have to wait for it to get up otherwise
     # it ignores the input, hence check for "ok" -- but gforth does
     # not print an "ok" at startup, argh.
@@ -32,7 +36,7 @@ if {$tocall eq "pfe" || [string match "*forth*" $tocall]} {
     expect -re {[*>] }
     set timeout .05
     proc dosomethingwith {line} {
-        global tocall
+        global tocall terminate
 
         # both clisp and sbcl hang on ; comments so MUST skip those,
         # also skip blank lines as have yet to see them in lisp code...
@@ -70,14 +74,11 @@ if {$tocall eq "pfe" || [string match "*forth*" $tocall]} {
 
 # R
 } elseif {$tocall eq "R"} {
-    # assumes options(prompt="rrr> ") in .Rprofile
-    #expect -ex {rrr> }
-
     proc dosomethingwith {line} {
 
-        if {[regexp {^[[:blank:]]*$} $line]} { return }
-        if {[regexp {^[#]} $line]} { return }
+        if {[regexp {^[[:blank:]]*([#]|$)} $line]} { return }
 
+        # assumes options(prompt="rrr> ") in .Rprofile
         expect -ex {rrr> }
 
         send -- "$line\r"
