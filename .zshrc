@@ -1,11 +1,13 @@
 setopt BSD_ECHO HASH_CMDS HIST_FIND_NO_DUPS HIST_IGNORE_DUPS HIST_IGNORE_ALL_DUPS HIST_REDUCE_BLANKS HIST_SAVE_NO_DUPS INC_APPEND_HISTORY INTERACTIVE_COMMENTS LIST_PACKED LIST_ROWS_FIRST MAGIC_EQUAL_SUBST NOFLOW_CONTROL RM_STAR_SILENT BRACE_CCL RC_EXPAND_PARAM AUTO_LIST EXTENDED_GLOB IGNORE_EOF
 unsetopt AUTO_NAME_DIRS AUTO_REMOVE_SLASH HIST_VERIFY MARK_DIRS NO_LIST_AMBIGUOUS EXTENDED_HISTORY
-[[ -z "$SSH_CLIENT" ]] && PS1='%# '
+[[ -z $SSH_CLIENT ]] && PS1='%# '
 HISTSIZE=64
 KEYTIMEOUT=1
 MAILCHECK=0
+path=(@@HOME@@/bin @@HOME@@/usr/Darwin15.6.0-x86_64/sbin @@HOME@@/usr/Darwin15.6.0-x86_64/bin @@HOME@@/perl5/bin /opt/local/libexec/perl5.26 /opt/local/bin /opt/local/sbin /usr/local/bin /usr/local/sbin /usr/X11R6/bin /usr/bin /usr/sbin /bin /sbin)
 export MANPATH="@@HOME@@/usr/share/man:@@HOME@@/usr/Darwin15.6.0-x86_64/share/man:@@HOME@@/perl5/man:/usr/local/man:/Applications/Xcode.app/Contents/Developer/usr/share/man:/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/share/man:/opt/local/share/texmf-texlive/doc/man:/opt/X11/share/man:/opt/local/share/man:/usr/share/man:/Applications/Wireshark.app/Contents/Resources/share/man"
-no_proxy="127.0.0.1,localhost,*.local"
+unset BASHPID COLORTERM COLORFGBG
+export no_proxy="127.0.0.1,localhost,*.local"
 export CC=gcc
 export EDITOR=vim
 export VISUAL=vim
@@ -122,12 +124,22 @@ function vagrant {
       VAGRANT_NO_COLOR=1 command vagrant "$@"
    )
 }
+function my-history-search-backward {
+    zle vi-history-search-backward
+    CURSOR=0
+}
+function my-history-search-forward {
+    zle vi-history-search-forward
+    CURSOR=0
+}
 fpath=(@@HOME@@/.zsh/functions/darwin @@HOME@@/.zsh/functions $fpath)
-autoload -U compinit edit-command-line
+autoload -U compinit edit-command-line my-history-search-backward my-history-search-forward
 compinit
 typeset -aU dns_servers
 dns_servers=('\:\:1' 8.8.4.4)
 zle -N edit-command-line
+zle -N my-history-search-backward
+zle -N my-history-search-forward
 ZLE_SPACE_SUFFIX_CHARS='&|'
 bindkey -v
 local mode
@@ -139,24 +151,33 @@ done
 unset mode
 bindkey -M vicmd "j" vi-down-line-or-history
 bindkey -M vicmd "k" vi-up-line-or-history
+bindkey -M vicmd "/" my-history-search-backward
+bindkey -M vicmd "?" my-history-search-forward
 bindkey -rpM viins '^['
 bindkey -rpM vicmd '^['
+bindkey -rpM vicmd ':'
 bindkey -M vicmd -- "-" vi-beginning-of-line
 zstyle ':completion:*:processes' command 'ps -A -o pid,user,command'
 zstyle ':completion:*:*:open:*:all-files' ignored-patterns '*.ps' '*.ly'
 zstyle ':completion:*' special-dirs ..
 zstyle ':completion:*:(scp|ssh|rsync|telnet):*' users root @@USER@@
 zstyle ':completion:*:*:(ack|bbedit|di|diff|*grep|less|vi|vim):*:all-files' ignored-patterns '*.o' '*.ps' '*.pdf' '*.midi' '*.mp3' '*.wav' '*.t2d' '*.eps' '*.fas' '*.lib'
-zstyle ':completion:*:*:(midi-util|pianoteq|timidity|tlymidity):*' file-patterns '*.midi:MIDI' '*(-/):directories'
+zstyle ':completion:*:*:(midi-util|pianoteq|timidity|tlymidity):*' file-patterns '*.midi:all-files *(-/):directories'
 zstyle ':completion:*:*:-command-:*' ignored-patterns '(debinhex*|escputil|coproc|ilbmtoppm|libtool|limit|link|linkicc|lipo|lispmtopgm|listings-ext.sh|listres|link-parser|lilymidi|lilypond-book|lilypond-invoke-editor|lilysong|lily-glyph-commands|lily-image-commands|lily-rebuild-pdfs|perlivp*|perlthanks*|perlbug*|perlcc*|perltex*|cron|*-config*|libnetcfg*|showchar|showfont|showmount|showrgb|*pbm|midi2ly|mupdf-x11|port-tclsh|getmapdl)'
 zstyle ':completion:*:*:dmanview:*' file-patterns '*.[1-9]:man\ files *(-/):directories'
 zstyle ':completion:*:*:feed:*:commands' ignored-patterns '*'
 zstyle ':completion:*:*:feed:*:commands' fake-always expect gdb perl sbcl tclsh tinyrepl wish zsh
-zstyle ':completion:*:*:lilypond:*' file-patterns '*.ly:lilypond\ files *(-/):directories'
-zstyle ':completion:*:*:mopen:*:all-files' file-patterns '*.pdf:PDF *(-/):directories'
-zstyle ':completion:*:*:prove:*' file-patterns '*.t:test\ files *(-/):directories'
+zstyle ':completion:*:*:lilypond:*:*' file-patterns '*.ly:all-files *(-/):directories'
+zstyle ':completion:*:*:mopen:*:*' file-patterns '*.pdf:all-files *(-/):directories'
+zstyle ':completion:*:*:prove:*:*' file-patterns '*.t:all-files *(-/):directories'
 zstyle ':completion:*:prefix:*' add-space true
 zstyle -e ':completion:*' hosts 'reply=($(< @@HOME@@/.hosts))'
+zstyle ':completion:*' file-sort links
 zmodload zsh/mathfunc
-#unset zle_bracketed_paste
+alias -g ,ch='*.{c,h}'
+alias -g ,c='*.c'
+alias -g ,c1='*.{c,1}'
+alias -g ,pm='**/*.pm~blib/*'
+alias -g ,yml='**/*.yml'
+unset zle_bracketed_paste
 #print -z
