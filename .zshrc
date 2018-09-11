@@ -125,12 +125,12 @@ function vagrant {
    )
 }
 function my-history-search-backward {
-    zle vi-history-search-backward
-    CURSOR=0
+   zle vi-history-search-backward
+   CURSOR=0
 }
 function my-history-search-forward {
-    zle vi-history-search-forward
-    CURSOR=0
+   zle vi-history-search-forward
+   CURSOR=0
 }
 fpath=(@@HOME@@/.zsh/functions/darwin @@HOME@@/.zsh/functions $fpath)
 autoload -U compinit edit-command-line my-history-search-backward my-history-search-forward
