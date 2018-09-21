@@ -170,7 +170,7 @@ if has("autocmd")
         autocmd FileType r map <LocalLeader>t :update<CR>:!feed % R -q --silent --no-save<CR><CR>
 
         autocmd FileType tcl map <LocalLeader>t :update<CR>:!feed % expect<CR><CR>
-        autocmd FileType tex map <LocalLeader>t :!make<CR><CR>
+        autocmd FileType tex map <LocalLeader>t :!make %:r.pdf;mopen %:r.pdf<CR><CR>
     endif
 endif
 
