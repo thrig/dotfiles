@@ -146,7 +146,7 @@ if has("autocmd")
         autocmd VimEnter * call StartupFoo()
         filetype on
 
-        au BufNewFile,BufRead,BufEnter *.[138] map <LocalLeader>t :update<CR>:!dmanview %<CR><CR>
+        au BufNewFile,BufRead,BufEnter *.[1368] map <LocalLeader>t :update<CR>:!dmanview %<CR><CR>
         au BufNewFile,BufRead,BufEnter *.ex,*.exs setlocal shiftwidth=2 | map <LocalLeader>t :update<CR>:!feed % iex<CR><CR>
         au BufNewFile,BufRead,BufEnter *.gdb map <LocalLeader>t :update<CR>:!feed % gdb -q<CR><CR>
         au BufNewFile,BufRead,BufEnter *.ly setf lilypond
