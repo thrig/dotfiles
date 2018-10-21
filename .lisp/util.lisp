@@ -105,4 +105,4 @@
 
 ;;; copying Perl 'while' loop, roughly
 (defmacro while (expr &body body)
-  `(tagbody check (if ,expr (progn ,@body (go check)))))
+  `(block while (tagbody check (if ,expr (progn ,@body (go check))))))
