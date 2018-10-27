@@ -1,20 +1,24 @@
 [core]
-	excludesfile = ~/.gitignore
-	pager = 
-	editor = ed
-	autocrlf = false
-        hooksPath = ~/.gittemplate
+  autocrlf = false
+  editor = ed
+  excludesfile = ~/.gitignore
+  hooksPath = ~/.gittemplate
+  pager = 
 [init]
-        templateDir = /var/empty
+  templateDir = /var/empty
 [alias]
-	amend = "!git add -A; git commit --amend --no-edit"
-	co = checkout
-	di = diff
-	last = log --stat -1 HEAD
-	up = "!git remote update -p; git merge --ff-only @{u}"
+  amend = "!git add -A; git commit --amend --no-edit"
+  co = checkout
+  di = diff
+  last = log --stat -1 HEAD
+  last-diff = log --cc -1 HEAD
+  more = "!git add -A; git commit -m more"
+  up = "!git remote update -p; git merge --ff-only @{u}"
 [pull]
-	ff = only
+  ff = only
 [push]
-	default = simple
+  default = simple
 [color]
-	ui = false
+  ui = false
+[include]
+  path = ~/.gitconfig.github

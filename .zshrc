@@ -10,6 +10,7 @@ unset BASHPID COLORTERM COLORFGBG
 # huzzah! https://no-color.org
 export NO_COLOR=1
 export no_proxy="127.0.0.1,localhost,*.local"
+export ENV=@@HOME@@/.kshrc
 export CC=gcc
 export EDITOR=vim
 export VISUAL=vim
