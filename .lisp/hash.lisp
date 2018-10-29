@@ -12,10 +12,10 @@
 ;;; reminder: probably want
 ;;;   (make-hash-table :test 'equal)
 ;;; as the default test is surprising coming from Perl
-;;; PORTABILITY style warning reduction for SBCL
 (defun hash-empty (table)
-  #+SBCL (declare (sb-ext:muffle-conditions style-warning))
-  (maphash #'(lambda (k unused) (remhash k table)) table))
+  (maphash #'(lambda (k unused)
+               (declare (ignore unused))
+               (remhash k table)) table))
 
 (defun hash-show (table)
   (maphash #'(lambda (k v) (format t "~a => ~a~%" k v)) table))

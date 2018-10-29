@@ -75,8 +75,12 @@
          ((< ,repnum 1) (return))
          ,@body))))
 
+; from "On Lisp" chapter 7
+(defmacro showm (expr)
+  `(pprint (macroexpand-1 ',expr)))
+
 ;;; for music related needs. also note the (/= a b) function to check
-;;; whether the given values differ or not
+;;; whether the given values differ or not (or SIGNUM from Common Lisp)
 (defun sign-of (number)
   (if (minusp number) -1 1))
 
