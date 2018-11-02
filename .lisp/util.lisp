@@ -110,3 +110,9 @@
 ;;; copying Perl 'while' loop, roughly
 (defmacro while (expr &body body)
   `(block while (tagbody check (if ,expr (progn ,@body (go check))))))
+
+;;; again copying Perl only extended to "undefine" multiple arguments
+;;; (similar to "zip" with a list of nils as the alternate array, as
+;;; seen in List::UtilsBy or the ZSH ${name:^arrayname} form?)
+(defmacro undef (&rest args)
+  `(setq ,@(mapcan #'(lambda (a) (list a nil)) args)))
