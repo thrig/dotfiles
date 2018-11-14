@@ -1,10 +1,14 @@
 ;;; (progn ... (values)) is another way to prevent the return value from
 ;;; make-random-state from cluttering up the output
-(block nil (setq *random-state* (make-random-state t)) (return))
+;(block nil (setq *random-state* (make-random-state t)) (return))
 
-(defun date ()
-  (multiple-value-bind (ss mm hh day mon year) (get-decoded-time)
-    (format nil "~D-~2,'0D-~2,'0D ~2,'0D:~2,'0D:~2,'0D"
-            year mon day hh mm ss)))
+;;; The following lines added by ql:add-to-init-file:
+#-quicklisp
+(let ((quicklisp-init (merge-pathnames "quicklisp/setup.lisp"
+                                       (user-homedir-pathname))))
+  (when (probe-file quicklisp-init)
+    (load quicklisp-init)))
+
+(defmacro showm (expr) `(pprint (macroexpand-1 ',expr)))
 
 ;;; otherwise see files in .lisp directory

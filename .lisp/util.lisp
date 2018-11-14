@@ -2,32 +2,51 @@
 (defun % (a b)
   (mod (truncate a) (truncate b)))
 
-;;; also copied from perl as can't remember expt (... but SBCL is very
+;;; also copied from Perl as can't remember expt (... but SBCL is very
 ;;; unhappy about this definition, and CLISP also complains, so leave it
 ;;; disabled here for reference)
 ;#+SBCL (sb-ext:unlock-package 'COMMON-LISP)
 ;(defmacro ** (a b)
 ;  `(expt ,a ,b))
 
-;;; PORTABILITY just the command line arguments, if any
+;;; PORTABILITY just the command line arguments to the script, if any
+;;; (same as what `perl -E 'say for @ARGV' test test 1 2 3` produces)
 (defun cli-args ()
+  #+CCL *unprocessed-command-line-arguments*
   #+CLISP ext:*args*
   #+SBCL (cdr *posix-argv*)    ; nix the program name
 ; not sure what these give so instead error out if encountered
 ; #+LISPWORKS system:*line-arguments-list*
 ; #+CMU extensions:*command-line-words*
-  #-(or CLISP SBCL) (error "cli-args unimplemented"))
+  #-(or CCL CLISP SBCL) (error "cli-args unimplemented"))
 ; tested with:
-;   clisp .clisprc.lisp test test 1 2 3
-;   sbcl --script .clisprc.lisp test test 1 2 3
+;   ccl -Q -l ... -b -- test test 1 2 3 </dev/null
+;   clisp ... test test 1 2 3
+;   sbcl --script ... test test 1 2 3
 ;(print (cli-args)) (fresh-line)
 
 (defun coinflip () (plusp (random 2)))
+
+(defun date ()
+  (multiple-value-bind (ss mm hh day mon year)
+      (get-decoded-time)
+    (format nil "~D-~2,'0D-~2,'0D ~2,'0D:~2,'0D:~2,'0D" year mon day hh
+            mm ss)))
+
+(defun factorial (n)
+  (labels ((factorial (n m)
+             (cond ((zerop n) m)
+                   (t (factorial (- n 1) (* n m))))))
+    (factorial n 1)))
 
 ;;; nixes return value (though there's still a trailing blank line in
 ;;; `clisp -q -q -x ...` output).
 (defmacro no-return (&body body)
   `(progn ,@body (values)))
+
+;;; TODO better way to do this?
+(defmacro num2str (n)
+  `(with-output-to-string (s) (princ ,n s)))
 
 ;;; from Practical Common Lisp (clisp has something named the same, only
 ;;; with a different interface - (with-gensyms ("PREFIX-" var1 var2) ...))

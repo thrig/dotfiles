@@ -29,9 +29,11 @@ PERL_MB_OPT="--install_base \"@@HOME@@/perl5\""
 PERL_MM_OPT="INSTALL_BASE=@@HOME@@/perl5"
 PERL_MM_USE_DEFAULT=1
 PKG_CONFIG_PATH="@@HOME@@/usr/Darwin15.6.0-x86_64/lib/pkgconfig:/opt/local/lib/pkgconfig"
-RSYNC_RSH='ssh -ax -o PreferredAuthentications=hostbased,publickey -o ClearAllForwardings=yes'
 R_LIBS=@@HOME@@/lib/R
 R_LIBS_USER=@@HOME@@/lib/R
+ROGUEHOME=@@HOME@@/share/rogue
+ROGUEOPTS="name=Bob,file=@@HOME@@/share/rogue/rogue36.sav,askme,flush,nojump"
+RSYNC_RSH='ssh -ax -o PreferredAuthentications=hostbased,publickey -o ClearAllForwardings=yes'
 TMP=@@HOME@@/tmp
 TMPDIR=@@HOME@@/tmp
 TZ=UTC

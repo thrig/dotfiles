@@ -30,6 +30,8 @@ export PERL_MM_USE_DEFAULT=1
 export PKG_CONFIG_PATH="@@HOME@@/usr/Darwin15.6.0-x86_64/lib/pkgconfig:/opt/local/lib/pkgconfig"
 export R_LIBS_USER=@@HOME@@/lib/R
 export R_LIBS=@@HOME@@/lib/R
+export ROGUEHOME=@@HOME@@/share/rogue
+export ROGUEOPTS="name=Bob,file=@@HOME@@/share/rogue/rogue36.sav,askme,flush,nojump"
 export RSYNC_RSH='ssh -ax -o PreferredAuthentications=hostbased,publickey -o ClearAllForwardings=yes'
 export SCORE_VIEWER=mupdf
 export TMP=@@HOME@@/tmp
@@ -112,13 +114,14 @@ function pmt {
       false
    fi
 }
+function ccl { RLWRAP_HOME=~/.rlwrap rlwrap =ccl }
 function sbcl {
-   if [ $# -eq 0 ]; then
-      # interactive, drop a newline on exit
-      /opt/local/bin/sbcl --noinform
-      print
+   if [[ $# -eq 0 ]]; then
+      RLWRAP_HOME=~/.rlwrap rlwrap -D 2 =sbcl --noinform
+   elif [[ -f $1 ]]; then
+      =sbcl --script $1
    else
-      /opt/local/bin/sbcl --noinform "$@"
+      RLWRAP_HOME=~/.rlwrap rlwrap -D 2 =sbcl "$@"
    fi
 }
 function vagrant {

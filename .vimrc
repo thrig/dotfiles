@@ -25,6 +25,7 @@ inoremap <right> <nop>
 
 " like? need more? less?
 cabbrev Wq wq
+cabbrev Argedit argedit
 
 " disable annoying term blanking due to "alternate screen" (linux is
 " very bad about this, unlike OpenBSD) this can also be set in tmux
@@ -60,7 +61,7 @@ set nohlsearch
 set wrapscan
 set wrap
 
-set autoindent
+set noautoindent
 set backspace=0
 set expandtab
 set nojoinspaces
@@ -157,11 +158,11 @@ if has("autocmd")
 
         autocmd FileType c map <LocalLeader>i :%!gindent -st<CR>| iabbrev PUFF fprintf(stderr, "dbg
 
-        autocmd FileType go map <LocalLeader>i :%!gofmt<CR> | setlocal expandtab | setlocal tabstop=4 | set makeprg=go\ build\ %
+        "autocmd FileType go map <LocalLeader>i :%!gofmt<CR> | setlocal expandtab | setlocal tabstop=4 | set makeprg=go\ build\ %
 
         autocmd FileType lilypond setlocal shiftwidth=2 | setlocal makeprg=playit\ %\ nopager | map <LocalLeader>t :update<CR>:!playit %<CR><CR>
 
-        autocmd FileType lisp setlocal lisp | setlocal showmatch | map <LocalLeader>t :update<CR>:!feed % sbcl --noinform<CR><CR>| iabbrev PUFF (format t "~a~%"
+        autocmd FileType lisp setlocal lisp | setlocal shiftwidth=2 | setlocal autoindent | setlocal showmatch | map <LocalLeader>t :update<CR>:!feed % sbcl --noinform<CR><CR>| iabbrev PUFF (format t "~a~%"
 
         autocmd FileType make setlocal noexpandtab
 
