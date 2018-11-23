@@ -1,4 +1,4 @@
-bind C-F1 lock
+bind-key C-F1 lock
 color activeborder goldenrod
 color inactiveborder brown
 ignore xbattery

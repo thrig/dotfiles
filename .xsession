@@ -26,7 +26,7 @@ EOD
 
 /usr/bin/mixerctl outputs.master=131,131 outputs.hp_boost=on >/dev/null 2>&1
 
-/usr/local/bin/feh --bg-tile @@HOME@@/co/turtledance/samples/atsidshu.png &
+/usr/local/bin/feh --bg-tile /home/jmates/co/turtledance/samples/ehargdgc.png &
 
 #/usr/X11R6/bin/xidle -timeout 1097 -program '/usr/X11R6/bin/xlock -mode blank -lockdelay 3 -timeout 31' &
 
