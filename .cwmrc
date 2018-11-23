@@ -1,2 +1,5 @@
-moveamount 1
 bind C-F1 lock
+color activeborder goldenrod
+color inactiveborder brown
+ignore xbattery
+ignore xload

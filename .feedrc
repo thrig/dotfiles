@@ -1,38 +1,5 @@
-# Elixir
-if {$tocall eq "iex"} {
-    expect -re {Interactive Elixir}
-
-# FORTH
-} elseif {$tocall eq "pfe" || [string match "*forth*" $tocall]} {
-    # PFE is tricky as you have to wait for it to get up otherwise
-    # it ignores the input, hence check for "ok" -- but gforth does
-    # not print an "ok" at startup, argh.
-    expect -re {(ok|bye)}
-
-    proc dosomethingwith {line} {
-        # "\ " as a comment and not a line extender, so strange!
-        if {[regexp {^[[:blank:]]*(\\[[:blank:]].*)?$} $line]} { return }
-
-        send -- "$line\r"
-    }
-
-# GDB
-} elseif {$tocall eq "gdb"} {
-    proc dosomethingwith {line} {
-
-        if {[regexp {^[[:blank:]]*$} $line]} { return }
-        if {[regexp {^[#]} $line]} { return }
-
-        # TWEAK will need adjustment if `set prompt` has been
-        # customized in gdb; '>' is for "Breakpoint Command Lists"
-        # continuation lines
-        expect -re {\(gdb|>}
-
-        send -- "$line\r"
-    }
-
 # LISP
-} elseif {$tocall eq "clisp" || $tocall eq "sbcl"} {
+if {$tocall eq "sbcl"} {
     expect -re {[*>] }
     set timeout .05
     proc dosomethingwith {line} {
@@ -56,6 +23,41 @@ if {$tocall eq "iex"} {
                 -ex "debugger invoked on a " interactionby
             }
         }
+    }
+
+# TCL
+} elseif {$tocall eq "expect"
+  || [string match "tclsh*" $tocall]
+  || [string match "wish*" $tocall]} {
+
+    proc dosomethingwith {line} {
+
+        # TCL allows # or ;# as comments though the latter is usually
+        # only after some statement that must be noted as ended
+        if {[regexp {^[[:blank:]]*(;?#.*)?$} $line]} { return }
+
+        if {[regexp {^[A-Za-z:0-9_]} $line]} {
+            # default "% " prompt or I've instead set tcl_prompt1 to "foo> "
+            # also do not match expect's "+>" continuation prompts
+            expect -re {[^+][%>] }
+        }
+
+        send -- "$line\r"
+    }
+
+# GDB
+} elseif {$tocall eq "gdb"} {
+    proc dosomethingwith {line} {
+
+        if {[regexp {^[[:blank:]]*$} $line]} { return }
+        if {[regexp {^[#]} $line]} { return }
+
+        # TWEAK will need adjustment if `set prompt` has been
+        # customized in gdb; '>' is for "Breakpoint Command Lists"
+        # continuation lines
+        expect -re {\(gdb|>}
+
+        send -- "$line\r"
     }
 
 # Perl
@@ -84,23 +86,21 @@ if {$tocall eq "iex"} {
         send -- "$line\r"
     }
 
-# TCL
-} elseif {$tocall eq "expect"
-  || [string match "tclsh*" $tocall]
-  || [string match "wish*" $tocall]} {
+# FORTH
+} elseif {$tocall eq "pfe" || [string match "*forth*" $tocall]} {
+    # PFE is tricky as you have to wait for it to get up otherwise
+    # it ignores the input, hence check for "ok" -- but gforth does
+    # not print an "ok" at startup, argh.
+    expect -re {(ok|bye)}
 
     proc dosomethingwith {line} {
-
-        # TCL allows # or ;# as comments though the latter is usually
-        # only after some statement that must be noted as ended
-        if {[regexp {^[[:blank:]]*(;?#.*)?$} $line]} { return }
-
-        if {[regexp {^[A-Za-z:0-9_]} $line]} {
-            # default "% " prompt or I've instead set tcl_prompt1 to "foo> "
-            # also do not match expect's "+>" continuation prompts
-            expect -re {[^+][%>] }
-        }
+        # "\ " as a comment and not a line extender, so strange!
+        if {[regexp {^[[:blank:]]*(\\[[:blank:]].*)?$} $line]} { return }
 
         send -- "$line\r"
     }
+
+# Elixir
+} elseif {$tocall eq "iex"} {
+    expect -re {Interactive Elixir}
 }

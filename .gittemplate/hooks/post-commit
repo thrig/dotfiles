@@ -1,2 +1,0 @@
-#!/usr/local/bin/sh
-pwd >> "$HOME/var/git-updates"

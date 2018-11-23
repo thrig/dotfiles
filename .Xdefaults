@@ -1,6 +1,8 @@
 *locale:                UTF-8
+*visualBell:            true
+*visualBellDelay:       0
 
-xterm*alwaysHighlight:  true
+xterm*alwaysHighlight:  false
 xterm*background:       black
 xterm*colorMode:        false
 xterm*cursorBlink:      false
@@ -11,49 +13,57 @@ xterm*loginShell:       true
 xterm*pointerMode:      1
 xterm*saveLines:        4096
 xterm*scrollBar:        false
-xterm*local:            true
 
-cxterm*alwaysHighlight:  true
-cxterm*background:       black
-cxterm*colorMode:        true
-cxterm*cursorBlink:      false
-cxterm*cursorColor:      white
-cxterm*dynamicColors:    true
-cxterm*foreground:       gold
-cxterm*loginShell:       true
-cxterm*pointerMode:      1
-cxterm*saveLines:        4096
-cxterm*scrollBar:        false
-cxterm*local:            true
+excelterm*alwaysHighlight:      false
+excelterm*background:           black
+excelterm*colorMode:            true
+excelterm*cursorBlink:          false
+excelterm*cursorColor:          white
+excelterm*dynamicColors:        true
+excelterm*faceName:             Fixedsys Excelsior 3.01:pixelsize=28
+excelterm*foreground:           gold
+excelterm*loginShell:           true
+excelterm*pointerMode:          1
+excelterm*saveLines:            4096
+excelterm*scrollBar:            false
+excelterm*termName:             xterm-256color
 
-UXTerm*background:black
-UXTerm*faceName:Cousine-Bold
-UXTerm*faceSize:21
-UXTerm*foreground:gold
-UXTerm*pointerMode:      1
-UXTerm*scrollBar:false
-UXTerm*titleInhibit: true
-UXTerm*colorMode:        true
-UXTerm*dynamicColors:    true
-UXTerm*local:            true
+cousterm*background:    black
+cousterm*colorMode:     true
+cousterm*dynamicColors: true
+cousterm*faceName:      Cousine-Bold
+cousterm*faceSize:      18
+cousterm*foreground:    gold
+cousterm*pointerMode:   1
+cousterm*scrollBar:     false
+cousterm*termName:      xterm-256color
+cousterm*titleInhibit:  true
 
-mfterm*background:black
-mfterm*faceName:monofur
-mfterm*faceSize:24
-mfterm*foreground:gold
-mfterm*pointerMode:      1
-mfterm*scrollBar:false
-mfterm*titleInhibit: true
-mfterm*colorMode:        true
-mfterm*dynamicColors:    true
-mfterm*local:            true
+nototerm*background:    black
+nototerm*colorMode:     true
+nototerm*dynamicColors: true
+nototerm*faceName:      NotoMono-Regular:pixelsize=24
+nototerm*foreground:    gold
+nototerm*pointerMode:   1
+nototerm*scrollBar:     false
+nototerm*termName:      xterm-256color
+nototerm*titleInhibit:  true
+
+mfterm*background:      black
+mfterm*colorMode:       true
+mfterm*dynamicColors:   true
+mfterm*faceName:        monofur
+mfterm*faceSize:        22
+mfterm*foreground:      gold
+mfterm*pointerMode:     1
+mfterm*saveLines:       0
+mfterm*scrollBar:       false
+mfterm*titleInhibit:    true
 
 mupdf*pointerMode:      1
 
-urxvt*secondaryScreen: false
-
-xload*foreground:       white
 xload*background:       black
-xload*showLabel:        false
+xload*foreground:       white
 xload*highlight:        darkred
+xload*showLabel:        false
 xload*update:           15
