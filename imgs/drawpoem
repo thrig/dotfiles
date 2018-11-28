@@ -1,0 +1,56 @@
+#!/usr/bin/perl
+#
+# "expt-poem.fs" should be runnable in at least gforth
+
+use 5.24.0;
+use warnings;
+
+use File::Slurper qw(read_lines);
+use Imager;
+use Imager::Fill;
+
+# doas pkg_add noto-fonts
+my $font =
+  Imager::Font->new( file => '/usr/local/share/fonts/noto/Cousine-Regular.ttf' )
+  or die;
+
+my $img = Imager->new( xsize => 1366, ysize => 768 ) or die;
+
+my $bgcolor = Imager::Color->new("#900340");
+my $fgcolor = Imager::Color->new("#000000");
+
+my $fill = Imager::Fill->new( hatch => 'vline2' );
+
+$img->box(
+    color => $bgcolor,
+    xmin  => 0,
+    ymin  => 0,
+    xmax  => 1366,
+    ymax  => 768,
+    fill  => $fill,
+);
+
+my @phrase = readline *DATA;
+chomp @phrase;
+
+for my $i ( 0 .. $#phrase ) {
+    $img->string(
+        x      => 80,
+        y      => 120 + 80 * $i,
+        font   => $font,
+        string => $phrase[$i],
+        size   => 60,
+        aa     => 1,
+        color  => $fgcolor,
+    );
+}
+
+$img->write( file => "forth-bg-longer.png" );
+
+__DATA__
+dup 0> if dup 1 = if drop
+else over swap 2 ?do over
+* loop * then else dup 0= if
+( they're coming to take me away )
+  2drop 1 else
+  abort then then
