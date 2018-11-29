@@ -2,7 +2,6 @@
 *visualBell:            true
 *visualBellDelay:       0
 
-xterm*alwaysHighlight:  false
 xterm*background:       black
 xterm*colorMode:        false
 xterm*cursorBlink:      false
@@ -11,22 +10,9 @@ xterm*dynamicColors:    false
 xterm*foreground:       gold
 xterm*loginShell:       true
 xterm*pointerMode:      1
-xterm*saveLines:        4096
+xterm*saveLines:        0
 xterm*scrollBar:        false
-
-excelterm*alwaysHighlight:      false
-excelterm*background:           black
-excelterm*colorMode:            true
-excelterm*cursorBlink:          false
-excelterm*cursorColor:          white
-excelterm*dynamicColors:        true
-excelterm*faceName:             Fixedsys Excelsior 3.01:pixelsize=28
-excelterm*foreground:           gold
-excelterm*loginShell:           true
-excelterm*pointerMode:          1
-excelterm*saveLines:            4096
-excelterm*scrollBar:            false
-excelterm*termName:             xterm-256color
+xterm*titleInhibit:     true
 
 cousterm*background:    black
 cousterm*colorMode:     true
@@ -36,19 +22,25 @@ cousterm*faceSize:      18
 cousterm*foreground:    gold
 cousterm*pointerMode:   1
 cousterm*scrollBar:     false
+excelterm*saveLines:    0
 cousterm*termName:      xterm-256color
 cousterm*titleInhibit:  true
 
-nototerm*background:    black
-nototerm*colorMode:     true
-nototerm*dynamicColors: true
-nototerm*faceName:      NotoMono-Regular:pixelsize=24
-nototerm*foreground:    gold
-nototerm*pointerMode:   1
-nototerm*scrollBar:     false
-nototerm*termName:      xterm-256color
-nototerm*titleInhibit:  true
+excelterm*background:           black
+excelterm*colorMode:            true
+excelterm*cursorBlink:          false
+excelterm*cursorColor:          white
+excelterm*dynamicColors:        true
+excelterm*faceName:             Fixedsys Excelsior 3.01:pixelsize=28
+excelterm*foreground:           gold
+excelterm*loginShell:           true
+excelterm*pointerMode:          1
+excelterm*saveLines:            0
+excelterm*scrollBar:            false
+excelterm*termName:             xterm-256color
+execlterm*titleInhibit:         true
 
+mfterm*privateColorRegisters: false
 mfterm*background:      black
 mfterm*colorMode:       true
 mfterm*dynamicColors:   true
@@ -59,6 +51,18 @@ mfterm*pointerMode:     1
 mfterm*saveLines:       0
 mfterm*scrollBar:       false
 mfterm*titleInhibit:    true
+
+# "White Rabbit" square font
+wrterm*background:      black
+wrterm*colorMode:       true
+wrterm*dynamicColors:   true
+wrterm*faceName:        New
+wrterm*faceSize:        24
+wrterm*foreground:      gold
+wrterm*pointerMode:     1
+wrterm*saveLines:       0
+wrterm*scrollBar:       false
+wrterm*titleInhibit:    true
 
 mupdf*pointerMode:      1
 

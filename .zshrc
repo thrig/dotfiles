@@ -61,6 +61,7 @@ alias st='git status -sb'
 alias timidity=tlymidity
 alias todo='EDITOR=ed todo'
 alias xpquery='xpquery -E UTF-8'
+alias xsel='xsel -l /dev/null'
 function ndir {
    if [[ -n $1 ]]; then
       mkdir -p $1

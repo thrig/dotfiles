@@ -55,6 +55,7 @@ alias st='git status -sb'
 alias timidity=tlymidity
 alias todo='EDITOR=ed todo'
 alias xpquery='xpquery -E UTF-8'
+alias xsel='xsel -l /dev/null'
 function cd {
    if [[ -z "$1" ]]; then
       builtin cd

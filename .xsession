@@ -15,7 +15,8 @@ while read d; do
 done << EOD
 /usr/local/share/fonts/ghostscript
 /usr/local/share/fonts/Liberation
-$HOME/.fonts
+/usr/local/share/fonts/noto
+@@HOME@@/.fonts
 EOD
 #/usr/X11R6/bin/xset +fp $HOME/.fonts
 # TODO may also need to run in custom dir:
