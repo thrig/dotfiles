@@ -43,7 +43,6 @@ alias cursor-show='tput cnorm;: '
 alias di='git diff'
 alias diff='diff -u'
 alias ipcalc='ipcalc -n'
-alias mfterm='solitary @@HOME@@ xterm -tn xterm-256color -class mfterm +bdc +cm +dc +itc;: '
 alias mitysisku='mitysisku -e'
 alias mutt='TERM=vt220 mutt'
 alias newshell='exec ksh -l'
@@ -77,9 +76,18 @@ function dc {
 }
 function info { command info "$@" 2>/dev/null | less; }
 function j { /usr/bin/pgrep -u "$USER" -lf '(^|/)'vi '(^|/)'vim; jobs -l; }
+function newdir {
+   if [[ -n "$1" ]]; then
+      mkdir -p "$1"
+      builtin cd "$1"
+      pwd
+   else
+      false
+   fi
+}
 function perl-deparse { perl -MO=Deparse,-p,-sCi2 -e "$@"; }
-function pm-version { perl -M$1 -le "print \$$1::VERSION"; }
-function pm-path { perl -M$1 -le "print \$INC{\"${1//::/\/}.pm\"}"; }
+function pm-version { perl -M"$1" -le "print \$$1::VERSION"; }
+function pm-path { perl -M"$1" -le "print \$INC{\"${1//::/\/}.pm\"}"; }
 function pmt {
    if [ -r Makefile.PL ]; then
       make clean;
@@ -88,7 +96,7 @@ function pmt {
    elif [ -r Build.PL ]; then
       ./Build clean >/dev/null 2>&1
     ( perl Build.PL && ./Build && \
-      RELEASE_TESTING=1 TEST_SIGNATURE=1 ./Build test ) 2>&1 | $PAGER 
+      RELEASE_TESTING=1 TEST_SIGNATURE=1 ./Build test ) 2>&1 | "$PAGER"
    else
       false
    fi

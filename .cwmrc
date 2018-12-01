@@ -1,6 +1,6 @@
 bind-key C-F1 lock
 color activeborder goldenrod
-color inactiveborder black
+color inactiveborder grey11
 ignore xbattery
 ignore xeyes
 ignore xload

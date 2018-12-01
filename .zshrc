@@ -49,7 +49,6 @@ alias cursor-show='tput cnorm;: '
 alias diff='diff -u'
 alias ipcalc='ipcalc -n'
 alias lilypond='lilypond -dno-point-and-click --silent'
-alias mfterm='xterm -tn xterm-256color -class mfterm +bdc +cm +dc +itc &!;: '
 alias mitysisku='mitysisku -e'
 alias mutt='TERM=vt220 mutt'
 alias newshell='exec zsh -l'
@@ -64,17 +63,6 @@ alias xeyes='xeyes -geometry 150x100+710-0 &| : '
 alias xload='xload -geometry 390x50+488+1 &| : '
 alias xpquery='xpquery -E UTF-8'
 alias xsel='xsel -l /dev/null'
-function ndir {
-   if [[ -n $1 ]]; then
-      mkdir -p $1
-      builtin cd $1
-   else
-      return 1
-   fi
-}
-function zbouncecompdef { unfunction _$1; autoload -U _$1; }
-function info { command info "$@" 2>/dev/null | less; }
-function j { pgrep -u $USER -lf '(^|/)'vi '(^|/)'vim; jobs -l; }
 function cd {
    if [[ -z $1 ]]; then
       builtin cd
@@ -84,7 +72,7 @@ function cd {
       builtin cd -
    elif [[ ! -e $1 ]]; then
       echo >&2 "cd: no such file or directory: $1"
-      return 1
+      false
    else
       builtin cd $1
    fi
@@ -95,6 +83,17 @@ function dc {
       /usr/bin/dc -e '4 k' -
    else
       /usr/bin/dc -e '4 k' "$@"
+   fi
+}
+function info { command info "$@" 2>/dev/null | less; }
+function j { pgrep -u $USER -lf '(^|/)'vi '(^|/)'vim; jobs -l; }
+function newdir {
+   if [[ -n $1 ]]; then
+      mkdir -p $1
+      builtin cd $1
+      pwd
+   else
+      false
    fi
 }
 function perl-deparse { perl -MO=Deparse,-p,-sCi2 -e "$@"; }
@@ -109,6 +108,7 @@ function sbcl {
       RLWRAP_HOME=~/.rlwrap =rlwrap -D 2 =sbcl "$@"
    fi
 }
+function zbouncecompdef { unfunction _$1; autoload -U _$1; }
 function my-history-search-backward {
    zle vi-history-search-backward
    CURSOR=0
