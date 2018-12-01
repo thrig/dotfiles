@@ -7,7 +7,7 @@ xterm*colorMode:        false
 xterm*cursorBlink:      false
 xterm*cursorColor:      white
 xterm*dynamicColors:    false
-xterm*foreground:       gold
+xterm*foreground:       orange
 xterm*loginShell:       true
 xterm*pointerMode:      1
 xterm*saveLines:        0
@@ -18,7 +18,7 @@ cousterm*background:    black
 cousterm*colorMode:     true
 cousterm*dynamicColors: true
 cousterm*faceName:      Cousine-Bold
-cousterm*faceSize:      18
+cousterm*faceSize:      19
 cousterm*foreground:    gold
 cousterm*pointerMode:   1
 cousterm*scrollBar:     false

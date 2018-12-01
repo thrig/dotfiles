@@ -60,6 +60,8 @@ alias scp='scp -p'
 alias st='git status -sb'
 alias timidity=tlymidity
 alias todo='EDITOR=ed todo'
+alias xeyes='xeyes -geometry 150x100+710-0 &| : '
+alias xload='xload -geometry 390x50+488+1 &| : '
 alias xpquery='xpquery -E UTF-8'
 alias xsel='xsel -l /dev/null'
 function ndir {

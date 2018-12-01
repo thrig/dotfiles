@@ -1,49 +1,55 @@
-#!/usr/bin/env wish8.5
+#!/usr/local/bin/wish8.5
 #
-# An OpenBSD battery level thingymabobber.
+# OpenBSD battery level thingymabobber
+#
+#   doas pkg_add tk
 
-set width 115
-set height 57
-
-set notice_percent 30
-set warn_percent 15
+set width 150
+set height 32
+set xoff 490
+set yoff -4
 
 set period 59999 ;# milliseconds between updates
-set batlevel "?"
+set status ?
+set warning 900  ;# estimated seconds left below which a warning is shown
+# watthour2 but a bit higher so things turn yellow before I might wander
+# off to get snacks or such
+set warnwh 4
 
-font create TtyFont -family Courier -size 16 -weight bold
-set label [label .disp -background white -foreground black -width $width -height $height -font TtyFont -textvariable batlevel]
+font create TtyFont -family Courier -size 14 -weight bold
+
+set label [label .disp -background white -foreground black \
+  -width $width -height $height -font TtyFont -textvariable status]
+
+regexp {^([\d.]+) } [exec sysctl -n hw.sensors.acpibat0.watthour2] -> lowcap
+regexp {^([\d.]+) } [exec sysctl -n hw.sensors.acpibat0.watthour3] -> prevc
+
+set prevs [clock seconds]
 
 proc getbatlevel {} {
-    global batlevel label notice_percent period warn_percent
-    set maxval [lindex [split [exec sysctl -n hw.sensors.acpibat0.watthour0] " "] 0]
-    set curval [lindex [split [exec sysctl -n hw.sensors.acpibat0.watthour3] " "] 0]
-    if {$maxval == 0} {
-	set batlevel "0?"
-    } else {
-        if {![string is double -strict $curval]} {
-            set batlevel "??"
-        } else {
-            set batlevel [format "%.0f" [expr $curval / $maxval * 100]]
-        }
+    global status label lowcap period prevc prevs warning warnwh
+    regexp {^([\d.]+) } [exec sysctl -n hw.sensors.acpibat0.watthour3] -> curr
+    # delta warning is for when usage is high and I might otherwise wander
+    # instead of plugging the laptop back in
+    set time [clock seconds]
+    set fails $warning
+    set deltac [expr $curr - $prevc]
+    set deltas [expr $time - $prevs]
+    if {$deltas > 0} {
+        set m [expr $deltac / $deltas]
+        set b [expr $curr - $m * $time]
+        set fails [format "%.f" [expr (($lowcap - $b) / $m) - $time]]
     }
-    set batstate [lindex [split [exec sysctl -n hw.sensors.acpibat0.raw0] " "] 0]
-    if {$batstate == 2} {
-	set batlevel "${batlevel}% +"
-	$label configure -background green
-    } elseif {$batstate == 0} {
-	set batlevel ""
-	$label configure -background green
+    if {$curr < $lowcap} {
+        $label configure -background red
+    } elseif {$curr < $warnwh || ($fails < $warning && $deltac < 0)} {
+        $label configure -background yellow
     } else {
-	if {$batlevel < $warn_percent} {
-	    $label configure -background red
-	} elseif {$batlevel < $notice_percent} {
-	    $label configure -background yellow
-	} else {
-	    $label configure -background green
-	}
-	set batlevel "${batlevel}% -"
+        $label configure -background green
     }
+    set status [format {%.1f %+.2f} $curr $deltac]
+    set prevc $curr
+    set prevs $time
     after $period [list getbatlevel]
 }
 
@@ -53,12 +59,16 @@ grid .disp -row 1 -column 1
 grid rowconfigure . 1 -weight 1
 grid columnconfigure . 1 -weight 1
 
+bind . <q> { exit }
 bind . <r> {
+    exec ~/libexec/xbattery &
+    exit
+}
+bind . <s> {
     after cancel [after info]
     getbatlevel
 }
-bind . <q> { exit }
 
-wm geometry . "${width}x${height}+493-1"
+wm geometry . [format "%dx%d%+d%+d" $width $height $xoff $yoff]
 
 getbatlevel

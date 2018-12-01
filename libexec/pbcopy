@@ -1,2 +1,2 @@
 #!/bin/sh
-exec xsel --input
+exec xsel -l /dev/null --input
