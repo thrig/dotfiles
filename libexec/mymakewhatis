@@ -1,8 +1,12 @@
-#!/usr/bin/env expect
+#!/usr/local/bin/tclsh8.5
 #
-# Maintain whatis database on my custom man page directories.
-
-package require Tcl 8.5
+# maintain whatis database on my custom man page directories; these
+# include a local software depot and Perl libraries installed via
+# local::lib
+#
+#   ~/usr/share/man/...
+#   ~/usr/OpenBSD6.4-amd64/share/man/...
+#   ~/perl5/man/...
 
 set tomake {}
 
