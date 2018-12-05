@@ -21,14 +21,34 @@ font create TtyFont -family Courier -size 14 -weight bold
 set label [label .disp -background white -foreground black \
   -width $width -height $height -font TtyFont -textvariable status]
 
-regexp {^([\d.]+) } [exec sysctl -n hw.sensors.acpibat0.watthour2] -> lowcap
-regexp {^([\d.]+) } [exec sysctl -n hw.sensors.acpibat0.watthour3] -> prevc
+proc whvalue {sensor name} {
+    set reading [exec sysctl -n $sensor]
+    upvar 1 $name x
+    if {![regexp {^([\d.]+) } $reading -> x]} {
+        return -code error "$sensor parse fail on '$reading'"
+    }
+}
+
+if {[catch {whvalue hw.sensors.acpibat0.watthour2 lowcap} result]} {
+    exec logger -s -t xbattery "error: $result"
+    exit 1
+}
+if {[catch {whvalue hw.sensors.acpibat0.watthour3 prevc} result]} {
+    exec logger -s -t xbattery "error: $result"
+    exit 1
+}
 
 set prevs [clock seconds]
 
 proc getbatlevel {} {
     global status label lowcap period prevc prevs warning warnwh
-    regexp {^([\d.]+) } [exec sysctl -n hw.sensors.acpibat0.watthour3] -> curr
+    if {[catch {whvalue hw.sensors.acpibat0.watthour3 curr} result]} {
+        exec logger -s -t xbattery "error: $result"
+        bell
+        $label configure -background red
+        after $period [list getbatlevel]
+        return
+    }
     # delta warning is for when usage is high and I might otherwise wander
     # instead of plugging the laptop back in
     set time [clock seconds]
@@ -39,15 +59,19 @@ proc getbatlevel {} {
         set m [expr $deltac / $deltas]
         set b [expr $curr - $m * $time]
         set fails [format "%.f" [expr (($lowcap - $b) / $m) - $time]]
+        set drain [format {%+.2f} [expr ($deltac * 60) / $deltas]]
+    } else {
+        set drain n/a
     }
     if {$curr < $lowcap} {
+        bell
         $label configure -background red
     } elseif {$curr < $warnwh || ($fails < $warning && $deltac < 0)} {
         $label configure -background yellow
     } else {
         $label configure -background green
     }
-    set status [format {%.1f %+.2f} $curr $deltac]
+    set status [format {%.1f %s} $curr $drain]
     set prevc $curr
     set prevs $time
     after $period [list getbatlevel]

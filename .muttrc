@@ -3,6 +3,11 @@ source ~/.muttrc-gpg
 alternates TODOFIXME
 set from="TODOFIXME"
 
+# TODO are these needed
+set charset=UTF-8
+set ascii_chars=yes
+set send_charset=UTF-8
+
 uncolor index *
 uncolor header *
 uncolor body *
