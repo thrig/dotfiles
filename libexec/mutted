@@ -1,4 +1,5 @@
 #!/bin/sh
 file=${1?no file to edit}
-printf 'g/^Cc:/d'"\n"'g/^Bcc:/d'"\n"'g/^Reply-To:/d'"\n/^Subject/m0\n/^To/m0\nwq\n" | ed "$file"
+# TODO headers can wrap with leading whitespace
+printf '1,/^$/g/^Cc: $/d'"\n"'1,/^$/g/^Bcc: $/d'"\n"'1,/^$/g/^Reply-To: $/d'"\n1,/^$/g/^Subject/m0\n1,/^$/g/^To/m0\nwq\n" | ed "$file"
 exec vim -N -u /home/jmates/.muttrc-vimrc "$file"

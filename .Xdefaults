@@ -20,7 +20,7 @@ cousterm*background:        black
 cousterm*colorMode:         true
 cousterm*dynamicColors:     true
 cousterm*faceName:          Cousine-Bold
-cousterm*faceSize:          19
+cousterm*faceSize:          18
 cousterm*foreground:        gold
 cousterm*keepSelection:     false
 cousterm*pointerMode:       1
@@ -74,6 +74,8 @@ wrterm*selectToClipboard: true
 wrterm*titleInhibit:      true
 
 mupdf*pointerMode:      1
+
+xbattery*visualBell:    false 
 
 xload*background:       black
 xload*foreground:       white
