@@ -38,6 +38,33 @@
        (unwind-protect (write-string ,this ,out)
          (close ,out)))))
 
+; read from STDIN or arguments as files similar to how readline in Perl
+; functions. (number t) resets (or mnemonic "t"runcates) the line number
+; counter between files, otherwise not (similar to $. variable in Perl)
+; needs CLI-ARGS (see util.lisp)
+;(with-input-lines (line (number t) stream file)
+;(with-input-lines (line (number) stream file)
+;  (format t "~a ~a:~a~%" file number line))
+(defmacro with-input-lines
+          ((line (number &optional (eof-reset-p nil)) stream file-name)
+           &body body)
+  (let ((args (gensym)) (total (gensym)))
+    `(let ((,args (cli-args)) (,total 1))
+       (when (null ,args) (setf ,args (list "-")))
+       (dolist (,file-name ,args)
+         (let ((,stream
+                (if (equal "-" ,file-name)
+                    *standard-input*
+                    (open ,file-name :direction :input))))
+           (unwind-protect
+               (do ((,line (read-line ,stream nil)
+                           (read-line ,stream nil))
+                    (,number ,total (1+ ,number)))
+                   ((not ,line) (setf ,total (if ,eof-reset-p 1 ,number)))
+                ,@body)
+             (when (equal "-" ,file-name) (close ,stream)))))
+       (values))))
+
 ;;; more PORTABILITY
 (defun stream-to-program (prog &rest args)
   #+CLISP (run-program prog
@@ -51,4 +78,3 @@
                                :search t
                                :wait nil))
   #-(or CLISP SBCL) (error "run-program unimplemented"))
-
