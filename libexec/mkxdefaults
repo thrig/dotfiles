@@ -1,0 +1,51 @@
+#!/usr/bin/env perl
+use 5.24.0;
+use warnings;
+use Function::Parameters;
+
+my %xtattr = (
+    background        => "black",
+    colorMode         => "false",
+    cursorBlink       => "false",
+    cursorColor       => "white",
+    dynamicColors     => "false",
+    foreground        => "orange",
+    keepSelection     => "true",
+    loginShell        => "true",
+    pointerMode       => "1",
+    saveLines         => "0",
+    scrollBar         => "false",
+    selectToClipboard => "true",
+    titleInhibit      => "true",
+    visualBell        => "true",
+    visualBellDelay   => "0",
+);
+
+print <<'HEADER';
+*locale:                UTF-8
+
+HEADER
+
+emit_attr( 'xterm', \%xtattr );
+
+print <<'FOOTER';
+mupdf*pointerMode:      1
+
+xbattery*visualBell:    false 
+
+xclipboard*geometry:    388x200+488+53
+
+xload*background:       black
+xload*foreground:       white
+xload*highlight:        darkred
+xload*showLabel:        false
+xload*update:           15
+FOOTER
+
+fun emit_attr( $type, $attr, $comment = '' ) {
+    say "# $comment" if length $comment;
+    for my $key ( sort keys $attr->%* ) {
+        say $type, '*', $key, ':', $attr->{$key};
+    }
+    print "\n";
+}
