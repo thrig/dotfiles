@@ -12,7 +12,12 @@
   di = diff
   last = log --stat -1 HEAD
   last-diff = log --cc -1 HEAD
+  master-log = log --abbrev-commit --stat master..
+  master-diff = diff master..
   more = "!git add -A; git commit -m more"
+  remote-delete = push remote --delete
+  remote-master = branch --set-upstream-to=remote/master master
+  st = status -sb
   up = "!git remote update -p; git merge --ff-only @{u}"
 [pull]
   ff = only

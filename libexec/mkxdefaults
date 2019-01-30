@@ -3,13 +3,13 @@ use 5.24.0;
 use warnings;
 use Function::Parameters;
 
-my %xtattr = (
+my $defaults = {
     background        => "black",
     colorMode         => "false",
     cursorBlink       => "false",
     cursorColor       => "white",
     dynamicColors     => "false",
-    foreground        => "orange",
+    foreground        => "gold",
     keepSelection     => "true",
     loginShell        => "true",
     pointerMode       => "1",
@@ -19,14 +19,50 @@ my %xtattr = (
     titleInhibit      => "true",
     visualBell        => "true",
     visualBellDelay   => "0",
-);
+};
+
+# really only for games, not for productive work
+my $fancy = {
+    colorMode     => "true",
+    dynamicColors => "true",
+    termName      => "xterm-256color",
+};
+
+fun emit_attr( $type, $attr, $comment = '' ) {
+    say "# $comment" if length $comment;
+    for my $key ( sort keys $attr->%* ) {
+        say "${type}term", '*', $key, ':', $attr->{$key};
+    }
+    print "\n";
+}
+
+fun merge_attr(@attrs) {
+    my $attr;
+    for my $from (@attrs) {
+        for my $key ( keys $from->%* ) {
+            $attr->{$key} = $from->{$key};
+        }
+    }
+    return $attr;
+}
 
 print <<'HEADER';
+# built with mkxdefaults
+
 *locale:                UTF-8
 
 HEADER
 
-emit_attr( 'xterm', \%xtattr );
+emit_attr "x", $defaults;
+emit_attr "cous", merge_attr $defaults, $fancy,
+  { faceName => "Cousine-Bold", faceSize => 18 };
+emit_attr "excel", merge_attr $defaults, $fancy,
+  { faceName => "Fixedsys Excelsior 3.01:pixelsize=28" };
+emit_attr "mf", merge_attr $defaults, $fancy,
+  { faceName => "monofur", faceSize => 20 };
+emit_attr "wr",
+  merge_attr( $defaults, $fancy, { faceName => "New", faceSize => 24 } ),
+  q{"White Rabbit" square font};
 
 print <<'FOOTER';
 mupdf*pointerMode:      1
@@ -41,11 +77,3 @@ xload*highlight:        darkred
 xload*showLabel:        false
 xload*update:           15
 FOOTER
-
-fun emit_attr( $type, $attr, $comment = '' ) {
-    say "# $comment" if length $comment;
-    for my $key ( sort keys $attr->%* ) {
-        say $type, '*', $key, ':', $attr->{$key};
-    }
-    print "\n";
-}

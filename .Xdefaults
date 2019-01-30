@@ -1,81 +1,104 @@
+# built with mkxdefaults
+
 *locale:                UTF-8
-*visualBell:            true
-*visualBellDelay:       0
 
-xterm*background:        black
-xterm*colorMode:         false
-xterm*cursorBlink:       false
-xterm*cursorColor:       white
-xterm*dynamicColors:     false
-xterm*foreground:        orange
-xterm*keepSelection:     false
-xterm*loginShell:        true
-xterm*pointerMode:       1
-xterm*saveLines:         0
-xterm*scrollBar:         false
-xterm*selectToClipboard: true
-xterm*titleInhibit:      true
+xterm*background:black
+xterm*colorMode:false
+xterm*cursorBlink:false
+xterm*cursorColor:white
+xterm*dynamicColors:false
+xterm*foreground:gold
+xterm*keepSelection:true
+xterm*loginShell:true
+xterm*pointerMode:1
+xterm*saveLines:0
+xterm*scrollBar:false
+xterm*selectToClipboard:true
+xterm*titleInhibit:true
+xterm*visualBell:true
+xterm*visualBellDelay:0
 
-cousterm*background:        black
-cousterm*colorMode:         true
-cousterm*dynamicColors:     true
-cousterm*faceName:          Cousine-Bold
-cousterm*faceSize:          18
-cousterm*foreground:        gold
-cousterm*keepSelection:     false
-cousterm*pointerMode:       1
-cousterm*scrollBar:         false
-cousterm*selectToClipboard: true
-cousterm*termName:          xterm-256color
-cousterm*titleInhibit:      true
-excelterm*saveLines:        0
+cousterm*background:black
+cousterm*colorMode:true
+cousterm*cursorBlink:false
+cousterm*cursorColor:white
+cousterm*dynamicColors:true
+cousterm*faceName:Cousine-Bold
+cousterm*faceSize:18
+cousterm*foreground:gold
+cousterm*keepSelection:true
+cousterm*loginShell:true
+cousterm*pointerMode:1
+cousterm*saveLines:0
+cousterm*scrollBar:false
+cousterm*selectToClipboard:true
+cousterm*termName:xterm-256color
+cousterm*titleInhibit:true
+cousterm*visualBell:true
+cousterm*visualBellDelay:0
 
-excelterm*background:        black
-excelterm*colorMode:         true
-excelterm*cursorBlink:       false
-excelterm*cursorColor:       white
-excelterm*dynamicColors:     true
-excelterm*faceName:          Fixedsys Excelsior 3.01:pixelsize=28
-excelterm*foreground:        gold
-excelterm*keepSelection:     false
-excelterm*loginShell:        true
-excelterm*pointerMode:       1
-excelterm*saveLines:         0
-excelterm*scrollBar:         false
-excelterm*selectToClipboard: true
-excelterm*termName:          xterm-256color
-execlterm*titleInhibit:      true
+excelterm*background:black
+excelterm*colorMode:true
+excelterm*cursorBlink:false
+excelterm*cursorColor:white
+excelterm*dynamicColors:true
+excelterm*faceName:Fixedsys Excelsior 3.01:pixelsize=28
+excelterm*foreground:gold
+excelterm*keepSelection:true
+excelterm*loginShell:true
+excelterm*pointerMode:1
+excelterm*saveLines:0
+excelterm*scrollBar:false
+excelterm*selectToClipboard:true
+excelterm*termName:xterm-256color
+excelterm*titleInhibit:true
+excelterm*visualBell:true
+excelterm*visualBellDelay:0
 
-mfterm*background:        black
-mfterm*colorMode:         true
-mfterm*dynamicColors:     true
-mfterm*faceName:          monofur
-mfterm*faceSize:          20
-mfterm*foreground:        gold
-mfterm*keepSelection:     false
-mfterm*pointerMode:       1
-mfterm*saveLines:         0
-mfterm*scrollBar:         false
-mfterm*selectToClipboard: true
-mfterm*titleInhibit:      true
+mfterm*background:black
+mfterm*colorMode:true
+mfterm*cursorBlink:false
+mfterm*cursorColor:white
+mfterm*dynamicColors:true
+mfterm*faceName:monofur
+mfterm*faceSize:20
+mfterm*foreground:gold
+mfterm*keepSelection:true
+mfterm*loginShell:true
+mfterm*pointerMode:1
+mfterm*saveLines:0
+mfterm*scrollBar:false
+mfterm*selectToClipboard:true
+mfterm*termName:xterm-256color
+mfterm*titleInhibit:true
+mfterm*visualBell:true
+mfterm*visualBellDelay:0
 
 # "White Rabbit" square font
-wrterm*background:        black
-wrterm*colorMode:         true
-wrterm*dynamicColors:     true
-wrterm*faceName:          New
-wrterm*faceSize:          24
-wrterm*foreground:        gold
-wrterm*keepSelection:     false
-wrterm*pointerMode:       1
-wrterm*saveLines:         0
-wrterm*scrollBar:         false
-wrterm*selectToClipboard: true
-wrterm*titleInhibit:      true
+wrterm*background:black
+wrterm*colorMode:true
+wrterm*cursorBlink:false
+wrterm*cursorColor:white
+wrterm*dynamicColors:true
+wrterm*faceName:New
+wrterm*faceSize:24
+wrterm*foreground:gold
+wrterm*keepSelection:true
+wrterm*loginShell:true
+wrterm*pointerMode:1
+wrterm*saveLines:0
+wrterm*scrollBar:false
+wrterm*selectToClipboard:true
+wrterm*termName:xterm-256color
+wrterm*titleInhibit:true
+wrterm*visualBell:true
+wrterm*visualBellDelay:0
 
 mupdf*pointerMode:      1
 
 xbattery*visualBell:    false 
+
+xclipboard*geometry:    388x200+488+53
 
 xload*background:       black
 xload*foreground:       white
