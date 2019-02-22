@@ -1,6 +1,8 @@
 #     puts $errorInfo
 # when things go awry for debug
 
+set auto_path [linsert $auto_path 0 ~/lib/tcl]
+
 # otherwise big confusion with my ZSH prompt of "% "
 set tcl_prompt1 {printf "tclsh> "}
 

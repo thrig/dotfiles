@@ -5,9 +5,8 @@
 #   doas pkg_add tk
 
 set width 150
-set height 32
-set xoff 490
-set yoff -4
+set height 24
+set geometry [format "%dx%d+486-0" $width $height]
 
 set period 59999 ;# milliseconds between updates
 set status ?
@@ -93,6 +92,6 @@ bind . <s> {
     getbatlevel
 }
 
-wm geometry . [format "%dx%d%+d%+d" $width $height $xoff $yoff]
+wm geometry . $geometry
 
 getbatlevel
