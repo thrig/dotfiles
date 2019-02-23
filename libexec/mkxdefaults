@@ -60,8 +60,20 @@ emit_attr "excel", merge_attr $defaults, $fancy,
   { faceName => "Fixedsys Excelsior 3.01:pixelsize=28" };
 emit_attr "mf", merge_attr $defaults, $fancy,
   { faceName => "monofur", faceSize => 20 };
+
+# brogue needs embiggened terminal
+emit_attr "brogue", merge_attr $defaults, $fancy,
+  { faceName => "Cousine:pixelsize=18", geometry => "100x34" };
+
+# for playing rogue in (minimum dimensions)
 emit_attr "wr",
-  merge_attr( $defaults, $fancy, { faceName => "New", faceSize => 24 } ),
+  merge_attr( $defaults, $fancy,
+    { faceName => "New", faceSize => 24, geometry => "70x22" } ),
+  q{"White Rabbit" square font};
+# normal 80x24 white rabbit square font
+emit_attr "wr2",
+  merge_attr( $defaults, $fancy,
+    { faceName => "New", faceSize => 24 } ),
   q{"White Rabbit" square font};
 
 print <<'FOOTER';

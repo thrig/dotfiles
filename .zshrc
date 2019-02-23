@@ -6,8 +6,8 @@ unsetopt AUTO_NAME_DIRS AUTO_REMOVE_SLASH HIST_VERIFY MARK_DIRS NO_LIST_AMBIGUOU
 HISTSIZE=64
 KEYTIMEOUT=1
 MAILCHECK=0
-path=(@@HOME@@/bin @@HOME@@/usr/OpenBSD6.4-amd64/bin @@HOME@@/perl5/bin /bin /sbin /usr/bin /usr/sbin /usr/X11R6/bin /usr/local/bin /usr/local/sbin /usr/games)
-export MANPATH="@@HOME@@/usr/share/man:@@HOME@@/usr/OpenBSD6.4-amd64/share/man:@@HOME@@/perl5/man:/usr/X11R6/man:/usr/local/man:/usr/share/man:/usr/local/lib/tcl/tcl8.5/man:/usr/local/lib/tcl/tk8.5/man"
+path=(@@HOME@@/bin @@HOME@@/usr/OpenBSD6.5-amd64/bin @@HOME@@/perl5/bin /bin /sbin /usr/bin /usr/sbin /usr/X11R6/bin /usr/local/bin /usr/local/sbin /usr/games)
+export MANPATH="@@HOME@@/usr/share/man:@@HOME@@/usr/OpenBSD6.5-amd64/share/man:@@HOME@@/perl5/man:/usr/X11R6/man:/usr/local/man:/usr/share/man:/usr/local/lib/tcl/tcl8.5/man:/usr/local/lib/tcl/tk8.5/man"
 export ENV=@@HOME@@/.kshrc
 export CC=egcc
 export EDITOR=vim
@@ -28,7 +28,7 @@ export PERL5LIB="@@HOME@@/perl5/lib/perl5"
 export PERL_LOCAL_LIB_ROOT="@@HOME@@/perl5"
 export PERL_MB_OPT="--install_base @@HOME@@/perl5"
 export PERL_MM_OPT="INSTALL_BASE=@@HOME@@/perl5"
-export PKG_CONFIG_PATH="@@HOME@@/usr/OpenBSD6.4-amd64/lib/pkgconfig:/usr/local/lib/pkgconfig"
+export PKG_CONFIG_PATH="@@HOME@@/usr/OpenBSD6.5-amd64/lib/pkgconfig:/usr/local/lib/pkgconfig"
 export R_LIBS_USER=@@HOME@@/lib/R
 export R_LIBS=@@HOME@@/lib/R
 export ROGUEHOME=@@HOME@@/share/rogue

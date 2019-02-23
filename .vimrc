@@ -1,6 +1,9 @@
 " http://trout.me.uk/synhi.jpg
 syntax off
 
+" maybe?
+nnoremap / /\v
+
 set mouse=
 
 " too close to escape key, does never what I want
@@ -138,7 +141,7 @@ endif
 " TeX file target. (lilypond gets a build-and-play-it script, below)
 set makeprg=make\ %:r
 
-iabbrev hbp #!/usr/bin/env perl<CR>use 5.24.0;<CR>use warnings;<CR><Esc>:setf perl<CR>i
+iabbrev hbp #!/usr/bin/env perl<CR>use 5.28.0;<CR>use warnings;<CR><Esc>:setf perl<CR>i
 
 if has("autocmd")
     if !exists("autocommands_loaded")

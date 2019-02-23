@@ -4,8 +4,8 @@ HISTSIZE=64
 set -o ignoreeof -o markdirs -o vi -o allexport
 # huzzah! https://no-color.org
 NO_COLOR=1
-PATH="@@HOME@@/usr/OpenBSD6.4-amd64/bin:@@HOME@@/bin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/X11R6/bin:/usr/local/bin:/usr/local/sbin:/usr/games"
-MANPATH="@@HOME@@/usr/share/man:@@HOME@@/usr/OpenBSD6.4-amd64/share/man:@@HOME@@/perl5/man:/usr/X11R6/man:/usr/local/man:/usr/share/man:/usr/local/lib/tcl/tcl8.5/man:/usr/local/lib/tcl/tk8.5/man"
+PATH="@@HOME@@/usr/OpenBSD6.5-amd64/bin:@@HOME@@/bin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/X11R6/bin:/usr/local/bin:/usr/local/sbin:/usr/games"
+MANPATH="@@HOME@@/usr/share/man:@@HOME@@/usr/OpenBSD6.5-amd64/share/man:@@HOME@@/perl5/man:/usr/X11R6/man:/usr/local/man:/usr/share/man:/usr/local/lib/tcl/tcl8.5/man:/usr/local/lib/tcl/tk8.5/man"
 EDITOR=vim
 VISUAL=vim
 PAGER=less
@@ -24,7 +24,7 @@ PERL_LOCAL_LIB_ROOT="@@HOME@@/perl5"
 PERL_MB_OPT="--install_base \"@@HOME@@/perl5\""
 PERL_MM_OPT="INSTALL_BASE=@@HOME@@/perl5"
 PERL_MM_USE_DEFAULT=1
-PKG_CONFIG_PATH="@@HOME@@/usr/OpenBSD6.4-amd64/lib/pkgconfig"
+PKG_CONFIG_PATH="@@HOME@@/usr/OpenBSD6.5-amd64/lib/pkgconfig"
 R_LIBS_USER=@@HOME@@/lib/R
 R_LIBS=@@HOME@@/lib/R
 ROGUEHOME=@@HOME@@/share/rogue

@@ -74,6 +74,25 @@ mfterm*titleInhibit:true
 mfterm*visualBell:true
 mfterm*visualBellDelay:0
 
+brogueterm*background:black
+brogueterm*colorMode:true
+brogueterm*cursorBlink:false
+brogueterm*cursorColor:white
+brogueterm*dynamicColors:true
+brogueterm*faceName:Cousine:pixelsize=18
+brogueterm*foreground:gold
+brogueterm*geometry:100x34
+brogueterm*keepSelection:true
+brogueterm*loginShell:true
+brogueterm*pointerMode:1
+brogueterm*saveLines:0
+brogueterm*scrollBar:false
+brogueterm*selectToClipboard:true
+brogueterm*termName:xterm-256color
+brogueterm*titleInhibit:true
+brogueterm*visualBell:true
+brogueterm*visualBellDelay:0
+
 # "White Rabbit" square font
 wrterm*background:black
 wrterm*colorMode:true
@@ -83,6 +102,7 @@ wrterm*dynamicColors:true
 wrterm*faceName:New
 wrterm*faceSize:24
 wrterm*foreground:gold
+wrterm*geometry:70x22
 wrterm*keepSelection:true
 wrterm*loginShell:true
 wrterm*pointerMode:1
@@ -93,6 +113,26 @@ wrterm*termName:xterm-256color
 wrterm*titleInhibit:true
 wrterm*visualBell:true
 wrterm*visualBellDelay:0
+
+# "White Rabbit" square font
+wr2term*background:black
+wr2term*colorMode:true
+wr2term*cursorBlink:false
+wr2term*cursorColor:white
+wr2term*dynamicColors:true
+wr2term*faceName:New
+wr2term*faceSize:24
+wr2term*foreground:gold
+wr2term*keepSelection:true
+wr2term*loginShell:true
+wr2term*pointerMode:1
+wr2term*saveLines:0
+wr2term*scrollBar:false
+wr2term*selectToClipboard:true
+wr2term*termName:xterm-256color
+wr2term*titleInhibit:true
+wr2term*visualBell:true
+wr2term*visualBellDelay:0
 
 mupdf*pointerMode:      1
 
