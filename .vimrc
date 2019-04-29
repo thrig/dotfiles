@@ -163,8 +163,7 @@ if has("autocmd")
 
         "autocmd FileType go map <LocalLeader>i :%!gofmt<CR> | setlocal expandtab | setlocal tabstop=4 | set makeprg=go\ build\ %
 
-        autocmd FileType lilypond setlocal shiftwidth=2 | setlocal makeprg=playit\ %\ nopager | map <LocalLeader>t :update<CR>:!playit %<CR><CR>
-
+        autocmd FileType lilypond setlocal shiftwidth=2 | map <LocalLeader>t :w!<CR>
         autocmd FileType lisp setlocal lisp | setlocal shiftwidth=2 | setlocal autoindent | setlocal showmatch | map <LocalLeader>t :update<CR>:!feed % sbcl --noinform<CR><CR>| iabbrev PUFF (format t "~a~%"
 
         autocmd FileType make setlocal noexpandtab
