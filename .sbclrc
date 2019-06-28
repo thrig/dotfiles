@@ -2,6 +2,9 @@
 ;;; make-random-state from cluttering up the output
 ;(block nil (setq *random-state* (make-random-state t)) (return))
 
+#+SBCL
+(setf sb-ext:*disassemble-annotate* t)
+
 ;;; The following lines added by ql:add-to-init-file:
 #-quicklisp
 (let ((quicklisp-init (merge-pathnames "quicklisp/setup.lisp"
