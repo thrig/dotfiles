@@ -14,7 +14,7 @@
 -ci=2   # continuation indentation level
 -cti=0  # non-block closing indentation
 -ce	# else cuddling
--pt=1	# space within ()'s
+-pt=2	# space within ()'s
 -sbt=1	# space within []'s
 -bt=1	# space within {}'s
 -bbt=0  # block brace spacing
