@@ -2,3 +2,4 @@ source ~/.vimrc
 map <Leader>r :set nowrapscan/^> /^\(>\s\+\\|\)$:set wrapscanddOO
 map <Leader>d :set nowrapscand/^\(>\s\+\\|\)$:set wrapscandd
 map <Leader>s ^dG
+map <Leader>u :.,$!unwrap

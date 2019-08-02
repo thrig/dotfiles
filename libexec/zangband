@@ -21,8 +21,8 @@ ANGBAND_X11_ROWS_0=23
 
 # monster views
 ANGBAND_X11_AT_X_3=0
-ANGBAND_X11_AT_Y_3=348
+ANGBAND_X11_AT_Y_3=363
 ANGBAND_X11_FONT_3=8x13
 
-solitary @@HOME@@ \
+solitary @@HOME@@/tmp \
   @@HOME@@/usr/OpenBSD6.5-amd64/zangband2.74b/bin/zangband -mx11 -- -n4
