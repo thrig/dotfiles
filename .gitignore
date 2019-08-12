@@ -1,2 +1,8 @@
 .DS_Store
-private
+.cwmrc
+.kshrc
+.muttrc
+.profile
+.tmux.conf
+.xsession
+.zshrc

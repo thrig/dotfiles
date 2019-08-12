@@ -2,21 +2,26 @@
   autocrlf = false
   editor = ed
   excludesfile = ~/.gitignore
-  hooksPath = ~/.gittemplate
+  hooksPath = ~/co/hooks
   pager = 
 [init]
-  templateDir = /var/empty
+  templateDir = ~/var/empty
+[user]
+  email = jeremy.mates@gmail.com
+  name = Jeremy Mates
 [alias]
   amend = "!git add -A; git commit --amend --no-edit"
+  cdiff = diff --cached
   co = checkout
   di = diff
-  last = log --stat -1 HEAD
+  last = log --abbrev-commit --stat -1 HEAD
   last-diff = log --cc -1 HEAD
+  linode-delete = push linode --delete
+  linode-master = branch --set-upstream-to=linode/master master
   master-log = log --abbrev-commit --stat master..
   master-diff = diff master..
   more = "!git add -A; git commit -m more"
-  remote-delete = push remote --delete
-  remote-master = branch --set-upstream-to=remote/master master
+  sign-tag = tag -u E12C0385 -s
   st = status -sb
   up = "!git remote update -p; git merge --ff-only @{u}"
 [pull]

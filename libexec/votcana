@@ -5,7 +5,9 @@
 # done. lower left (vo) is either for extra development, or for
 # connection the work tmux session. pa re ci vo are lojban numbers,
 # which are nice and short
-solitary @@HOME@@ /usr/X11R6/bin/xterm -geometry 80x34+0+0 -title pa -e '/usr/local/bin/zsh -l'
-solitary @@HOME@@ /usr/X11R6/bin/xterm -geometry 80x34-0+0 -title re -e '/home/jmates/usr/bin/tmn re'
-solitary @@HOME@@ /usr/X11R6/bin/xterm -geometry 80x24-0-0 -title ci -e '/home/jmates/usr/bin/tmn ci'
-solitary @@HOME@@ /usr/X11R6/bin/xterm -geometry 80x24+0-0 -title vo -e '/usr/local/bin/zsh -l'
+#shell='/usr/local/bin/zsh -l'
+shell='/bin/ksh -l'
+solitary "$HOME" /usr/X11R6/bin/xterm -geometry 80x34+0+0 -title pa -e $shell
+solitary "$HOME" /usr/X11R6/bin/xterm -geometry 80x34-0+0 -title re -e 'tmn re'
+solitary "$HOME" /usr/X11R6/bin/xterm -geometry 80x24-0-0 -title ci -e 'tmn ci'
+solitary "$HOME" /usr/X11R6/bin/xterm -geometry 80x24+0-0 -title vo -e $shell
