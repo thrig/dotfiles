@@ -7,7 +7,6 @@ autogroup 2 "ZAngband"
 autogroup 3 "cousterm"
 autogroup 4 "wrterm"
 autogroup 5 "MuPDF"
-bind-key C-/ menu-window
 bind-key C-F1 lock
 color activeborder goldenrod
 color inactiveborder grey11
