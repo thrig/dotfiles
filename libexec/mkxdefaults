@@ -91,12 +91,12 @@ emit_attr(
     )
 );
 
-# for playing rogue in (minimum dimensions)
+# for playing rogue with square font
 emit_attr(
     "wr",
     merge_attr(
         $defaults, $fancy,
-        { faceName => "New", faceSize => 24, geometry => "70x22" }
+        { faceName => "New", faceSize => 24, geometry => "80x24" }
     ),
     q{"White Rabbit" square font}
 );

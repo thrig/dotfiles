@@ -141,7 +141,7 @@ wrterm*dynamicColors:true
 wrterm*faceName:New
 wrterm*faceSize:24
 wrterm*foreground:gold
-wrterm*geometry:70x22
+wrterm*geometry:80x24
 wrterm*keepSelection:true
 wrterm*loginShell:true
 wrterm*pointerMode:1
