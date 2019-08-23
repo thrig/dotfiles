@@ -11,8 +11,9 @@ bind-key C-F1 lock
 color activeborder goldenrod
 color inactiveborder grey11
 command cous CUR_HOME/libexec/cousterm
-command rouge CUR_HOME/libexec/rogueterm
+command rogue CUR_HOME/libexec/rogueterm
 command votcana CUR_HOME/libexec/votcana
+command wr CUR_HOME/libexec/wrterm
 command zangband CUR_HOME/libexec/zangband
 ignore xbattery
 ignore xclipboard

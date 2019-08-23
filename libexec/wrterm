@@ -1,0 +1,2 @@
+#!/bin/sh
+exec xterm -tn xterm-256color +bdc +cm +dc +itc -class wrterm -e '/bin/ksh -l'
