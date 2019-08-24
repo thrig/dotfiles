@@ -91,7 +91,8 @@ function cd {
 }
 function cmdindir {
    local cmd; cmd=$1; shift
-   local dir; dir=$1; shift
+   local dir; dir=$2; shift
+   shift 2
    comando(`mkdir', `-p -- $dir') && $cmd -- "$@" $dir && builtin cd $dir && pwd
 }
 function cpinto {
