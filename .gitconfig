@@ -3,7 +3,6 @@
   editor = ed
   excludesfile = ~/.gitignore
   hooksPath = ~/co/hooks
-  pager = 
 [init]
   templateDir = ~/var/empty
 [user]
@@ -24,6 +23,8 @@
   sign-tag = tag -u E12C0385 -s
   st = status -sb
   up = "!git remote update -p; git merge --ff-only @{u}"
+[diff]
+  noprefix = true
 [pull]
   ff = only
 [push]
