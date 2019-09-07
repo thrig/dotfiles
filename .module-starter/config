@@ -2,3 +2,4 @@ author: Jeremy Mates
 email: jeremy.mates@gmail.com
 license: bsd
 ignores_type: git
+builder: Module::Build
