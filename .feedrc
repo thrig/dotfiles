@@ -1,106 +1,67 @@
-# LISP
-if {$tocall eq "sbcl"} {
-    expect -re {[*>] }
-    set timeout .05
-    proc dosomethingwith {line} {
-        global tocall terminate
-
-        # both clisp and sbcl hang on ; comments so MUST skip those,
-        # also skip blank lines as have yet to see them in lisp code...
-        if {[regexp {^[[:blank:]]*(;.*)?$} $line]} { return }
-
-        # only expect prompt if line starts with ( presumably a new
-        # statement
-        if {[regexp {^\(} $line]} {
-            expect -re {[*>] }
-        }
-
-        send -- "$line\r"
-        sleep .025
-
-        if {$tocall eq "sbcl"} {
+switch -glob $command {
+    sbcl {
+        proc await_prompt {} {
             expect {
                 -ex "debugger invoked on a " interactionby
+                -re {\* $} {}
             }
         }
+        proc consume {fh} {
+            global buf
+            while {[gets $fh line] >= 0} {
+                if {[regexp {^[[:blank:]]*(?:;|$)} $line]} { continue }
+                if {[regexp {^\(} $line]} {
+                    if {[string length $buf]} { send -- "$buf\r" }
+                    set buf $line
+                    return 1
+                } else {
+                    append buf " " [string trim $line]
+                }
+            }
+            return 0
+        }
     }
 
-# TCL
-} elseif {$tocall eq "expect"
-  || [string match "tclsh*" $tocall]
-  || [string match "wish*" $tocall]} {
-
-    proc dosomethingwith {line} {
-
-        # TCL allows # or ;# as comments though the latter is usually
-        # only after some statement that must be noted as ended
-        if {[regexp {^[[:blank:]]*(;?#.*)?$} $line]} { return }
-
-        if {[regexp {^[A-Za-z:0-9_]} $line]} {
-            # default "% " prompt or I've instead set tcl_prompt1 to "foo> "
-            # also do not match expect's "+>" continuation prompts
+    expect  -
+    tclsh*  -
+    wish*   {
+        proc await_prompt {} {
+            # default "% " prompt or I've instead set tcl_prompt1
+            # to "foo> " also do not match expect's "+>"
+            # continuation prompts
             expect -re {[^+][%>] }
         }
-
-        send -- "$line\r"
+        proc consume {fh} {
+            global buf
+            while {[gets $fh line] >= 0} {
+                # TCL allows # or ;# as comments though the latter is
+                # usually only after some statement that must be noted
+                # as ended
+                if {[regexp {^[[:blank:]]*(?:;?#|$)} $line]} { continue }
+                if {[regexp {[\\\{]$} $line]} {
+                    if {[string length $buf]} { send -- "$buf\r"; set buf {} }
+                    append buf $line
+                    continue
+                } elseif {[regexp {^[[:blank:]]} $line]} {
+                    append buf " " [string trim $line] ";"
+                    continue
+                } elseif {[regexp {^\}} $line]} {
+                    append buf $line
+                    return 1
+                } else {
+                    if {[string length $buf]} { send -- "$buf\r" }
+                    set buf $line
+                    return 1
+                }
+            }
+            return 0
+        }
     }
 
-# GDB
-} elseif {$tocall eq "gdb"} {
-    proc dosomethingwith {line} {
-
-        if {[regexp {^[[:blank:]]*$} $line]} { return }
-        if {[regexp {^[#]} $line]} { return }
-
-        # TWEAK will need adjustment if `set prompt` has been
-        # customized in gdb; '>' is for "Breakpoint Command Lists"
-        # continuation lines
-        expect -re {\(gdb|>}
-
-        send -- "$line\r"
+    egdb -
+    gdb  {
+        # will need adjustment if `set prompt` has been customized in
+        # gdb; '>' is for "Breakpoint Command Lists" continuation lines
+        proc await_prompt {} { expect -re {\(gdb|>} }
     }
-
-# Perl
-} elseif {($tocall eq "perl" && "-d" in $argv)
-  || $tocall eq "tinyrepl"} {
-    proc dosomethingwith {line} {
-
-        if {[regexp {^[[:blank:]]*(#.*)?$} $line]} { return }
-
-        # always expect prompt, as the perl REPL appear to only consume
-        # one line without continuation
-        expect -re {(  DB<|re\.pl\$ )}
-
-        send -- "$line\r"
-    }
-
-# R
-} elseif {$tocall eq "R"} {
-    proc dosomethingwith {line} {
-
-        if {[regexp {^[[:blank:]]*([#]|$)} $line]} { return }
-
-        # assumes options(prompt="rrr> ") in .Rprofile
-        expect -ex {rrr> }
-
-        send -- "$line\r"
-    }
-
-# FORTH
-} elseif {$tocall eq "pfe" || [string match "*forth*" $tocall]} {
-    # PFE is tricky as you have to wait for it to get up otherwise
-    # it ignores the input, hence check for "ok" -- but gforth does
-    # not print an "ok" at startup, argh.
-    expect -re {(ok|bye)}
-
-    proc dosomethingwith {line} {
-        # "\ " as a comment and not a line extender, so strange!
-        if {[regexp {^[[:blank:]]*(\\[[:blank:]].*)?$} $line]} { return }
-
-        send -- "$line\r"
-    }
-
-# Elixir
-} elseif {$tocall eq "iex"} {
-    expect -re {Interactive Elixir}
 }
