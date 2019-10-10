@@ -1,9 +1,6 @@
 " http://trout.me.uk/synhi.jpg
 syntax off
 
-" maybe?
-nnoremap / /\v
-
 set mouse=
 
 " too close to escape key, does never what I want
@@ -27,6 +24,7 @@ inoremap <left> <nop>
 inoremap <right> <nop>
 
 " like? need more? less?
+cabbrev W w
 cabbrev Wq wq
 cabbrev Argedit argedit
 
@@ -94,23 +92,6 @@ set noshowmatch
 " treat all numerals (for c-a, c-x) as decimals
 set nrformats=
 
-" bracketed paste foo from http://stackoverflow.com/questions/5585129
-" enabled by default for Mac OS X under iTerm.app or Terminal.app
-"if &term =~ "xterm.*"
-    let &t_ti = &t_ti . "\e[?2004h"
-    let &t_te = "\e[?2004l" . &t_te
-    function XTermPasteBegin(ret)
-        set pastetoggle=<Esc>[201~
-        set paste
-        return a:ret
-    endfunction
-    map <expr> <Esc>[200~ XTermPasteBegin("i")
-    imap <expr> <Esc>[200~ XTermPasteBegin("")
-    vmap <expr> <Esc>[200~ XTermPasteBegin("c")
-    cmap <Esc>[200~ <nop>
-    cmap <Esc>[201~ <nop>
-"endif
-
 map <Leader>/ /<C-r>0
 map <Leader>A :.,$!autoformat
 map <Leader>D :argdelete %<CR>:N<CR>
@@ -156,6 +137,7 @@ if has("autocmd")
         au BufNewFile,BufRead,BufEnter *.ly setf lilypond
         " don't want vim guessing between Rexx, Rebol, or R
         au BufNewFile,BufRead *.r,*.R setf r
+        au BufNewFile,BufRead,BufEnter *.schema setf sql
         au BufNewFile,BufRead,BufEnter *.t setlocal makeprg=prove\ --blib\ %:r
         au BufNewFile,BufRead,BufEnter *.zsh map <LocalLeader>t :update<CR>:!feed % zsh -f<CR><CR>
 
@@ -171,7 +153,7 @@ if has("autocmd")
         autocmd FileType perl map <LocalLeader>i :%!perltidy<CR>| iabbrev DIAG use Data::Dumper; diag Dumper| iabbrev DIAC use Data::Dumper::Concise::Aligned; diag DumperA| iabbrev PUDD use Data::Dumper; warn Dumper| iabbrev PUCC use Data::Dumper::Concise::Aligned; warn DumperA
 
         autocmd FileType r map <LocalLeader>t :update<CR>:!feed % R -q --silent --no-save<CR><CR>
-
+        autocmd FileType sql map <LocalLeader>t :update<CR>:!feed % sqlite3<CR><CR>
         autocmd FileType tcl map <LocalLeader>t :update<CR>:!feed % expect<CR><CR>
         autocmd FileType tex map <LocalLeader>t :!make %:r.pdf;mopen %:r.pdf<CR><CR>
     endif
