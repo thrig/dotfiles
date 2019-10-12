@@ -66,6 +66,7 @@ switch -glob $command {
     }
 
     # for testing out schema files and such with an in-memory database
+    # (probably want to `ln -s /dev/null ~/.sqlite_history`)
     sqlite3 {
         proc await_prompt {} {expect -ex {sqlite> }}
         proc consume {fh} {
@@ -76,7 +77,7 @@ switch -glob $command {
                     if {[string length $buf]} { send -- "$buf\r"; set buf {} }
                     append buf $line
                     continue
-                } elseif {[regexp {^[[:blank:]]} $line]} {
+                } elseif {[regexp {^(?:[[:blank:]]|\);)} $line]} {
                     append buf " " [string trim $line]
                     continue
                 } else {
