@@ -22,7 +22,7 @@ unbind-key C-o
 unbind-key '!'
 unbind-key '"'
 unbind-key '%'
-unbind-key '\;'
+unbind-key ';'
 unbind-key o
 unbind-key q
 #unbind-key x

@@ -1,4 +1,9 @@
 #!/bin/sh
+include(`../m4/cf.m4')dnl
+divert(-1)
+asociar(`CUR_HOME', `printf "$HOME"')
+asociar(`CUR_LAD', `localarchdir')
+divert(0)dnl
 
 set -a
 
@@ -26,5 +31,4 @@ ANGBAND_X11_FONT_3=8x13
 
 # TODO need means to only run one instance as zangband will run 2+ and
 # then the savefile will be whatever instance exits last
-solitary "$HOME"/tmp \
-  "$HOME"/usr/OpenBSD6.5-amd64/zangband2.74b/bin/zangband -mx11 -- -n4
+comando(`solitary', `"CUR_HOME"/tmp "CUR_HOME"/usr/CUR_LAD/zangband2.74b/bin/zangband -mx11 -- -n4')

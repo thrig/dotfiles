@@ -1,11 +1,15 @@
-all: votcana
+all: votcana zangband
 
 votcana: votcana.m4 ../m4/cf.m4
 	m4 votcana.m4 > votcana
 	chmod +x votcana
 
+zangband: zangband.m4 ../m4/cf.m4
+	m4 zangband.m4 > zangband
+	chmod +x zangband
+
 clean:
-	-rm votcana
+	-rm votcana zangband
 
 # m4 only tested with OpenBSD flavor of m4
 depend:
