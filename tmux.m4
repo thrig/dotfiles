@@ -25,7 +25,7 @@ unbind-key '%'
 unbind-key ';'
 unbind-key o
 unbind-key q
-#unbind-key x
+unbind-key x
 unbind-key z
 unbind-key '{'
 unbind-key '}'
@@ -60,10 +60,13 @@ bind-key C-p last-window
 divert(-1)
 hmm. maybe.
 divert(0)dnl
-bind-key x copy-mode
+bind-key c copy-mode
+bind-key v paste-buffer
+bind-key m new-window
+unbind-key n
 unbind-key [
+unbind-key ]
 unbind-key p
-bind-key i paste-buffer
 bind-key -T copy-mode-vi C send-keys -X copy-line
 divert(-1)
 capture the visible stuff (will need -a for alternate screen (but I turn
