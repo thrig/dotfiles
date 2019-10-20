@@ -4,5 +4,6 @@
 .muttrc
 .profile
 .tmux.conf
+.w3mrc
 .xsession
 .zshrc

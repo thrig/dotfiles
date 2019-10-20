@@ -1,4 +1,4 @@
-all: .cwmrc .kshrc .muttrc .profile .tmux.conf .xsession .zshrc
+all: .cwmrc .kshrc .muttrc .profile .tmux.conf .w3mrc .xsession .zshrc
 
 .cwmrc: cwmrc.m4 m4/cf.m4
 	m4 cwmrc.m4 > .cwmrc
@@ -15,6 +15,10 @@ all: .cwmrc .kshrc .muttrc .profile .tmux.conf .xsession .zshrc
 .tmux.conf: tmux.m4 m4/cf.m4
 	m4 tmux.m4 > .tmux.conf
 
+# copy to ~/.w3m/config
+.w3mrc: w3mrc.m4 m4/cf.m4
+	m4 w3mrc.m4 > .w3mrc
+
 .xsession: xsession.m4 m4/cf.m4
 	m4 xsession.m4 > .xsession
 
@@ -22,7 +26,7 @@ all: .cwmrc .kshrc .muttrc .profile .tmux.conf .xsession .zshrc
 	m4 zshrc.m4 > .zshrc
 
 clean:
-	-rm .cwmrc .kshrc .muttrc .profile .tmux.conf .xsession .zshrc
+	-rm .cwmrc .kshrc .muttrc .profile .tmux.conf .w3mrc .xsession .zshrc
 
 # m4 only tested with OpenBSD flavor of m4
 depend:
