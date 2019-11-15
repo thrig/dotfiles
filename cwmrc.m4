@@ -14,9 +14,11 @@ command cous CUR_HOME/libexec/cousterm
 command rogue CUR_HOME/libexec/rogueterm
 command votcana CUR_HOME/libexec/votcana
 command wr CUR_HOME/libexec/wrterm
+command xnest CUR_HOME/libexec/xnest
 command zangband CUR_HOME/libexec/zangband
 ignore xbattery
 ignore xclipboard
 ignore xeyes
 ignore xload
+snapdist 100
 wm fvwm /usr/X11R6/bin/fvwm

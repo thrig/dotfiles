@@ -4,12 +4,16 @@ votcana: votcana.m4 ../m4/cf.m4
 	m4 votcana.m4 > votcana
 	chmod +x votcana
 
+xnest: xnest.m4 ../m4/cf.m4
+	m4 xnest.m4 > xnest
+	chmod +x xnest
+
 zangband: zangband.m4 ../m4/cf.m4
 	m4 zangband.m4 > zangband
 	chmod +x zangband
 
 clean:
-	-rm votcana zangband
+	-rm votcana xnest zangband
 
 # m4 only tested with OpenBSD flavor of m4
 depend:
