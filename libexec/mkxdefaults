@@ -72,15 +72,6 @@ emit_attr("mf",
 emit_attr("spleen",
     merge_attr($defaults, $fancy, { faceName => "spleen", faceSize => 18 }));
 
-# brogue needs embiggened terminal
-emit_attr(
-    "brogue",
-    merge_attr(
-        $defaults, $fancy,
-        { faceName => "Cousine:pixelsize=18", geometry => "100x34" }
-    )
-);
-
 # two-thirds of the screen (where the other 1/3 is two of the
 # regular xterms)
 emit_attr(

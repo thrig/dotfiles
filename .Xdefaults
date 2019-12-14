@@ -93,25 +93,6 @@ spleenterm*titleInhibit:true
 spleenterm*visualBell:true
 spleenterm*visualBellDelay:0
 
-brogueterm*background:black
-brogueterm*colorMode:true
-brogueterm*cursorBlink:false
-brogueterm*cursorColor:white
-brogueterm*dynamicColors:true
-brogueterm*faceName:Cousine:pixelsize=18
-brogueterm*foreground:gold
-brogueterm*geometry:100x34
-brogueterm*keepSelection:true
-brogueterm*loginShell:true
-brogueterm*pointerMode:1
-brogueterm*saveLines:0
-brogueterm*scrollBar:false
-brogueterm*selectToClipboard:true
-brogueterm*termName:xterm-256color
-brogueterm*titleInhibit:true
-brogueterm*visualBell:true
-brogueterm*visualBellDelay:0
-
 ttterm*background:black
 ttterm*colorMode:true
 ttterm*cursorBlink:false
