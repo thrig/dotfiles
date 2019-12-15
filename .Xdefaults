@@ -19,11 +19,12 @@ xterm*visualBell:true
 xterm*visualBellDelay:0
 
 cousterm*background:black
+cousterm*boldFont:Cousine-Bold
 cousterm*colorMode:true
 cousterm*cursorBlink:false
 cousterm*cursorColor:white
 cousterm*dynamicColors:true
-cousterm*faceName:Cousine-Bold
+cousterm*faceName:Cousine
 cousterm*faceSize:18
 cousterm*foreground:gold
 cousterm*keepSelection:true

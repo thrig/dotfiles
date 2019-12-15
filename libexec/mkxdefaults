@@ -59,8 +59,13 @@ print <<'HEADER';
 HEADER
 
 emit_attr("x", $defaults);
-emit_attr("cous",
-    merge_attr($defaults, $fancy, { faceName => "Cousine-Bold", faceSize => 18 }));
+emit_attr(
+    "cous",
+    merge_attr(
+        $defaults, $fancy,
+        { boldFont => "Cousine-Bold", faceName => "Cousine", faceSize => 18 }
+    )
+);
 emit_attr(
     "excel",
     merge_attr(
