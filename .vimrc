@@ -141,7 +141,7 @@ if has("autocmd")
         au BufNewFile,BufRead,BufEnter *.t setlocal makeprg=prove\ --blib\ %:r
         au BufNewFile,BufRead,BufEnter *.zsh map <LocalLeader>t :update<CR>:!feed % zsh -f<CR><CR>
 
-        autocmd FileType c map <LocalLeader>i :%!gindent -st<CR>| iabbrev PUFF fprintf(stderr, "dbg
+        autocmd FileType c map <LocalLeader>i :%!clang-format<CR>| iabbrev PUFF fprintf(stderr, "dbg
 
         "autocmd FileType go map <LocalLeader>i :%!gofmt<CR> | setlocal expandtab | setlocal tabstop=4 | set makeprg=go\ build\ %
 
