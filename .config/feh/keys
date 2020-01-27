@@ -1,0 +1,16 @@
+next_img Right space
+prev_img Left BackSpace
+
+# defaults are backwards from the natural direction (smartphone stupidity?)
+scroll_up    k
+scroll_down  j
+scroll_left  h
+scroll_right l
+
+zoom_in  C-Up f
+zoom_out C-Down a
+zoom_default d
+zoom_fit s
+
+save_image
+save_filelist
