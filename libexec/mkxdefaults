@@ -66,6 +66,14 @@ emit_attr(
         { boldFont => "Cousine-Bold", faceName => "Cousine", faceSize => 18 }
     )
 );
+# embiggened font for krefu(1) training
+emit_attr(
+    "cous2",
+    merge_attr(
+        $defaults, $fancy,
+        { boldFont => "Cousine-Bold", faceName => "Cousine", faceSize => 32 }
+    )
+);
 emit_attr(
     "excel",
     merge_attr(
@@ -74,8 +82,12 @@ emit_attr(
 );
 emit_attr("mf",
     merge_attr($defaults, $fancy, { faceName => "monofur", faceSize => 20 }));
-emit_attr("spleen",
-    merge_attr($defaults, $fancy, { faceName => "spleen", faceSize => 18 }));
+emit_attr(
+    "spleen",
+    merge_attr(
+        $defaults, $fancy, { faceName => "spleen:pixelsize=24:antialias=false" }
+    )
+);
 
 # two-thirds of the screen (where the other 1/3 is two of the
 # regular xterms)

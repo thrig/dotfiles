@@ -38,6 +38,26 @@ cousterm*titleInhibit:true
 cousterm*visualBell:true
 cousterm*visualBellDelay:0
 
+cous2term*background:black
+cous2term*boldFont:Cousine-Bold
+cous2term*colorMode:true
+cous2term*cursorBlink:false
+cous2term*cursorColor:white
+cous2term*dynamicColors:true
+cous2term*faceName:Cousine
+cous2term*faceSize:32
+cous2term*foreground:gold
+cous2term*keepSelection:true
+cous2term*loginShell:true
+cous2term*pointerMode:1
+cous2term*saveLines:0
+cous2term*scrollBar:false
+cous2term*selectToClipboard:true
+cous2term*termName:xterm-256color
+cous2term*titleInhibit:true
+cous2term*visualBell:true
+cous2term*visualBellDelay:0
+
 excelterm*background:black
 excelterm*colorMode:true
 excelterm*cursorBlink:false
@@ -80,8 +100,7 @@ spleenterm*colorMode:true
 spleenterm*cursorBlink:false
 spleenterm*cursorColor:white
 spleenterm*dynamicColors:true
-spleenterm*faceName:spleen
-spleenterm*faceSize:18
+spleenterm*faceName:spleen:pixelsize=24:antialias=false
 spleenterm*foreground:gold
 spleenterm*keepSelection:true
 spleenterm*loginShell:true
