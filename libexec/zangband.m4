@@ -27,8 +27,7 @@ ANGBAND_X11_ROWS_0=23
 # monster views
 ANGBAND_X11_AT_X_3=0
 ANGBAND_X11_AT_Y_3=363
-ANGBAND_X11_FONT_3=8x13
+ANGBAND_X11_FONT_3=7x13
 
-# TODO need means to only run one instance as zangband will run 2+ and
-# then the savefile will be whatever instance exits last
-comando(`solitary', `"CUR_HOME"/tmp "CUR_HOME"/usr/CUR_LAD/zangband2.74b/bin/zangband -mx11 -- -n4')
+comando(`solitary', `"CUR_HOME"/tmp comando(`pamei',
+  `zangband "CUR_HOME"/usr/CUR_LAD/zangband2.74b/bin/zangband -mx11 -- -n4')')
