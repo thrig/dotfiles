@@ -3,7 +3,7 @@
 *locale:                UTF-8
 
 URxvt*background:black
-URxvt*foreground:black
+URxvt*foreground:white
 URxvt*loginShell:true
 URxvt*pointerBlank:true
 URxvt*saveLines:0
@@ -14,7 +14,7 @@ xterm*colorMode:false
 xterm*cursorBlink:false
 xterm*cursorColor:white
 xterm*dynamicColors:false
-xterm*foreground:gold
+xterm*foreground:white
 xterm*keepSelection:true
 xterm*loginShell:true
 xterm*pointerMode:1
@@ -33,7 +33,7 @@ cousterm*cursorColor:white
 cousterm*dynamicColors:true
 cousterm*faceName:Cousine
 cousterm*faceSize:18
-cousterm*foreground:gold
+cousterm*foreground:white
 cousterm*keepSelection:true
 cousterm*loginShell:true
 cousterm*pointerMode:1
@@ -53,7 +53,7 @@ cous2term*cursorColor:white
 cous2term*dynamicColors:true
 cous2term*faceName:Cousine
 cous2term*faceSize:32
-cous2term*foreground:gold
+cous2term*foreground:white
 cous2term*keepSelection:true
 cous2term*loginShell:true
 cous2term*pointerMode:1
@@ -71,7 +71,7 @@ excelterm*cursorBlink:false
 excelterm*cursorColor:white
 excelterm*dynamicColors:true
 excelterm*faceName:Fixedsys Excelsior 3.01:pixelsize=28:antialias=false
-excelterm*foreground:gold
+excelterm*foreground:white
 excelterm*keepSelection:true
 excelterm*loginShell:true
 excelterm*pointerMode:1
@@ -90,7 +90,7 @@ mfterm*cursorColor:white
 mfterm*dynamicColors:true
 mfterm*faceName:monofur
 mfterm*faceSize:20
-mfterm*foreground:gold
+mfterm*foreground:white
 mfterm*keepSelection:true
 mfterm*loginShell:true
 mfterm*pointerMode:1
@@ -108,7 +108,7 @@ spleenterm*cursorBlink:false
 spleenterm*cursorColor:white
 spleenterm*dynamicColors:true
 spleenterm*faceName:spleen:pixelsize=24:antialias=false
-spleenterm*foreground:gold
+spleenterm*foreground:white
 spleenterm*keepSelection:true
 spleenterm*loginShell:true
 spleenterm*pointerMode:1
@@ -127,7 +127,7 @@ ttterm*cursorColor:white
 ttterm*dynamicColors:true
 ttterm*faceName:Cousine-Bold
 ttterm*faceSize:14
-ttterm*foreground:gold
+ttterm*foreground:white
 ttterm*geometry:80x33
 ttterm*keepSelection:true
 ttterm*loginShell:true
@@ -148,7 +148,7 @@ wrterm*cursorColor:white
 wrterm*dynamicColors:true
 wrterm*faceName:New
 wrterm*faceSize:24
-wrterm*foreground:gold
+wrterm*foreground:white
 wrterm*geometry:80x24
 wrterm*keepSelection:true
 wrterm*loginShell:true

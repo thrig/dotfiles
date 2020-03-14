@@ -4,4 +4,6 @@ include(`../m4/cf.m4')dnl
 divert(-1)
 asociar(`CUR_HOME', `printf "$HOME"')
 divert(0)dnl
+export LANG=en_US.UTF-8
+export LC_CTYPE=en_US.UTF-8
 comando(`solitary', `"CUR_HOME" comando(`urxvt', `-ls -bg black -fg white -fn xft:Hack:pixelsize=24 -sl 0 -title xomb')')

@@ -12,7 +12,7 @@ my $defaults = {
     cursorBlink       => "false",
     cursorColor       => "white",
     dynamicColors     => "false",
-    foreground        => "gold",
+    foreground        => "white",
     keepSelection     => "true",
     loginShell        => "true",
     pointerMode       => "1",
@@ -57,7 +57,7 @@ print <<'HEADER';
 *locale:                UTF-8
 
 URxvt*background:black
-URxvt*foreground:black
+URxvt*foreground:white
 URxvt*loginShell:true
 URxvt*pointerBlank:true
 URxvt*saveLines:0
