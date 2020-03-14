@@ -56,6 +56,13 @@ print <<'HEADER';
 
 *locale:                UTF-8
 
+URxvt*background:black
+URxvt*foreground:black
+URxvt*loginShell:true
+URxvt*pointerBlank:true
+URxvt*saveLines:0
+URxvt*scrollBar:false
+
 HEADER
 
 emit_attr("x", $defaults);
@@ -77,7 +84,7 @@ emit_attr(
 emit_attr(
     "excel",
     merge_attr(
-        $defaults, $fancy, { faceName => "Fixedsys Excelsior 3.01:pixelsize=28" }
+        $defaults, $fancy, { faceName => "Fixedsys Excelsior 3.01:pixelsize=28:antialias=false" }
     )
 );
 emit_attr("mf",

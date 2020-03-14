@@ -2,6 +2,13 @@
 
 *locale:                UTF-8
 
+URxvt*background:black
+URxvt*foreground:black
+URxvt*loginShell:true
+URxvt*pointerBlank:true
+URxvt*saveLines:0
+URxvt*scrollBar:false
+
 xterm*background:black
 xterm*colorMode:false
 xterm*cursorBlink:false
@@ -63,7 +70,7 @@ excelterm*colorMode:true
 excelterm*cursorBlink:false
 excelterm*cursorColor:white
 excelterm*dynamicColors:true
-excelterm*faceName:Fixedsys Excelsior 3.01:pixelsize=28
+excelterm*faceName:Fixedsys Excelsior 3.01:pixelsize=28:antialias=false
 excelterm*foreground:gold
 excelterm*keepSelection:true
 excelterm*loginShell:true
