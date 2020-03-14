@@ -8,6 +8,10 @@ xnest: xnest.m4 ../m4/cf.m4
 	m4 xnest.m4 > xnest
 	chmod +x xnest
 
+xomb: xomb.m4 ../m4/cf.m4
+	m4 xomb.m4 > xomb
+	chmod +x xomb
+
 zangband: zangband.m4 ../m4/cf.m4
 	m4 zangband.m4 > zangband
 	chmod +x zangband
