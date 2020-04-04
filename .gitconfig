@@ -19,6 +19,7 @@
   linode-master = branch --set-upstream-to=linode/master master
   master-log = log --abbrev-commit --stat master..
   master-diff = diff master..
+  modified = ls-files -m
   more = "!git add -A; git commit -m more"
   sign-tag = tag -u E12C0385 -s
   st = status -sb
