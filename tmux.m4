@@ -8,11 +8,14 @@ set-option -s escape-time 1
 set-environment -g -r SSH_CLIENT
 set-environment -g -r SSH_CONNECTION
 set-environment -g -r SSH_TTY
+set-option -g allow-rename off
 set-option -g history-limit 1000
 set-option -g status off
+set-option -g status-interval 0
 set-option -g status-keys vi
 set-window-option -g aggressive-resize on
 set-window-option -g alternate-screen off
+set-window-option -g automatic-rename off
 set-window-option -g mode-keys vi
 divert(-1)
 disable things I do not use, which is most things especially pane related
