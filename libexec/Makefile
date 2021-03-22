@@ -1,4 +1,8 @@
-all: votcana zangband
+all: cdda votcana xnest xomb
+
+cdda: cdda.m4 ../m4/cf.m4
+	m4 cdda.m4 > cdda
+	chmod +x cdda
 
 votcana: votcana.m4 ../m4/cf.m4
 	m4 votcana.m4 > votcana
@@ -12,12 +16,8 @@ xomb: xomb.m4 ../m4/cf.m4
 	m4 xomb.m4 > xomb
 	chmod +x xomb
 
-zangband: zangband.m4 ../m4/cf.m4
-	m4 zangband.m4 > zangband
-	chmod +x zangband
-
 clean:
-	-rm votcana xnest zangband
+	-rm cdda votcana xnest xomb
 
 # m4 only tested with OpenBSD flavor of m4
 depend:

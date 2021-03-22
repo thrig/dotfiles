@@ -1,0 +1,26 @@
+#!/usr/local/bin/expect
+
+set name [exec xtcidu -B / -n]
+if {![regexp {\.png$} $name]} { append name .png }
+
+sleep 1
+
+cd ~/tmp
+exec -ignorestderr -- scrot $name
+exec -ignorestderr -- pngcrush -q -ow $name 2> /dev/null
+exec -ignorestderr -- scp -qp $name gh:/var/www/tmp/$name
+
+set fh [open ~/.ssh/config]
+while {[gets $fh line] >= 0} {
+    if {[regexp {^Host.* gh} $line]} {
+        while {[gets $fh line] >= 0} {
+            if {[regexp {^\s*$} $line]} { exit 1 }
+            if {[regexp {^\s*Hostname (\S+)} $line -> host]} {
+                exec pbcopy << "http://$host/tmp/$name"
+                exit 0
+            }
+        }
+    }
+}
+
+exit 1
