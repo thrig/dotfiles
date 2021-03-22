@@ -134,8 +134,12 @@ function mvinto {
    fi
 }
 function dc {
+divert(-1)
+NOTE dc(1) on OpenBSD does not then read from STDIN if given "-e ...";
+must give it a file
+divert(0)dnl
    if [[ -z "$1" ]]; then
-      comando(`dc', `-e ''`4 k''` -')
+      comando(`dc', `-e ''`4 k''` /dev/stdin')
    else
       comando(`dc', `-e ''`4 k''` "$@"')
    fi
