@@ -1,3 +1,5 @@
+#set startup-with-shell off
+set style enabled off
 set confirm off
 define hexdump
   if $argc == 1
