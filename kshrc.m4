@@ -6,6 +6,8 @@ asociar(`CUR_LAD', `localarchdir')
 asociar(`CUR_MANPATH', `printf "$MANPATH"')
 asociar(`CUR_PATH', `printf "$PATH"')
 
+asociar(`FULLSCREEN', `xgeometry')
+
 no history; use Makefile or scripts instead (unless you need a log for
 work purposes, in which case you probably want zsh with history epoch
 dates or something even more complicated)
@@ -96,7 +98,7 @@ alias timidity='comando(`tlymidity')'
 alias todo='VISUAL=ed comando(`todo', `;:')'
 alias xeyes='comando(`solitary', `/ comando(`xeyes', `-geometry 150x100+710-0;: ')')'
 alias xload='comando(`solitary', `/ comando(`xload', `-geometry 390x50+488+1;: ')')'
-alias xmahjongg='comando(`solitary', `/ comando(`xmahjongg', `--tileset real --bg green ;: ')')'
+alias xmahjongg='comando(`solitary', `/ comando(`xmahjongg', `--tileset real --bg green --geometry FULLSCREEN;: ')')'
 alias xpquery='comando(`xpquery', `-E UTF-8')'
 alias xsel='comando(`xsel', `-l /dev/null')'
 divert(-1)
