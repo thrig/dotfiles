@@ -1,17 +1,17 @@
-;;; (progn ... (values)) is another way to prevent the return value from
-;;; make-random-state from cluttering up the output
 ;(block nil (setq *random-state* (make-random-state t)) (return))
 
-#+SBCL
-(setf sb-ext:*disassemble-annotate* t)
-
-;;; The following lines added by ql:add-to-init-file:
 #-quicklisp
 (let ((quicklisp-init (merge-pathnames "quicklisp/setup.lisp"
                                        (user-homedir-pathname))))
   (when (probe-file quicklisp-init)
     (load quicklisp-init)))
 
+#+SBCL
+(setf sb-ext:*disassemble-annotate* t)
+
 (defmacro showm (expr) `(pprint (macroexpand-1 ',expr)))
 
-;;; otherwise see files in .lisp directory
+(defun factorial (n)
+  (labels ((factorial (n m)
+             (cond ((zerop n) m) (t (factorial (- n 1) (* n m))))))
+    (factorial n 1)))
