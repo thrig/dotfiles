@@ -12,6 +12,6 @@
 (defmacro showm (expr) `(pprint (macroexpand-1 ',expr)))
 
 (defun factorial (n)
-  (labels ((factorial (n m)
-             (cond ((zerop n) m) (t (factorial (- n 1) (* n m))))))
-    (factorial n 1)))
+  (loop for result = 1 then (* result i)
+        for i from 2 to n
+        finally (return result)))
