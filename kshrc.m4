@@ -83,15 +83,19 @@ alias cursor-show='comando(`tput', `cnorm;: ')'
 alias ipcalc='comando(`ipcalc', `-n')'
 alias gdb='comando(`egdb', `-q')'
 alias egdb='comando(`egdb', `-q')'
-alias mitysisku='comando(`mitysisku', `-e')'
 alias mpg123='comando(`mpg123', `-q')'
 alias mutt='TERM=vt220 comando(`mutt')'
 alias newshell='exec comando(`ksh', `-l')'
 alias ow='comando(`ow', `-C CUR_HOME/tmp')'
+alias perl6='RAKUDO_ERROR_COLOR=0 comando(`perl6')'
+divert(-1)
+these are not fully qualified so that alternate installations of perl
+(e.g. with perl-build or perlbrew) can be supported by changing PATH
+divert(0)dnl
 alias perldoc='perldoc -t'
-alias play='comando(`play', `--buffer=32768')'
 alias pm-path='perldoc -l'
 alias prove='prove --nocolor --blib'
+alias play='comando(`play', `--buffer=32768')'
 alias rlwrap='RLWRAP_HOME=CUR_HOME/.rlwrap comando(`rlwrap')'
 alias R='comando(`R', `-q --silent --no-save')'
 alias timidity='comando(`tlymidity')'

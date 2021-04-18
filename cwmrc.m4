@@ -8,7 +8,7 @@ autogroup 3 "cousterm"
 autogroup 4 "Xnest"
 autogroup 5 "MuPDF"
 bind-key C-F1 lock
-color activeborder goldenrod
+color activeborder brown
 color inactiveborder grey11
 command cous CUR_HOME/libexec/cousterm
 command votcana CUR_HOME/libexec/votcana
