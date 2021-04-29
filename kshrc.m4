@@ -33,14 +33,13 @@ EDITOR=comando(`vi')
 VISUAL=comando(`vi')
 GIT_CEILING_DIRECTORIES=CUR_HOME
 PAGER=comando(`less')
-PERLDOC_PAGER='comando(`less', `-R')'
 TZ=UTC
 LANG=en_US.UTF-8
 LC_CTYPE=en_US.UTF-8
 LC_MESSAGES=POSIX
 unset LC_ALL
-LESSHISTFILE=/dev/null
-LESS=-igXR-j5
+LESSHISTFILE=-
+LESS=-cFigXR-j5
 LESSSECURE=1
 divert(-1)
 avoid linux "helper" scripts
@@ -70,7 +69,6 @@ the funny ;: thing on some of these aliases is to prevent accidental
 subsequent text from doing who knows what
 divert(0)dnl
 alias anykey="comando(`getraw', `-o ''`*:0''`;: "')
-alias ascii='comando(`man', `7 ascii;: ')'
 alias atonal-util='comando(`atonal-util', `--ly --flats')'
 alias commit='comando(`git', `commit -a;: ')'
 alias di='comando(`git', `diff')'
@@ -83,9 +81,12 @@ alias cursor-show='comando(`tput', `cnorm;: ')'
 alias ipcalc='comando(`ipcalc', `-n')'
 alias gdb='comando(`egdb', `-q')'
 alias egdb='comando(`egdb', `-q')'
+alias man='comando(`man', `-T ascii')'
+alias ascii='comando(`man', `-T ascii 7 ascii;: ')'
 alias mpg123='comando(`mpg123', `-q')'
 alias mutt='TERM=vt220 comando(`mutt')'
 alias newshell='exec comando(`ksh', `-l')'
+alias node='CUR_HOME/libexec/node'
 alias ow='comando(`ow', `-C CUR_HOME/tmp')'
 alias perl6='RAKUDO_ERROR_COLOR=0 comando(`perl6')'
 divert(-1)

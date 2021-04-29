@@ -1,4 +1,8 @@
-all: cdda votcana xnest xomb
+all: clani cdda votcana xnest xomb
+
+clani: clani.m4 ../m4/cf.m4
+	m4 clani.m4 > clani
+	chmod +x clani
 
 cdda: cdda.m4 ../m4/cf.m4
 	m4 cdda.m4 > cdda
@@ -17,9 +21,9 @@ xomb: xomb.m4 ../m4/cf.m4
 	chmod +x xomb
 
 clean:
-	-rm cdda votcana xnest xomb
+	-rm clani cdda votcana xnest xomb
 
-# m4 only tested with OpenBSD flavor of m4
+# NOTE m4 only has been tested with OpenBSD brand m4
 depend:
 	echo 'm4_m4exit(0)' | m4 -P
 

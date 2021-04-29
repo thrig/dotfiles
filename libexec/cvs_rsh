@@ -1,5 +1,0 @@
-#!/bin/sh
-exec /usr/bin/ssh -a -x \
-  -o BatchMode=yes \
-  -o ClearAllForwardings=yes \
-  -o PreferredAuthentications=hostbased,publickey "$@"

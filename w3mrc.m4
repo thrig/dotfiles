@@ -17,8 +17,8 @@ vi_prec_num 1
 wrap_search 1
 ignorecase_search 1
 clear_buffer 1
-auto_uncompress 1
-preserve_timestamp 1
+auto_uncompress 0
+preserve_timestamp 0
 editor /usr/bin/vi
 mailto_options 1
 include(`m4/cf.m4')dnl

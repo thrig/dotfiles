@@ -1,9 +1,10 @@
 #!/bin/sh
-#
-# xnest - isolation for feh and w3m so they have neither access to my
-# main account nor to the main X11 display
 include(`../m4/cf.m4')dnl
 divert(-1)
+
+xnest - isolation for feh and w3m so they have neither access to my main
+account nor to the main X11 display
+
 asociar(`CUR_HOME', `printf "$HOME"')
 asociar(`FULLSCREEN', `xgeometry')
 divert(0)dnl

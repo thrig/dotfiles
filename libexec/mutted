@@ -1,0 +1,4 @@
+#!/bin/sh
+file=${1?no file to edit}
+printf '1,/^$/g/^Cc: $/d'"\n"'1,/^$/g/^Bcc: $/d'"\n"'1,/^$/g/^Reply-To: $/d'"\n1,/^$/g/^Subject/m0\n1,/^$/g/^To/m0\nwq\n" | /bin/ed "$file"
+exec /usr/local/bin/vim -N -u "$HOME"/.muttrc-vimrc "$file"

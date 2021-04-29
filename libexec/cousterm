@@ -1,3 +1,1 @@
-#!/bin/sh
-exec xterm -tn xterm-256color +bdc +cm +dc +itc -class cousterm \
-           -e '/bin/ksh -l'
+exec /usr/X11R6/bin/xterm -tn xterm-256color +bdc +cm +dc +itc -class cousterm -e '/bin/ksh -l'

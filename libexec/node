@@ -1,0 +1,4 @@
+#!/bin/sh
+export NODE_DISABLE_COLORS=1
+export NODE_REPL_HISTORY=
+exec /usr/local/bin/node "$@"

@@ -7,21 +7,20 @@ use 5.24.0;
 use warnings;
 
 my $defaults = {
-    background        => "black",
-    colorMode         => "false",
-    cursorBlink       => "false",
-    cursorColor       => "white",
-    dynamicColors     => "false",
-    foreground        => "white",
-    keepSelection     => "true",
-    loginShell        => "true",
-    pointerMode       => "1",
-    saveLines         => "0",
-    scrollBar         => "false",
-    selectToClipboard => "true",
-    titleInhibit      => "true",
-    visualBell        => "true",
-    visualBellDelay   => "0",
+    background      => "black",
+    colorMode       => "false",
+    cursorBlink     => "false",
+    cursorColor     => "white",
+    dynamicColors   => "false",
+    foreground      => "white",
+    keepSelection   => "true",
+    loginShell      => "true",
+    pointerMode     => "1",
+    saveLines       => "0",
+    scrollBar       => "false",
+    titleInhibit    => "true",
+    visualBell      => "true",
+    visualBellDelay => "0",
 };
 
 # really only for games, not for productive work
@@ -34,7 +33,8 @@ my $fancy = {
 sub emit_attr {
     my ($type, $attr, $comment) = @_;
     my $s = '';
-    $s .= '# ' . $comment . "\n" if defined $comment and length $comment;
+    # TIL comment is ! per xrdb(1)
+    $s .= '! ' . $comment . "\n" if defined $comment and length $comment;
     for my $key (sort keys $attr->%*) {
         $s .= "${type}term" . '*' . $key . ':' . $attr->{$key} . "\n";
     }
@@ -84,7 +84,8 @@ emit_attr(
 emit_attr(
     "excel",
     merge_attr(
-        $defaults, $fancy, { faceName => "Fixedsys Excelsior 3.01:pixelsize=28:antialias=false" }
+        $defaults, $fancy,
+        { faceName => "Fixedsys Excelsior 3.01:pixelsize=28:antialias=false" }
     )
 );
 emit_attr("mf",
@@ -96,17 +97,10 @@ emit_attr(
     )
 );
 
-# two-thirds of the screen (where the other 1/3 is two of the
-# regular xterms)
-emit_attr(
-    "tt",
-    merge_attr(
-        $defaults, $fancy,
-        { faceName => "Cousine-Bold", faceSize => 14, geometry => "80x33" }
-    )
-);
-
 # for playing rogue with square font
+#
+#   $ fc-list | grep New | grep White
+#   .../.fonts/whitrabt.ttf: White Rabbit,New:style=Regular
 emit_attr(
     "wr",
     merge_attr(

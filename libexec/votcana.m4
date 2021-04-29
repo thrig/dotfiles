@@ -1,15 +1,13 @@
 #!/bin/sh
-#
-# votcana - four stations or nodes (terminals), my default layout on
-# (most?) every laptop I've used. the upper left terminal is for chat
-# (if online); the right hand xterms are where most development is done.
-# lower left is for the connection to the work tmux (email, logs, etc).
-# lojban numbers are used as they are nice and short
 include(`../m4/cf.m4')dnl
 divert(-1)
+
+votcana - four terminals, my default layout on pretty much every laptop
+I've ever used. in hindsight, it should count from no and not pa
+
 asociar(`CUR_HOME', `printf "$HOME"')
 divert(0)dnl
-comando(`solitary') "CUR_HOME" comando(`xterm') -geometry 80x24+0+0 -title pa -e 'comando(`tmn', `pa')'
-comando(`solitary') "CUR_HOME" comando(`xterm') -geometry 80x24+486+0 -title re -e 'comando(`tmn', `re')'
-comando(`solitary') "CUR_HOME" comando(`xterm') -geometry 80x24+486+318 -title ci -e 'comando(`tmn', `ci')'
-comando(`solitary') "CUR_HOME" comando(`xterm') -geometry 80x24+0+318 -title vo -e 'comando(`ksh', `-l')'
+comando(`xdotool', `search --name pa windowraise') || comando(`solitary') "CUR_HOME" comando(`xterm') -fn 8x13 -geometry 80x34+0+0 -title pa -e 'comando(`tmn', `pa')'
+comando(`xdotool', `search --name re windowraise') || comando(`solitary') "CUR_HOME" comando(`xterm') -fn 8x13 -geometry 80x34+720+0 -title re -e 'comando(`tmn', `re')'
+comando(`xdotool', `search --name ci windowraise') || comando(`solitary') "CUR_HOME" comando(`xterm') -fn 8x13 -geometry 80x24+720+450 -title ci -e 'comando(`tmn', `ci')'
+comando(`xdotool', `search --name vo windowraise') || comando(`solitary') "CUR_HOME" comando(`xterm') -fn 8x13 -geometry 80x24+0+450 -title vo -e 'comando(`tmn', `vo')'
