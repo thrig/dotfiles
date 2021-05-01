@@ -6,14 +6,10 @@ set backspace=0
 set cpoptions+=!$
 set expandtab
 set gdefault
-set ignorecase
-set infercase
+set ignorecase infercase
 set makeprg=make\ %:r
 set mouse=
-set nojoinspaces
-set nomodeline
-set nomore
-set noshowmode
+set nojoinspaces nomodeline nomore noshowmode
 set nrformats=
 set scrolloff=2
 set shiftwidth=4
@@ -65,6 +61,9 @@ nnoremap <silent> ]B :last<CR>
 if !exists("autocommands_loaded")
   let autocommands_loaded = 1
 
+  autocmd InsertEnter * echon ''
+  autocmd CursorMoved * echon ''
+
   autocmd VimEnter * call StartupFoo()
   filetype on
 
@@ -79,7 +78,7 @@ if !exists("autocommands_loaded")
 
   autocmd FileType lilypond setlocal shiftwidth=2 | map <LocalLeader>t :w!<CR>
 
-  autocmd FileType lisp setlocal lisp | setlocal shiftwidth=2 | setlocal autoindent | setlocal showmatch | map <LocalLeader>t :update<CR>:!feed % sbcl --noinform<CR><CR>| iabbrev PUFF format t "~a~%"
+  autocmd FileType lisp setlocal lisp | setlocal shiftwidth=2 | setlocal autoindent | setlocal showmatch | map <LocalLeader>i $?^(<CR>va):!lt<CR> | map <LocalLeader>t :update<CR>:!feed % sbcl --noinform<CR><CR>| iabbrev PUFF format t "~a~%"
 
   autocmd FileType make setlocal noexpandtab
 

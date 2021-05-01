@@ -1,125 +1,125 @@
 #!/usr/bin/env perl
 #
-# mkxdefaults - makes .Xdefaults. font sizes are aimed at my 1366x768
-# OpenBSD laptop so will need adjustment elsewhere
+# mkxdefaults - makes .Xdefaults. the larger terminal font sizes are for
+# my 1366x768 OpenBSD laptop so may need adjustment elsewhere. also more
+# or less assumes tmux(1) (or games) given the lack of scrolling options
+#
+# see also appres(1)
 
 use 5.24.0;
 use warnings;
-
-my $defaults = {
-    background      => "black",
-    colorMode       => "false",
-    cursorBlink     => "false",
-    cursorColor     => "white",
-    dynamicColors   => "false",
-    foreground      => "white",
-    keepSelection   => "true",
-    loginShell      => "true",
-    pointerMode     => "1",
-    saveLines       => "0",
-    scrollBar       => "false",
-    titleInhibit    => "true",
-    visualBell      => "true",
-    visualBellDelay => "0",
-};
-
-# really only for games, not for productive work
-my $fancy = {
-    colorMode     => "true",
-    dynamicColors => "true",
-    termName      => "xterm-256color",
-};
-
-sub emit_attr {
-    my ($type, $attr, $comment) = @_;
-    my $s = '';
-    # TIL comment is ! per xrdb(1)
-    $s .= '! ' . $comment . "\n" if defined $comment and length $comment;
-    for my $key (sort keys $attr->%*) {
-        $s .= "${type}term" . '*' . $key . ':' . $attr->{$key} . "\n";
-    }
-    say $s;
-}
-
-sub merge_attr {
-    my $attr;
-    for my $from (@_) {
-        for my $key (keys $from->%*) {
-            $attr->{$key} = $from->{$key};
-        }
-    }
-    return $attr;
-}
+use Carp 'croak';
 
 print <<'HEADER';
-# built with mkxdefaults
+! built with mkxdefaults
 
-*locale:                UTF-8
+*locale:UTF-8
 
-URxvt*background:black
+mupdf*pointerMode:1
+
 URxvt*foreground:white
+URxvt*background:black
+URxvt*boldFont:xft:Cousine:pixelsize=26:bold
+URxvt*boldItalicFont:xft:Cousine:pixelsize=26:bold:italic
+URxvt*font:xft:Cousine:pixelsize=26
+URxvt*italicFont:xft:Cousine:pixelsize=26:italic
+URxvt*color0:#000000
+URxvt*color1:#A80000
+URxvt*color2:#00A800
+URxvt*color3:#A8A800
+URxvt*color4:#0000A8
+URxvt*color5:#A800A8
+URxvt*color6:#00A8A8
+URxvt*color7:#A8A8A8
+URxvt*color8:#000054
+URxvt*color9:#FF0054
+URxvt*color10:#00FF54
+URxvt*color11:#FFFF54
+URxvt*color12:#0000FF
+URxvt*color13:#FF00FF
+URxvt*color14:#00FFFF
+URxvt*color15:#FFFFFF
 URxvt*loginShell:true
 URxvt*pointerBlank:true
 URxvt*saveLines:0
 URxvt*scrollBar:false
-
 HEADER
 
-emit_attr("x", $defaults);
-emit_attr(
-    "cous",
-    merge_attr(
-        $defaults, $fancy,
-        { boldFont => "Cousine-Bold", faceName => "Cousine", faceSize => 18 }
-    )
-);
-# embiggened font for krefu(1) training
-emit_attr(
-    "cous2",
-    merge_attr(
-        $defaults, $fancy,
-        { boldFont => "Cousine-Bold", faceName => "Cousine", faceSize => 32 }
-    )
-);
-emit_attr(
-    "excel",
-    merge_attr(
-        $defaults, $fancy,
-        { faceName => "Fixedsys Excelsior 3.01:pixelsize=28:antialias=false" }
-    )
-);
-emit_attr("mf",
-    merge_attr($defaults, $fancy, { faceName => "monofur", faceSize => 20 }));
-emit_attr(
-    "spleen",
-    merge_attr(
-        $defaults, $fancy, { faceName => "spleen:pixelsize=24:antialias=false" }
-    )
-);
-
-# for playing rogue with square font
+# configure XTerm in various guises; see also tty/bigterm in the scripts
+# repo and cwmrc.m4 for related autogroup foo
 #
-#   $ fc-list | grep New | grep White
-#   .../.fonts/whitrabt.ttf: White Rabbit,New:style=Regular
-emit_attr(
-    "wr",
-    merge_attr(
-        $defaults, $fancy,
-        { faceName => "New", faceSize => 24, geometry => "80x24" }
-    ),
-    q{"White Rabbit" square font}
+# TODO really want colorMode:false here but then tmux copy-mode
+# selections become invisible on OpenBSD. git(1) in particular is bad
+# about pooping out colors on errors
+my $defaults = {
+    background      => "black",
+    colorMode       => "true",
+    cursorBlink     => "true",
+    cursorColor     => "NavajoWhite",
+    cursorOffTime   => "100",
+    cursorOnTime    => "1000",
+    dynamicColors   => "false",
+    foreground      => "white",
+    logInhibit      => "true",
+    loginShell      => "true",
+    pointerMode     => "1",
+    saveLines       => "0",
+    scrollBar       => "false",
+    trimSelection   => "true",
+    visualBell      => "true",
+    visualBellDelay => "0",
+};
+
+my $cous = { faceName => "Cousine", boldFont => "Cousine-Bold" };
+
+# only for games
+my $fancy = { dynamicColors => "true", termName => "xterm-256color" };
+
+# NOTE "White Rabbit" may appear as "New" in font listings
+#
+#   $ fc-list | awk -F/ '/Rabbit/{print $NF}'
+#   whitrabt.ttf: White Rabbit,New:style=Regular
+my $wr = { faceName => "White Rabbit" };
+
+my @terminals = (
+    [ xterm => [] ],
+    [ cousterm => [ $cous, $fancy, { faceSize => 18 } ],
+      "embiggened for DCSS and walls of text" ],
+    [ cous2term => [ $cous, $fancy, { faceSize => 32 } ] ],
+    [ mfterm => [ $fancy, { faceName => "monofur", faceSize => 20 } ],
+      "Comic Sans MS being the good thing to come out of Redmond" ],
+    [ wrterm => [ $wr, { faceSize => 24, geometry => "80x24" } ],
+      q{"White Rabbit" square font} ],
 );
 
-print <<'FOOTER';
-mupdf*pointerMode:      1
+for my $tent (@terminals) {
+    print terminal(
+        $tent->[0],
+        with => [ $defaults, @{ $tent->[1] } ],
+        $tent->[2] ? (note => $tent->[2]) : ()
+    );
+}
 
-xbattery*visualBell:    false 
+sub resources {
+    my $resources;
+    for my $rset (@_) {
+        for my $key (keys %$rset) {
+            $resources->{$key} = $rset->{$key};
+        }
+    }
+    return $resources;
+}
 
-xclipboard*geometry:    388x200+488+53
-
-xload*background:       black
-xload*foreground:       white
-xload*highlight:        darkred
-xload*showLabel:        false
-xload*update:           15
-FOOTER
+sub terminal {
+    my ($class, %param) = @_;
+    croak "no resources for $class"
+      unless defined $param{with}
+      and ref $param{with} eq 'ARRAY';
+    my $resources = resources @{ $param{with} };
+    my $string    = "\n";
+    $string .= "! $param{note}\n" if $param{note};
+    for my $key (sort keys %$resources) {
+        $string .= "$class*$key:$resources->{$key}\n";
+    }
+    return $string;
+}

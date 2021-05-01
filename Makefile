@@ -1,4 +1,7 @@
-all: .cwmrc .kshrc .muttrc .profile .tmux.conf .w3mrc .xsession .zshrc
+all: .Xdefaults .cwmrc .kshrc .muttrc .profile .tmux.conf .w3mrc .xsession .zshrc
+
+.Xdefaults: libexec/mkxdefaults
+	perl libexec/mkxdefaults > .Xdefaults
 
 .cwmrc: cwmrc.m4 m4/cf.m4
 	m4 cwmrc.m4 > .cwmrc
@@ -26,7 +29,7 @@ all: .cwmrc .kshrc .muttrc .profile .tmux.conf .w3mrc .xsession .zshrc
 	m4 zshrc.m4 > .zshrc
 
 clean:
-	-rm .cwmrc .kshrc .muttrc .profile .tmux.conf .w3mrc .xsession .zshrc
+	-rm .Xdefaults .cwmrc .kshrc .muttrc .profile .tmux.conf .w3mrc .xsession .zshrc
 
 # m4 only tested with OpenBSD flavor of m4
 depend:

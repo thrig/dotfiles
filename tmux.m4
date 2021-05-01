@@ -4,7 +4,8 @@ divert(-1)
 ko catra lo ratcu
 divert(0)dnl
 set-option -s -g mouse off
-set-option -s escape-time 1
+set-option -s escape-time 10
+set-environment -g -r DISPLAY
 set-environment -g -r SSH_CLIENT
 set-environment -g -r SSH_CONNECTION
 set-environment -g -r SSH_TTY
@@ -75,17 +76,17 @@ divert(-1)
 capture the visible stuff (will need -a for alternate screen (but I turn
 that off))
 divert(0)dnl
-bind-key g capture-pane -eJ
+#bind-key g capture-pane -eJ
 divert(-1)
 "grab it all"
 divert(0)dnl
-bind-key G capture-pane -eJ -S - -E -
+#bind-key G capture-pane -eJ -S - -E -
 divert(-1)
 or ^P: save-buffer ~/... to manually put output somewhere
 divert(0)dnl
 unbind-key s
 changequote(`{',`}')dnl
-bind-key s run "tmux save-buffer - > ~/tmp/tmux-`date +%s`.out"
+bind-key s run "tmux save-buffer - | xsel -l /dev/null -i -p"
 divert(-1)
 slightly incompatible with emacs mode things (C-k in particular) but I
 don't really use emacs anything (C-j is sometimes necessary after
@@ -94,4 +95,3 @@ divert(0)dnl
 bind-key -n C-j next-window
 #unbind-key -n C-j
 bind-key -n C-k previous-window
-bind-key R source-file ~/.tmux.conf \; display-message "source-file done"

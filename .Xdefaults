@@ -1,174 +1,134 @@
-# built with mkxdefaults
+! built with mkxdefaults
 
-*locale:                UTF-8
+*locale:UTF-8
 
-URxvt*background:black
+mupdf*pointerMode:1
+
 URxvt*foreground:white
+URxvt*background:black
+URxvt*boldFont:xft:Cousine:pixelsize=26:bold
+URxvt*boldItalicFont:xft:Cousine:pixelsize=26:bold:italic
+URxvt*font:xft:Cousine:pixelsize=26
+URxvt*italicFont:xft:Cousine:pixelsize=26:italic
+URxvt*color0:#000000
+URxvt*color1:#A80000
+URxvt*color2:#00A800
+URxvt*color3:#A8A800
+URxvt*color4:#0000A8
+URxvt*color5:#A800A8
+URxvt*color6:#00A8A8
+URxvt*color7:#A8A8A8
+URxvt*color8:#000054
+URxvt*color9:#FF0054
+URxvt*color10:#00FF54
+URxvt*color11:#FFFF54
+URxvt*color12:#0000FF
+URxvt*color13:#FF00FF
+URxvt*color14:#00FFFF
+URxvt*color15:#FFFFFF
 URxvt*loginShell:true
 URxvt*pointerBlank:true
 URxvt*saveLines:0
 URxvt*scrollBar:false
 
 xterm*background:black
-xterm*colorMode:false
-xterm*cursorBlink:false
-xterm*cursorColor:white
+xterm*colorMode:true
+xterm*cursorBlink:true
+xterm*cursorColor:NavajoWhite
+xterm*cursorOffTime:100
+xterm*cursorOnTime:1000
 xterm*dynamicColors:false
 xterm*foreground:white
-xterm*keepSelection:true
+xterm*logInhibit:true
 xterm*loginShell:true
 xterm*pointerMode:1
 xterm*saveLines:0
 xterm*scrollBar:false
-xterm*selectToClipboard:true
-xterm*titleInhibit:true
+xterm*trimSelection:true
 xterm*visualBell:true
 xterm*visualBellDelay:0
 
+! embiggened for DCSS and walls of text
 cousterm*background:black
 cousterm*boldFont:Cousine-Bold
 cousterm*colorMode:true
-cousterm*cursorBlink:false
-cousterm*cursorColor:white
+cousterm*cursorBlink:true
+cousterm*cursorColor:NavajoWhite
+cousterm*cursorOffTime:100
+cousterm*cursorOnTime:1000
 cousterm*dynamicColors:true
 cousterm*faceName:Cousine
 cousterm*faceSize:18
 cousterm*foreground:white
-cousterm*keepSelection:true
+cousterm*logInhibit:true
 cousterm*loginShell:true
 cousterm*pointerMode:1
 cousterm*saveLines:0
 cousterm*scrollBar:false
-cousterm*selectToClipboard:true
 cousterm*termName:xterm-256color
-cousterm*titleInhibit:true
+cousterm*trimSelection:true
 cousterm*visualBell:true
 cousterm*visualBellDelay:0
 
 cous2term*background:black
 cous2term*boldFont:Cousine-Bold
 cous2term*colorMode:true
-cous2term*cursorBlink:false
-cous2term*cursorColor:white
+cous2term*cursorBlink:true
+cous2term*cursorColor:NavajoWhite
+cous2term*cursorOffTime:100
+cous2term*cursorOnTime:1000
 cous2term*dynamicColors:true
 cous2term*faceName:Cousine
 cous2term*faceSize:32
 cous2term*foreground:white
-cous2term*keepSelection:true
+cous2term*logInhibit:true
 cous2term*loginShell:true
 cous2term*pointerMode:1
 cous2term*saveLines:0
 cous2term*scrollBar:false
-cous2term*selectToClipboard:true
 cous2term*termName:xterm-256color
-cous2term*titleInhibit:true
+cous2term*trimSelection:true
 cous2term*visualBell:true
 cous2term*visualBellDelay:0
 
-excelterm*background:black
-excelterm*colorMode:true
-excelterm*cursorBlink:false
-excelterm*cursorColor:white
-excelterm*dynamicColors:true
-excelterm*faceName:Fixedsys Excelsior 3.01:pixelsize=28:antialias=false
-excelterm*foreground:white
-excelterm*keepSelection:true
-excelterm*loginShell:true
-excelterm*pointerMode:1
-excelterm*saveLines:0
-excelterm*scrollBar:false
-excelterm*selectToClipboard:true
-excelterm*termName:xterm-256color
-excelterm*titleInhibit:true
-excelterm*visualBell:true
-excelterm*visualBellDelay:0
-
+! Comic Sans MS being the good thing to come out of Redmond
 mfterm*background:black
 mfterm*colorMode:true
-mfterm*cursorBlink:false
-mfterm*cursorColor:white
+mfterm*cursorBlink:true
+mfterm*cursorColor:NavajoWhite
+mfterm*cursorOffTime:100
+mfterm*cursorOnTime:1000
 mfterm*dynamicColors:true
 mfterm*faceName:monofur
 mfterm*faceSize:20
 mfterm*foreground:white
-mfterm*keepSelection:true
+mfterm*logInhibit:true
 mfterm*loginShell:true
 mfterm*pointerMode:1
 mfterm*saveLines:0
 mfterm*scrollBar:false
-mfterm*selectToClipboard:true
 mfterm*termName:xterm-256color
-mfterm*titleInhibit:true
+mfterm*trimSelection:true
 mfterm*visualBell:true
 mfterm*visualBellDelay:0
 
-spleenterm*background:black
-spleenterm*colorMode:true
-spleenterm*cursorBlink:false
-spleenterm*cursorColor:white
-spleenterm*dynamicColors:true
-spleenterm*faceName:spleen:pixelsize=24:antialias=false
-spleenterm*foreground:white
-spleenterm*keepSelection:true
-spleenterm*loginShell:true
-spleenterm*pointerMode:1
-spleenterm*saveLines:0
-spleenterm*scrollBar:false
-spleenterm*selectToClipboard:true
-spleenterm*termName:xterm-256color
-spleenterm*titleInhibit:true
-spleenterm*visualBell:true
-spleenterm*visualBellDelay:0
-
-ttterm*background:black
-ttterm*colorMode:true
-ttterm*cursorBlink:false
-ttterm*cursorColor:white
-ttterm*dynamicColors:true
-ttterm*faceName:Cousine-Bold
-ttterm*faceSize:14
-ttterm*foreground:white
-ttterm*geometry:80x33
-ttterm*keepSelection:true
-ttterm*loginShell:true
-ttterm*pointerMode:1
-ttterm*saveLines:0
-ttterm*scrollBar:false
-ttterm*selectToClipboard:true
-ttterm*termName:xterm-256color
-ttterm*titleInhibit:true
-ttterm*visualBell:true
-ttterm*visualBellDelay:0
-
-# "White Rabbit" square font
+! "White Rabbit" square font
 wrterm*background:black
 wrterm*colorMode:true
-wrterm*cursorBlink:false
-wrterm*cursorColor:white
-wrterm*dynamicColors:true
-wrterm*faceName:New
+wrterm*cursorBlink:true
+wrterm*cursorColor:NavajoWhite
+wrterm*cursorOffTime:100
+wrterm*cursorOnTime:1000
+wrterm*dynamicColors:false
+wrterm*faceName:White Rabbit
 wrterm*faceSize:24
 wrterm*foreground:white
 wrterm*geometry:80x24
-wrterm*keepSelection:true
+wrterm*logInhibit:true
 wrterm*loginShell:true
 wrterm*pointerMode:1
 wrterm*saveLines:0
 wrterm*scrollBar:false
-wrterm*selectToClipboard:true
-wrterm*termName:xterm-256color
-wrterm*titleInhibit:true
+wrterm*trimSelection:true
 wrterm*visualBell:true
 wrterm*visualBellDelay:0
-
-mupdf*pointerMode:      1
-
-xbattery*visualBell:    false 
-
-xclipboard*geometry:    388x200+488+53
-
-xload*background:       black
-xload*foreground:       white
-xload*highlight:        darkred
-xload*showLabel:        false
-xload*update:           15

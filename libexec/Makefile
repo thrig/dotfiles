@@ -1,4 +1,7 @@
-all: clani cdda votcana xnest xomb
+all: .Xdefaults clani cdda votcana xnest xomb
+
+.Xdefaults: mkxdefaults
+	perl mkxdefaults > .Xdefaults
 
 clani: clani.m4 ../m4/cf.m4
 	m4 clani.m4 > clani
@@ -21,7 +24,7 @@ xomb: xomb.m4 ../m4/cf.m4
 	chmod +x xomb
 
 clean:
-	-rm clani cdda votcana xnest xomb
+	-rm .Xdefaults clani cdda votcana xnest xomb
 
 # NOTE m4 only has been tested with OpenBSD brand m4
 depend:
