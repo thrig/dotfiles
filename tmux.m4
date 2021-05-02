@@ -19,6 +19,14 @@ set-window-option -g alternate-screen off
 set-window-option -g automatic-rename off
 set-window-option -g mode-keys vi
 divert(-1)
+don't use default colors in copy mode, etc
+divert(0)dnl
+set-window-option -g copy-mode-match-style fg=terminal,bg=terminal,underscore
+set-window-option -g copy-mode-mark-style fg=terminal,bg=terminal,reverse
+set-window-option -g copy-mode-current-match-style fg=terminal,bg=terminal,reverse
+set-window-option -g mode-style fg=terminal,bg=terminal,reverse
+set-window-option -g message-style fg=terminal,bold,bg=terminal
+divert(-1)
 disable things I do not use, which is most things especially pane related
 divert(0)dnl
 unbind-key t

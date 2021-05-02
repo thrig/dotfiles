@@ -32,7 +32,7 @@ URxvt*saveLines:0
 URxvt*scrollBar:false
 
 xterm*background:black
-xterm*colorMode:true
+xterm*colorMode:false
 xterm*cursorBlink:true
 xterm*cursorColor:NavajoWhite
 xterm*cursorOffTime:100
@@ -58,7 +58,7 @@ cousterm*cursorOffTime:100
 cousterm*cursorOnTime:1000
 cousterm*dynamicColors:true
 cousterm*faceName:Cousine
-cousterm*faceSize:18
+cousterm*faceSize:19
 cousterm*foreground:white
 cousterm*logInhibit:true
 cousterm*loginShell:true
@@ -114,7 +114,7 @@ mfterm*visualBellDelay:0
 
 ! "White Rabbit" square font
 wrterm*background:black
-wrterm*colorMode:true
+wrterm*colorMode:false
 wrterm*cursorBlink:true
 wrterm*cursorColor:NavajoWhite
 wrterm*cursorOffTime:100

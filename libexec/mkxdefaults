@@ -47,13 +47,9 @@ HEADER
 
 # configure XTerm in various guises; see also tty/bigterm in the scripts
 # repo and cwmrc.m4 for related autogroup foo
-#
-# TODO really want colorMode:false here but then tmux copy-mode
-# selections become invisible on OpenBSD. git(1) in particular is bad
-# about pooping out colors on errors
 my $defaults = {
     background      => "black",
-    colorMode       => "true",
+    colorMode       => "false",
     cursorBlink     => "true",
     cursorColor     => "NavajoWhite",
     cursorOffTime   => "100",
@@ -72,8 +68,12 @@ my $defaults = {
 
 my $cous = { faceName => "Cousine", boldFont => "Cousine-Bold" };
 
-# only for games
-my $fancy = { dynamicColors => "true", termName => "xterm-256color" };
+# color: only for games
+my $fancy = {
+    colorMode     => "true",
+    dynamicColors => "true",
+    termName      => "xterm-256color"
+};
 
 # NOTE "White Rabbit" may appear as "New" in font listings
 #
@@ -83,7 +83,7 @@ my $wr = { faceName => "White Rabbit" };
 
 my @terminals = (
     [ xterm => [] ],
-    [ cousterm => [ $cous, $fancy, { faceSize => 18 } ],
+    [ cousterm => [ $cous, $fancy, { faceSize => 19 } ],
       "embiggened for DCSS and walls of text" ],
     [ cous2term => [ $cous, $fancy, { faceSize => 32 } ] ],
     [ mfterm => [ $fancy, { faceName => "monofur", faceSize => 20 } ],
