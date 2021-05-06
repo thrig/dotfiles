@@ -48,6 +48,8 @@ HEADER
 # configure XTerm in various guises; see also tty/bigterm in the scripts
 # repo and cwmrc.m4 for related autogroup foo
 my $defaults = {
+    allowMouseOps   => "false",
+    allowTitleOps   => "false",
     background      => "black",
     colorMode       => "false",
     cursorBlink     => "true",

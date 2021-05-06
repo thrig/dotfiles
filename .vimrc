@@ -14,16 +14,20 @@ set nrformats=
 set scrolloff=2
 set shiftwidth=4
 set shortmess=aoOItTWS
+set pastetoggle=<F2>
 set t_Co=0
+set tabstop=4
 set ttimeoutlen=0
 set updatecount=0
 set viminfo='256,f0,<0,\"0,:0,/0,h,n~/.viminfo
 set writeany
 
 cabbrev Argedit argedit
+cabbrev Redo redo
+cabbrev Set set
+cabbrev Q q
 cabbrev W w
 cabbrev Wq wq
-cabbrev Q q
 
 iabbrev hbp #!/usr/bin/env perl<CR>use 5.28.0;<CR>use warnings;<CR><Esc>:setf perl<CR>i
 
@@ -82,25 +86,12 @@ if !exists("autocommands_loaded")
 
   autocmd FileType make setlocal noexpandtab
 
-  autocmd FileType perl setlocal cindent | setlocal cinkeys=0{,0},0),0],:,!^F,o,O,e | map <LocalLeader>i :%!perltidy<CR>| iabbrev DIAG use Data::Dumper; diag Dumper| iabbrev DIAC use Data::Dumper::Concise::Aligned; diag DumperA| iabbrev PUDD use Data::Dumper; warn Dumper| iabbrev PUCC use Data::Dumper::Concise::Aligned; warn DumperA
+  autocmd FileType perl setlocal cindent | setlocal cinkeys=0{,0},0),0],:,!^F,o,O,e | map <LocalLeader>i :%!perltidy<CR>| iabbrev DIAG diag Dumper | iabbrev DIAC use Data::Dumper::Concise::Aligned; diag DumperA| iabbrev PUDD warn Dumper | iabbrev PUCC use Data::Dumper::Concise::Aligned; warn DumperA
 
   autocmd FileType tcl setlocal cindent | map <LocalLeader>t :update<CR>:!feed % tclsh8.6<CR><CR>
 
   autocmd FileType tex map <LocalLeader>t :!make %:r.pdf;mopen %:r.pdf<CR><CR>
 endif
-
-let &t_ti = &t_ti . "\e[?2004h"
-let &t_te = "\e[?2004l" . &t_te
-function XTermPasteBegin(ret)
-  set pastetoggle=<Esc>[201~
-  set paste
-  return a:ret
-endfunction
-map <expr> <Esc>[200~ XTermPasteBegin("i")
-imap <expr> <Esc>[200~ XTermPasteBegin("")
-vmap <expr> <Esc>[200~ XTermPasteBegin("c")
-cmap <Esc>[200~ <nop>
-cmap <Esc>[201~ <nop>
 
 function StartupFoo()
   for f in argv()

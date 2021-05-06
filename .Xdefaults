@@ -31,6 +31,8 @@ URxvt*pointerBlank:true
 URxvt*saveLines:0
 URxvt*scrollBar:false
 
+xterm*allowMouseOps:false
+xterm*allowTitleOps:false
 xterm*background:black
 xterm*colorMode:false
 xterm*cursorBlink:true
@@ -49,6 +51,8 @@ xterm*visualBell:true
 xterm*visualBellDelay:0
 
 ! embiggened for DCSS and walls of text
+cousterm*allowMouseOps:false
+cousterm*allowTitleOps:false
 cousterm*background:black
 cousterm*boldFont:Cousine-Bold
 cousterm*colorMode:true
@@ -70,6 +74,8 @@ cousterm*trimSelection:true
 cousterm*visualBell:true
 cousterm*visualBellDelay:0
 
+cous2term*allowMouseOps:false
+cous2term*allowTitleOps:false
 cous2term*background:black
 cous2term*boldFont:Cousine-Bold
 cous2term*colorMode:true
@@ -92,6 +98,8 @@ cous2term*visualBell:true
 cous2term*visualBellDelay:0
 
 ! Comic Sans MS being the good thing to come out of Redmond
+mfterm*allowMouseOps:false
+mfterm*allowTitleOps:false
 mfterm*background:black
 mfterm*colorMode:true
 mfterm*cursorBlink:true
@@ -113,6 +121,8 @@ mfterm*visualBell:true
 mfterm*visualBellDelay:0
 
 ! "White Rabbit" square font
+wrterm*allowMouseOps:false
+wrterm*allowTitleOps:false
 wrterm*background:black
 wrterm*colorMode:false
 wrterm*cursorBlink:true
