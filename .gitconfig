@@ -3,8 +3,14 @@
   editor = ed
   excludesfile = ~/.gitignore
   hooksPath = ~/co/hooks
+[add]
+  ignoreErrors = true
+[advice]
+  detachedHead = false
+  addIgnoredFile = false
 [init]
   templateDir = ~/var/empty
+  defaultBranch = master
 [user]
   email = jeremy.mates@gmail.com
   name = Jeremy Mates

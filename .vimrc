@@ -30,6 +30,7 @@ cabbrev W w
 cabbrev Wq wq
 
 iabbrev hbp #!/usr/bin/env perl<CR>use 5.28.0;<CR>use warnings;<CR><Esc>:setf perl<CR>i
+iabbrev hbt #!/usr/bin/env tclsh8.6<CR><Esc>:setf tcl<CR>i
 
 map <F1> <nop>
 nmap <F1> <nop>
@@ -84,11 +85,13 @@ if !exists("autocommands_loaded")
 
   autocmd FileType lisp setlocal lisp | setlocal shiftwidth=2 | setlocal autoindent | setlocal showmatch | map <LocalLeader>i $?^(<CR>va):!lt<CR> | map <LocalLeader>t :update<CR>:!feed % sbcl --noinform<CR><CR>| iabbrev PUFF format t "~a~%"
 
+  autocmd FileType lojban setlocal iskeyword+='
+
   autocmd FileType make setlocal noexpandtab
 
-  autocmd FileType perl setlocal cindent | setlocal cinkeys=0{,0},0),0],:,!^F,o,O,e | map <LocalLeader>i :%!perltidy<CR>| iabbrev DIAG diag Dumper | iabbrev DIAC use Data::Dumper::Concise::Aligned; diag DumperA| iabbrev PUDD warn Dumper | iabbrev PUCC use Data::Dumper::Concise::Aligned; warn DumperA
+  autocmd FileType perl setlocal autoindent | setlocal cinkeys=0{,0},0),0],:,!^F,o,O,e | map <LocalLeader>i :%!perltidy<CR>| iabbrev DIAG diag Dumper | iabbrev DIAC use Data::Dumper::Concise::Aligned; diag DumperA| iabbrev PUDD warn Dumper | iabbrev PUCC use Data::Dumper::Concise::Aligned; warn DumperA
 
-  autocmd FileType tcl setlocal cindent | map <LocalLeader>t :update<CR>:!feed % tclsh8.6<CR><CR>
+  autocmd FileType tcl setlocal autoindent | map <LocalLeader>t :update<CR>:!feed % tclsh8.6<CR><CR>
 
   autocmd FileType tex map <LocalLeader>t :!make %:r.pdf;mopen %:r.pdf<CR><CR>
 endif
