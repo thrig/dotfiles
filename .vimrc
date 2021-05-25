@@ -25,6 +25,7 @@ set writeany
 cabbrev Argedit argedit
 cabbrev Redo redo
 cabbrev Set set
+cabbrev Setf setf
 cabbrev Q q
 cabbrev W w
 cabbrev Wq wq
@@ -85,7 +86,7 @@ if !exists("autocommands_loaded")
 
   autocmd FileType lisp setlocal lisp | setlocal shiftwidth=2 | setlocal autoindent | setlocal showmatch | map <LocalLeader>i $?^(<CR>va):!lt<CR> | map <LocalLeader>t :update<CR>:!feed % sbcl --noinform<CR><CR>| iabbrev PUFF format t "~a~%"
 
-  autocmd FileType lojban setlocal iskeyword+='
+  autocmd FileType lojban map <LocalLeader>t vip:!lojify<CR> | setlocal iskeyword+=-,',.
 
   autocmd FileType make setlocal noexpandtab
 
