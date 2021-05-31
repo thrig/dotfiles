@@ -5,6 +5,8 @@ divert(-1)
 votcana - four terminals, my default layout on pretty much every laptop
 I've ever used. in hindsight, it should count from no and not pa
 
+NOTE I use a modified "UW ttyp0" font, see the patch directory
+
 asociar(`CUR_HOME', `printf "$HOME"')
 divert(0)dnl
 comando(`xdotool', `search --name pa windowactivate') || solitary "CUR_HOME" comando(`xterm') -fn -uw-ttyp0-medium-r-normal--15-140-75-75-c-80-iso8859-1 -geometry 80x26+0+0 -title pa -e comando(`tmn', `pa')

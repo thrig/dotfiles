@@ -1,0 +1,105 @@
+Modify "UW ttyp0, Version 1.3" to dot the zero, and to make ' and ` clearer;
+the curly versions look smudged and are hard for me to tell apart.
+
+diff --git VARIANTS.dat VARIANTS.dat
+index eefec9c..1388f50 100644
+--- VARIANTS.dat
++++ VARIANTS.dat
+@@ -8,25 +8,25 @@
+ # | 0027 APOSTROPHE
+ # | 0060 GRAVE ACCENT
+ # +--------------------------------------------------------------------
+ # | The default glyphs for the apostrophe and the grave accent are
+ # | slightly slanted and curly. If you prefer a straight vertical line
+ # | for the apostrophe and a slanted non-curly line for the grave
+ # | accent, delete the "#" in the following two lines:
+-#COPYTO AccStress PApostropheAscii
+-#COPYTO PAmComma AccGraveAscii
++COPYTO AccStress PApostropheAscii
++COPYTO PAmComma AccGraveAscii
+ 
+ # +--------------------------------------------------------------------
+ # | 0030 DIGIT ZERO
+ # +--------------------------------------------------------------------
+ # | The default glyph for zero is distinguished from the letter "O"
+ # | only by its form (the glyph of the letter is wider and more
+ # | rectangular). If you prefer a dotted or slashed zero, delete
+ # | the "#" in one of the following two lines:
+-#COPYTO Digit0Dotted Digit0
++COPYTO Digit0Dotted Digit0
+ #COPYTO Digit0Slashed Digit0
+ 
+ # +--------------------------------------------------------------------
+ # | 002A ASTERISK
+ # +--------------------------------------------------------------------
+ # | The default glyph for the asterisk is centered (like a mathematical
+ # | operator). If you prefer a raised asterisk (like a footnote mark),
+diff --git bdf/t0-16.bdf bdf/t0-16.bdf
+index 969d919..6385fdb 100644
+--- bdf/t0-16.bdf
++++ bdf/t0-16.bdf
+@@ -51348,16 +51348,16 @@ ENDCHAR
+ STARTCHAR PAmComma
+ ENCODING 2230
+ SWIDTH 960 0
+ DWIDTH 8 0
+ BBX 8 16 0 -4
+ BITMAP
+ 00
++20
+ 10
+-18
+ 08
+ 04
+ 00
+ 00
+ 00
+ 00
+ 00
+diff --git bdf/t0-16b.bdf bdf/t0-16b.bdf
+index ae38908..069cd06 100644
+--- bdf/t0-16b.bdf
++++ bdf/t0-16b.bdf
+@@ -51349,17 +51349,17 @@ STARTCHAR PAmComma
+ ENCODING 2230
+ SWIDTH 960 0
+ DWIDTH 8 0
+ BBX 8 16 0 -4
+ BITMAP
+ 00
+ 30
+-30
+-18
+-08
++38
++1c
++0c
+ 00
+ 00
+ 00
+ 00
+ 00
+ 00
+ 00
+diff --git bdf/t0-16i.bdf bdf/t0-16i.bdf
+index a243e65..d70f1da 100644
+--- bdf/t0-16i.bdf
++++ bdf/t0-16i.bdf
+@@ -51348,16 +51348,16 @@ ENDCHAR
+ STARTCHAR PAmComma
+ ENCODING 2230
+ SWIDTH 960 0
+ DWIDTH 8 0
+ BBX 8 16 0 -4
+ BITMAP
+ 00
++10
+ 08
+-0c
+ 04
+ 02
+ 00
+ 00
+ 00
+ 00
+ 00
