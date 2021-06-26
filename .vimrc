@@ -82,7 +82,7 @@ if !exists("autocommands_loaded")
 
   autocmd FileType c setlocal cindent | map <LocalLeader>i :%!clang-format<CR>| iabbrev PUFF fprintf(stderr, "dbg
 
-  autocmd FileType lilypond setlocal shiftwidth=2 | map <LocalLeader>t :w!<CR>
+  autocmd FileType lilypond setlocal shiftwidth=2 | map <LocalLeader>t :w!<CR> | map <LocalLeader>l :%!lysect 
 
   autocmd FileType lisp setlocal lisp | setlocal shiftwidth=2 | setlocal autoindent | setlocal showmatch | map <LocalLeader>i $?^(<CR>va):!lt<CR> | map <LocalLeader>t :update<CR>:!feed % sbcl --noinform<CR><CR>| iabbrev PUFF format t "~a~%"
 
@@ -90,11 +90,11 @@ if !exists("autocommands_loaded")
 
   autocmd FileType make setlocal noexpandtab
 
-  autocmd FileType perl setlocal autoindent | setlocal cinkeys=0{,0},0),0],:,!^F,o,O,e | map <LocalLeader>i :%!perltidy<CR>| iabbrev DIAG diag Dumper | iabbrev DIAC use Data::Dumper::Concise::Aligned; diag DumperA| iabbrev PUDD warn Dumper | iabbrev PUCC use Data::Dumper::Concise::Aligned; warn DumperA
+  autocmd FileType perl setlocal autoindent | setlocal cinkeys=0{,0},0),0],:,!^F,o,O,e | map <LocalLeader>i :%!perltidy<CR>| iabbrev DIAG diag Dumper | iabbrev DIAC use Data::Dumper::Concise::Aligned; diag DumperA| iabbrev PUDD warn Dumper| iabbrev PUCC use Data::Dumper::Concise::Aligned; warn DumperA
 
   autocmd FileType tcl setlocal autoindent | map <LocalLeader>t :update<CR>:!feed % tclsh8.6<CR><CR>
 
-  autocmd FileType tex map <LocalLeader>t :!make %:r.pdf;mopen %:r.pdf<CR><CR>
+  autocmd FileType tex map <LocalLeader>t vip:!texup<CR>
 endif
 
 function StartupFoo()

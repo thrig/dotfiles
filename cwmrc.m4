@@ -3,11 +3,11 @@ divert(-1)
 asociar(`CUR_HOME', `printf "$HOME"')
 divert(0)dnl
 autogroup 1 "XTerm"
-autogroup 2 "SDL_App"
-autogroup 3 "cousterm"
-autogroup 3 "cous2term"
-autogroup 5 "MuPDF"
-autogroup 6 "URxvt"
+autogroup 2 "MuPDF"
+autogroup 3 "SDL_App"
+autogroup 4 "cousterm"
+autogroup 4 "cous2term"
+autogroup 5 "URxvt"
 unbind-key CM-x
 unbind-key M-period
 unbind-key CM-Delete

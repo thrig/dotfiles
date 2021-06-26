@@ -121,26 +121,6 @@ function cd {
       builtin cd "$@"
    fi
 }
-function cmdindir {
-   local cmd; cmd=$1; shift
-   local dir; dir=$2; shift
-   shift 2
-   comando(`mkdir', `-p -- "$dir"') && "$cmd" -- "$@" "$dir" && builtin cd "$dir" && pwd
-}
-function cpinto {
-   if [[ $# -lt 2 ]]; then
-      print -n 2 'Usage: cpinto dir file [..]'; false
-   else
-      cmdindir comando(`cp', `"$@"')
-   fi
-}
-function mvinto {
-   if [[ $# -lt 2 ]]; then
-      print -n 2 'Usage: mvinto dir file [..]'; false
-   else
-      cmdindir comando(`mv', `"$@"')
-   fi
-}
 function dc {
 divert(-1)
 NOTE dc(1) on OpenBSD does not then read from STDIN if given "-e ...";
